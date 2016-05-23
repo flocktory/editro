@@ -24,6 +24,8 @@ const editorHtml = `
       </div>
       <div class="Editro-controls">
         <button class="Editro-save">Save</button>
+        <div class="Editro-history">
+        </div>
       </div>
     </div>
   </div>
@@ -38,6 +40,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   const editor = $el('editor');
   const getHtml = () => '<!doctype html>\n' +
     editor.contentDocument.documentElement.outerHTML;
+  const history = $el('history');
 
   let toolbox = null;
 
@@ -48,17 +51,27 @@ export default function Editro(root, html = defaultHtml, options = {}) {
       toolbox = Toolbox($el('toolbox'), e.target, options);
     });
 
-    let previous = html;
-    $el('save').addEventListener('click', () => {
-      const updatedHtml = getHtml();
-      if (previous !== updatedHtml) {
-        previous = updatedHtml;
-        handlers.change.forEach(h => h(updatedHtml));
-      }
-    });
   };
 
   editor.srcdoc = html;
+
+  let previous = html;
+  $el('save').addEventListener('click', () => {
+    const updatedHtml = getHtml();
+    if (previous !== updatedHtml) {
+      previous = updatedHtml;
+      handlers.change.forEach(h => h(updatedHtml));
+
+      // create history btn
+      const hbtn = window.document.createElement('button');
+      hbtn.style.display = 'block';
+      hbtn.innerText = new Date();
+      // TODO use WeakMap for auto GC
+      console.log('updated')
+      click(hbtn, (e) => editor.srcdoc = updatedHtml);
+      history.appendChild(hbtn);
+    }
+  });
 
   return {
     getHtml,
@@ -70,4 +83,8 @@ export default function Editro(root, html = defaultHtml, options = {}) {
       editor.parentNode.removeChild(editor);
     }
   };
+}
+
+function click(el, handler) {
+  return el.addEventListener('click', handler);
 }

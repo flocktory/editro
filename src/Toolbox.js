@@ -9,6 +9,15 @@ const defaultTransforms = [
     }
   },
   {
+    match: true,
+    type: 'number',
+    label: 'Padding',
+    target: {
+      type: 'style',
+      field: 'padding'
+    }
+  },
+  {
     match: 'img',
     type: 'image',
     label: 'Source image',
@@ -24,7 +33,7 @@ const defaultTransforms = [
  *
  * @param root DOM element to render tollbox
  * @param e DOM element to edit
- * @param options
+ * @param omarginTopptions
  * @param options.transforms list of transforms
  * @returns {undefined}
  */
