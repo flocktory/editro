@@ -52,6 +52,21 @@ export default function Toolbox(root, el, { transforms = [] } = {}) {
   });
   root.appendChild(insertBtn);
 
+  const insertBtn2 = window.document.createElement('button');
+  insertBtn2.innerText = 'Insert split'; // TODO inside outside befre after
+  insertBtn2.addEventListener('click', () => {
+    const ins = window.document.createElement('div');
+    ins.innerHTML = `
+      <div>
+        <div style="width:50%;float:left;background: #FFB8B8;">Panel 1</div>
+        <div style="width:50%;float:left;background: #DDFFDD;">Panel 2</div>
+        <div style="clearfix:both;"></div>
+      </div>`;
+    el.appendChild(ins);
+  });
+  root.appendChild(insertBtn2);
+
+
   const removeBtn = window.document.createElement('button');
   removeBtn.innerText = 'Remove el';
   removeBtn.addEventListener('click', () => {
