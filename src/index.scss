@@ -1,0 +1,53 @@
+$border-color: #ddd;
+
+.Editro {
+  display: flex;
+  min-height: 500px;
+
+  &-editorWrap {
+    flex: 1; 
+    border: 2px solid $border-color;
+    border-right: none;
+  }
+
+  &-editor {
+    height: 500px;
+    width: 100%;
+
+  }
+
+  &-toolboxWrap {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid $border-color;
+  }
+
+  &-toolbox {
+    flex: 1;
+    width: 300px;
+  }
+
+  &-controls {
+    height: 100px;
+    padding: 10px;
+    background: #aad7ff;
+  }
+
+  &-save {
+    font-size: 24px;
+    background: #c7ffa6;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background: #A4DC82;
+    }
+  }
+}
+
+.Toolbox {
+  padding: 10px;
+  &-field {
+    margin-bottom: 16px;
+  }
+}
