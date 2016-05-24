@@ -27,6 +27,15 @@ module.exports = {
         test: /\.scss$/,
         loaders: ['style-loader', 'css-loader', 'sass-loader'],
         include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.html/,
+        loaders: ['html-loader'],
+        include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.(svg|png|jpg)$/,
+        loader: 'url-loader?limit=8192'
       }
     ]
   }

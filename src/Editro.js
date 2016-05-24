@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import Toolbox from './Toolbox';
 import History from './History';
+import editorHtml from './templates/editro.html';
 
 const EDITED_ATTR = 'current-edited-element';
 
@@ -31,6 +32,9 @@ const editorHtml = `
 
 // Editor itself, get node, start html (optional), options
 export default function Editro(root, html = defaultHtml, options = {}) {
+  if (window.getComputedStyle(root).position === 'static') {
+    root.style.position = 'relative';
+  }
   root.innerHTML = editorHtml;
 
 
