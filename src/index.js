@@ -3,7 +3,7 @@ import './index.scss';
 import Editro from './Editro';
 
 const root = document.getElementById('root');
-const html = `
+const initHtml = `
   <!doctype html>
   <html>
     <body>
@@ -22,18 +22,21 @@ const options = {
 };
 
 let editro = null;
+let html = initHtml;
 
 const init = () => {
   if (editro) editro.destroy();
   editro = Editro(root, html, options);
-  editro.on('change', h => window.document.getElementById('html').innerText = h);
+  editro.on('change', h => {
+    window.document.getElementById('html').innerText = h;
+    html = h;
+  });
   window.editro = editro;
 };
 
 init();
 
 if (module.hot) {
-  module.hot.accept();
   module.hot.accept('./Editro', () => {
     init();
   });

@@ -18,6 +18,15 @@ const defaultTransforms = [
     }
   },
   {
+    match: true,
+    type: 'text',
+    label: 'Font family',
+    target: {
+      type: 'style',
+      field: 'fontFamily'
+    }
+  },
+  {
     match: 'img',
     type: 'image',
     label: 'Source image',
@@ -122,7 +131,7 @@ function renderTransform(t, el) {
   tel.className = 'Toolbox-field';
 
   // TODO should choose dinamycaly from list of renderers by "type"
-  if (type === 'number') {
+  if (type === 'number' || type === 'text') {
     tel.innerHTML = `
       <label for="${id}">${label}</label>
       <input type="text" value="${value}">
@@ -147,7 +156,7 @@ function renderTransform(t, el) {
 
 function getTargetValue(e, { type, field }) {
   if (type === 'style') {
-    return e.style[field];
+    return window.getComputedStyle(e)[field];
   }
   if (type === 'attr') {
     return e.getAttribute(field);
