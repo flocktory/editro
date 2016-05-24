@@ -1,6 +1,8 @@
 /* eslint-disable new-cap */
 import Toolbox from './Toolbox';
 
+const EDITED_ATTR = 'current-edited-element';
+
 const defaultHtml = `
   <!doctype html>
   <html>
@@ -73,8 +75,16 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   window.document.addEventListener('keydown', keyhandler);
 
   editor.onload = () => {
+    const body = editor.contentDocument.body;
+    if (toolbox) toolbox.destroy();
+    const selected = body.querySelector(`[${EDITED_ATTR}]`);
+    if (selected) {
+      toolbox = Toolbox($el('toolbox'), selected, options);
+    }
     // Create toolbox when element selected
-    click(editor.contentDocument.body, (e) => {
+    click(body, (e) => {
+      [].forEach.call(body.querySelectorAll(`[${EDITED_ATTR}]`), e => e.removeAttribute(EDITED_ATTR));
+      e.target.setAttribute(EDITED_ATTR, EDITED_ATTR);
       if (toolbox) toolbox.destroy();
       toolbox = Toolbox($el('toolbox'), e.target, options);
     });
@@ -82,12 +92,13 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     // subscribe to all DOM changes
     const observer = new window.MutationObserver(() => {
       const h = getHtml();
-      history.push(h);
       history.pointer++;
+      history.length = history.pointer;
+      history.push(h);
       emitChange(h);
     });
     const config = { attributes: true, childList: true, characterData: true, subtree: true };
-    observer.observe(editor.contentDocument.body, config);
+    observer.observe(body, config);
 
     // iframe needs own listener
     editor.contentDocument.addEventListener('keydown', keyhandler);
