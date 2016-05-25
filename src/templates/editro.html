@@ -1,6 +1,28 @@
 <section class="Editro">
   <section class="Editro-previewWrapper">
     <iframe class="Editro-preview" frameborder="0"></iframe>
+    <div class="Editro-nav">
+      <button class="EditroButton">
+        <span class="EditroButton-wrapper">
+          <span class="EditroIcon EditroIcon--b"></span>
+        </span>
+      </button>
+      <button class="EditroButton" disabled>
+        <span class="EditroButton-wrapper">
+          <span class="EditroIcon EditroIcon--f"></span>
+        </span>
+      </button>
+      <button class="EditroButton">
+        <span class="EditroButton-wrapper">
+          <span class="EditroIcon EditroIcon--reset"></span>
+        </span>
+      </button>
+      <button class="EditroButton">
+        <span class="EditroButton-wrapper">
+          <span class="EditroIcon EditroIcon--html"></span>
+        </span>
+      </button>
+    </div>
   </section>
 
   <aside class="Editro-panel">
@@ -12,13 +34,43 @@
 
     <section class="EditroPanel">
       <div class="EditroPanel-section">
-        <button class="EditroAction EditroAction-delete">Delete</button>
-        <button class="EditroAction">Insert before&hellip;</button>
-        <button class="EditroAction">Insert after&hellip;</button>
-        <button class="EditroAction">Append before&hellip;</button>
-        <button class="EditroAction">Append after&hellip;</button>
+        <button class="EditroAction EditroAction-delete">
+          <span class="EditroAction-text">
+            Delete
+          </span>
+        </button>
+        <div class="EditroAction">
+          <div class="EditroAction-text">
+            Insert&hellip;
+          </div>
+          <button class="EditroAction-choice">
+            <span class="EditroIcon EditroIcon--ib"></span>
+          </button>
+          <button class="EditroAction-choice">
+            <span class="EditroIcon EditroIcon--ab"></span>
+          </button>
+          <button class="EditroAction-choice">
+            <span class="EditroIcon EditroIcon--aa"></span>
+          </button>
+          <button class="EditroAction-choice">
+            <span class="EditroIcon EditroIcon--ia"></span>
+          </button>
+        </div>
       </div>
       <div class="EditroPanel-section">
+        <article class="EditroForm">
+          <div class="EditroForm-title">Text content</div>
+          <div class="EditroForm-controls">
+            <div class="EditroTextContent">
+              <div class="EditroTextContent-preview">
+                Время грандиозных скидок!<br />
+                <&hellip;><br />
+                Еженедельная рассылка с самыми актуальными распродажами и новыми коллекциями<br />
+                <&hellip;>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="EditroForm">
           <div class="EditroForm-title">Column size</div>
           <div class="EditroForm-controls">
