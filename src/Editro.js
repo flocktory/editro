@@ -16,19 +16,6 @@ const defaultHtml = `
   </html>
 `;
 
-const editorHtml = `
-  <div class="Editro">
-    <div class="Editro-editorWrap">
-      <iframe frameborder="0" class="Editro-editor"></iframe>
-
-    </div>
-    <div class="Editro-toolboxWrap">
-      <div class="Editro-toolbox Toolbox">
-        Click on element to select
-      </div>
-    </div>
-  </div>
-`;
 
 // Editor itself, get node, start html (optional), options
 export default function Editro(root, html = defaultHtml, options = {}) {

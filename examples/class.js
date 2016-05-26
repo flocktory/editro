@@ -21,6 +21,18 @@ class Controller extends EventEmitter {
   get() {}
 
   set() {}
+
+  getComponentNode() {
+    return this.component.el;
+  }
+
+  getGroup() {
+    return 'basic';
+  }
+
+  static extend(options) {
+    // ...
+  }
 }
 
 
