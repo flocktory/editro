@@ -19,6 +19,7 @@
     "func-names": 0,
     "comma-dangle": [2, "never"],
     "brace-style": [2, "1tbs", {"allowSingleLine": false}],
+    "no-underscore-dangle": [0],
     "indent": [2, 2, {"SwitchCase": 1}]
   },
   "globals": {

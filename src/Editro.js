@@ -1,5 +1,6 @@
 /* eslint-disable new-cap */
 import Toolbox from './Toolbox';
+import History from './History';
 
 const EDITED_ATTR = 'current-edited-element';
 
@@ -32,49 +33,23 @@ const editorHtml = `
 export default function Editro(root, html = defaultHtml, options = {}) {
   root.innerHTML = editorHtml;
 
+
   const $el = q => root.querySelector('.Editro-' + q);
   const editor = $el('editor');
   const getHtml = () => '<!doctype html>\n' +
     editor.contentDocument.documentElement.outerHTML;
   const handlers = { change: [] };
   const emitChange = (h) => handlers.change.forEach(f => f(h));
-  const history = [html];
-  history.pointer = 0;
-  window.history = history;
+
+  const history = new History(editor, (h) => {
+    editor.srcdoc = h;
+    emitChange(h);
+  });
+  history.push(html);
 
   let toolbox = null;
 
-
-  // work with cmd+z
-  const updateByPointer = (pointer) => {
-    const h = history[pointer];
-    editor.srcdoc = h;
-    emitChange(h);
-  };
-  const forward = () => {
-    if (history.pointer < history.length - 1) {
-      history.pointer++;
-      updateByPointer(history.pointer);
-    }
-  };
-  const back = () => {
-    if (history.pointer > 0) {
-      history.pointer--;
-      updateByPointer(history.pointer);
-    }
-  };
-  const keyhandler = (e) => {
-    if (e.keyCode == 90 && e.metaKey) {
-      if (e.shiftKey) {
-        forward();
-      } else {
-        back();
-      }
-    }
-  };
-  window.document.addEventListener('keydown', keyhandler);
-
-  editor.onload = () => {
+  editor.addEventListener('load', () => {
     const body = editor.contentDocument.body;
     if (toolbox) toolbox.destroy();
     const selected = body.querySelector(`[${EDITED_ATTR}]`);
@@ -92,20 +67,14 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     // subscribe to all DOM changes
     const observer = new window.MutationObserver(() => {
       const h = getHtml();
-      history.pointer++;
-      history.length = history.pointer;
       history.push(h);
       emitChange(h);
     });
     const config = { attributes: true, childList: true, characterData: true, subtree: true };
     observer.observe(body, config);
-
-    // iframe needs own listener
-    editor.contentDocument.addEventListener('keydown', keyhandler);
-  };
+  });
 
   editor.srcdoc = html;
-
 
 
   return {
@@ -116,9 +85,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     },
     destroy() {
       editor.parentNode.removeChild(editor);
-      window.document.removeEventListener('keydown', keyhandler);
-      editor.contentDocumen &&
-        teditor.contentDocument.removeEventListener('keydown', keyhandler);
+      history.destroy();
     }
   };
 }
