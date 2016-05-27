@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import Toolbox from './Toolbox';
 import History from './History';
+import editorHtml from './templates/editro.html';
 
 const EDITED_ATTR = 'current-edited-element';
 
@@ -15,22 +16,12 @@ const defaultHtml = `
   </html>
 `;
 
-const editorHtml = `
-  <div class="Editro">
-    <div class="Editro-editorWrap">
-      <iframe frameborder="0" class="Editro-editor"></iframe>
-
-    </div>
-    <div class="Editro-toolboxWrap">
-      <div class="Editro-toolbox Toolbox">
-        Click on element to select
-      </div>
-    </div>
-  </div>
-`;
 
 // Editor itself, get node, start html (optional), options
 export default function Editro(root, html = defaultHtml, options = {}) {
+  if (window.getComputedStyle(root).position === 'static') {
+    root.style.position = 'relative';
+  }
   root.innerHTML = editorHtml;
 
 

@@ -1,0 +1,858 @@
+$panel-width: 400px;
+$transparent: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==';
+$control-background: linear-gradient(to bottom, #f8f8f8 0%, #f0f0f0 100%);
+$control-border: 1px solid #ccc;
+$control-border-radius: 2px;
+
+
+// Layout
+
+.Editro {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Helvetica, Arial, sans-serif;
+
+  &,
+  & *,
+  & *:before,
+  & *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  &-previewWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: $panel-width;
+    height: 100%;
+    background: url($transparent);
+  }
+  &-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: none;
+  }
+  &-nav {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 0;
+
+    .EditroButton + .EditroButton {
+      margin-left: -1px;
+    }
+  }
+  &-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: $panel-width;
+    height: 100%;
+    background: white;
+  }
+}
+
+
+// Just button
+
+.EditroButton {
+  background: $control-background;
+  border: $control-border;
+  cursor: pointer;
+  outline: none;
+
+  &-wrapper {
+    display: block;
+    padding: 3px 7px;
+    background: transparent;
+    transition: background 0.3s;
+  }
+  &:active &-wrapper {
+    background: #e2e2e2;
+  }
+
+  &[disabled] .EditroIcon {
+    opacity: 0.2;
+  }
+}
+
+
+// Placeholder for panel
+
+.EditroPanelPlaceholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background: #fafafa;
+  align-items: center;
+
+  &-text {
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    line-height: 2;
+    font-weight: 100;
+    color: #ccc;
+  }
+}
+
+
+// Panel (Toolbox)
+
+.EditroPanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background: white;
+  font-size: 0;
+
+  &-section {
+    padding: 20px;
+
+    & + & {
+      border-top: 1px solid #ddd;
+    }
+  }
+}
+
+
+// Form
+
+.EditroForm {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  margin-bottom: 30px;
+  padding-right: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &--half {
+    width: 50%;
+  }
+
+  &-title {
+    margin-bottom: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #bbb;
+  }
+  &-controls {
+    & + & {
+      margin-top: 10px;
+    }
+    &--inline {
+      & + & {
+        margin-top: 5px;
+      }
+      & > * {
+        margin: 0 10px 10px 0;
+      }
+    }
+  }
+}
+
+
+// Icon
+
+.EditroIcon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 15px;
+  height: 15px;
+  line-height: 14px;
+  text-align: center;
+  background: 50% 50% / contain no-repeat;
+
+  &--reset {
+    background-image: url(images/reset.svg);
+  }
+  &--f {
+    background-image: url(images/play.svg);
+  }
+  &--b {
+    background-image: url(images/play.svg);
+    transform: rotate(180deg);
+  }
+  &--html {
+    width: auto;
+
+    &:before {
+      content: 'HTML';
+      font-size: 11px;
+      font-weight: bold;
+    }
+  }
+  &--tal {
+    background-image: url(images/tal.svg);
+  }
+  &--tac {
+    background-image: url(images/tac.svg);
+  }
+  &--tar {
+    background-image: url(images/tar.svg);
+  }
+  &--fln {
+    background-image: url(images/fln.png);
+    background-size: 20px;
+  }
+  &--fll {
+    background-image: url(images/fll.png);
+    background-size: 20px;
+  }
+  &--flr {
+    background-image: url(images/flr.png);
+    background-size: 20px;
+  }
+  &--lh {
+    margin-right: 2px;
+  }
+  &--lh:before {
+    content: '↕';
+    line-height: 27px;
+    font-size: 16px;
+  }
+  &--fz {
+    line-height: 27px;
+    margin-right: 5px;
+
+    &:before {
+      content: 'T';
+      font-size: 9px;
+    }
+    &:after {
+      content: 'T';
+      font-size: 15px;
+    }
+  }
+  &--fwn,
+  &--fwb,
+  &--fsi,
+  &--fwbfsi {
+    &:before {
+      content: 'T';
+      font-size: 9px;
+    }
+    &:after {
+      content: 'T';
+      font-size: 15px;
+    }
+  }
+  &--fwn {
+    font-size: 14px;
+    font-weight: lighter;
+  }
+  &--fwb {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &--fsi {
+    font-size: 14px;
+    font-weight: lighter;
+    font-style: italic;
+  }
+  &--fwbfsi {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+  }
+  &--vab,
+  &--vasub,
+  &--vasup {
+    font-size: 15px;
+
+    &:before {
+      content: 'T';
+    }
+    &:after {
+      content: '1';
+    }
+  }
+  &--vasub {
+    &:after {
+      font-size: 10px;
+      vertical-align: sub;
+    }
+  }
+  &--vasup {
+    position: relative;
+    top: -2px;
+
+    &:after {
+      font-size: 10px;
+      vertical-align: super;
+    }
+  }
+  &--bd,
+  &--bdn,
+  &--bdcustom,
+  &--bdt,
+  &--bdr,
+  &--bdb,
+  &--bdl {
+    border: 1px dotted #999;
+    border-radius: 1px;
+  }
+  &--bd {
+    border: 2px solid #999;
+  }
+  &--bdcustom {
+    &:before {
+      content: '?';
+      font-size: 12px;
+      color: #999;
+    }
+  }
+  &--bdt {
+    margin-top: 6px;
+    border-top: 2px solid #999;
+  }
+  &--bdr {
+    margin-top: 6px;
+    border-right: 2px solid #999;
+  }
+  &--bdb {
+    margin-top: 6px;
+    border-bottom: 2px solid #999;
+  }
+  &--bdl {
+    margin-top: 6px;
+    border-left: 2px solid #999;
+  }
+  &--solid,
+  &--dashed,
+  &--dotted {
+    height: 8px;
+    margin-top: 7px;
+    border-top: 2px #999;
+  }
+  &--solid {
+    border-top-style: solid;
+  }
+  &--dashed {
+    border-top-style: dashed;
+  }
+  &--dotted {
+    border-top-style: dotted;
+  }
+  &--ib,
+  &--ia,
+  &--ab,
+  &--aa {
+    width: 20px;
+    height: 20px;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      display: block;
+      width: 10px;
+      height: 10px;
+      background: url(images/plus.svg) 50% 50% / 100% no-repeat;
+    }
+    &:after {
+      content: '';
+      display: block;
+      border: 2px solid;
+      border-radius: 2px;
+    }
+  }
+  &--ib {
+    &:before {
+      top: 0px;
+    }
+    &:after {
+      height: 10px;
+      margin-top: 10px;
+      border-bottom: none;
+    }
+  }
+  &--ia {
+    &:before {
+      bottom: 0;
+    }
+    &:after {
+      height: 10px;
+      margin-bottom: 10px;
+      border-top: none;
+    }
+  }
+  &--ab {
+    &:before {
+      top: 2px;
+    }
+    &:after {
+      height: 20px;
+    }
+  }
+  &--aa {
+    &:before {
+      bottom: 2px;
+    }
+    &:after {
+      height: 20px;
+    }
+  }
+}
+
+
+// Button group
+
+.EditroBtnGroup {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  font-size: 0;
+  border: $control-border;
+  border-radius: $control-border-radius;
+  background: $control-background;
+
+  // TODO Зарефакторить
+  &--right {
+    float: right;
+  }
+
+  &-item {
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+  }
+  &-input {
+    display: none;
+  }
+  &-itemWrapper {
+    display: inline-block;
+    padding: 5px 8px;
+    text-align: center;
+    overflow: hidden;
+  }
+  &-input:checked + &-itemWrapper {
+    background: #e2e2e2;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+
+// Color editor
+
+.EditroColor {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 33px;
+  height: 27px;
+  overflow: hidden;
+  border-radius: $control-border-radius;
+  background: url($transparent);
+
+  // TODO Зарефакторить
+  &--separate {
+    margin-right: 20px;
+  }
+
+  &-sample {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border-radius: $control-border-radius;
+  }
+  &-placeholder {
+    line-height: 22px;
+    height: 27px;
+    text-align: center;
+    border: $control-border;
+    border-style: dashed;
+    border-radius: $control-border-radius;
+    background: white;
+    cursor: pointer;
+
+    &:before {
+      content: '+';
+      font-size: 18px;
+      color: #999;
+      font-weight: lighter;
+    }
+  }
+}
+
+
+// Select
+
+.EditroSelect {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+
+  &:after {
+    content: '▾';
+    position: absolute;
+    top: 0;
+    right: 4px;
+    line-height: 27px;
+    color: #aaa;
+    font-size: 11px;
+  }
+
+  &-select {
+    height: 27px;
+    padding: 0 15px 0 5px;
+    border: $control-border;
+    border-radius: $control-border-radius;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: $control-background;
+    outline: none;
+    font-size: 12px;
+  }
+}
+
+
+// Input
+
+.EditroInput {
+  display: inline-block;
+  vertical-align: top;
+  height: 27px;
+  padding: 0 5px;
+  border: $control-border;
+  border-radius: $control-border-radius;
+  background: $control-background;
+  font-size: 12px;
+  outline: none;
+
+  &--small {
+    width: 60px;
+  }
+  &--medium {
+    width: 180px;
+  }
+  &--full {
+    width: 100%;
+  }
+}
+
+
+// Size as two numbers
+
+.EditroSize {
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  font-size: 0;
+
+  &-input {
+    display: inline-block;
+    vertical-align: middle;
+    width: 60px;
+
+    .EditroInput {
+      width: 100%;
+    }
+  }
+  &-separator {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 4px;
+    font-size: 14px;
+    color: #999;
+  }
+}
+
+
+// Four inputs control
+
+$four-inputs-width: 170px;
+$four-inputs-height: 120px;
+$four-inputs-v-gap: 40px;
+$four-inputs-h-gap: 55px;
+
+.EditroFourInputs {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  background: white;
+
+  &-outer,
+  &-inner {
+    border: 2px solid #999;
+    border-radius: $control-border-radius;
+
+    &[shape=real] {}
+    &[shape=imag] {
+      border-style: dashed;
+    }
+  }
+  &-outer {
+    width: $four-inputs-width;
+    height: $four-inputs-height;
+  }
+  &-inner {
+    position: absolute;
+    top: $four-inputs-v-gap;
+    bottom: $four-inputs-v-gap;
+    left: $four-inputs-h-gap;
+    right: $four-inputs-h-gap;
+  }
+  &-arrow {
+    position: absolute;
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: 7px;
+      height: 13px;
+      background: url(images/arrow.svg) 0 0 / 7px no-repeat;
+    }
+
+    &--top {
+      top: 1px;
+      left: 50%;
+      height: $four-inputs-v-gap - 1px;
+      border-left: 2px solid #999;
+    }
+    &--bottom {
+      bottom: 1px;
+      left: 50%;
+      height: $four-inputs-v-gap - 1px;
+      border-left: 2px solid #999;
+    }
+    &--right {
+      right: 1px;
+      top: 50%;
+      width: $four-inputs-h-gap - 1px;
+      border-top: 2px solid #999;
+    }
+    &--left {
+      left: 1px;
+      top: 50%;
+      width: $four-inputs-h-gap - 1px;
+      border-top: 2px solid #999;
+    }
+  }
+  &[arrow-direction=out] &-arrow {
+    &--top:before {
+      top: -3px;
+      left: -4px;
+      transform: rotate(-90deg);
+    }
+    &--bottom:before {
+      bottom: -3px;
+      left: -5.5px;
+      transform: rotate(90deg);
+    }
+    &--right:before {
+      top: -7px;
+      right: 0;
+    }
+    &--left:before {
+      top: -8px;
+      left: 0;
+      transform: rotate(180deg);
+    }
+  }
+  &[arrow-direction=in] &-arrow {
+    &--top:before {
+      bottom: -3px;
+      left: -5px;
+      transform: rotate(90deg);
+    }
+    &--bottom:before {
+      top: -3px;
+      left: -4px;
+      transform: rotate(-90deg);
+    }
+    &--right:before {
+      top: -8px;
+      left: 0;
+      transform: rotate(180deg);
+    }
+    &--left:before {
+      top: -7px;
+      right: 0;
+    }
+  }
+  &-input {
+    position: absolute;
+    width: 32px;
+    height: 16px;
+    text-align: center;
+    border: none;
+    outline: none;
+    background: white;
+
+    &--top {
+      top: $four-inputs-v-gap / 2;
+      left: 50%;
+      margin-left: -16px;
+    }
+    &--bottom {
+      bottom: $four-inputs-v-gap / 2;
+      left: 50%;
+      margin-left: -16px;
+    }
+    &--right {
+      right: $four-inputs-h-gap / 2;
+      top: 50%;
+      margin-top: -8px;
+    }
+    &--left {
+      left: $four-inputs-h-gap / 2;
+      top: 50%;
+      margin-top: -8px;
+    }
+  }
+  &[arrow-direction=in] &-input {
+    &--top {
+      margin-top: -12px;
+    }
+    &--bottom {
+      margin-bottom: -12px;
+    }
+    &--right {
+      margin-right: -20px;
+    }
+    &--left {
+      margin-left: -20px;
+    }
+  }
+  &[arrow-direction=out] &-input {
+    &--top {
+      margin-top: -2px;
+    }
+    &--bottom {
+      margin-bottom: -2px;
+    }
+    &--right {
+      margin-right: -10px;
+    }
+    &--left {
+      margin-left: -10px;
+    }
+  }
+}
+
+
+// Image uploader
+
+.EditroUploader {
+  display: flex;
+
+  &-input {
+    width: 100%;
+    margin-right: 10px;
+  }
+  &-upload {
+    height: 27px;
+    min-width: 50px;
+    text-align: center;
+    border: $control-border;
+    border-radius: $control-border-radius;
+    background: $control-background;
+    cursor: pointer;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-top: 5px;
+      background: url(images/upload.svg) 50% 50% / cover no-repeat;
+    }
+  }
+}
+
+
+// Action
+
+.EditroAction {
+  display: inline-block;
+  vertical-align: top;
+  height: 34px;
+  border: $control-border;
+  border-radius: $control-border-radius;
+  background: $control-background;
+  outline: none;
+  font-size: 0;
+
+  &-text {
+    display: inline-block;
+    padding: 0 20px;
+    text-align: left;
+    line-height: 34px;
+    font-size: 14px;
+  }
+  &-choice {
+    vertical-align: top;
+    height: 32px;
+    padding: 0 7px;
+    background: none;
+    border: none;
+    border-left: $control-border;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      background: rgba(black, 0.1);
+    }
+  }
+
+  &-delete {
+    width: auto;
+    margin-right: 0;
+    float: right;
+    border-color: #a0252b;
+    background: linear-gradient(to bottom, #e4353e 0%, #d9333b 100%);
+    color: white;
+    cursor: pointer;
+  }
+}
+
+
+// Edit text content
+
+.EditroTextContent {
+  padding: 5px 8px;
+  border: $control-border;
+  border-radius: $control-border-radius;
+  background: $control-background;
+  font-size: 12px;
+  outline: none;
+
+  &-preview {
+    position: relative;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #ccc;
+
+    &:before {
+      content: 'Click to edit';
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      color: #999;
+      line-height: 1;
+    }
+  }
+}
