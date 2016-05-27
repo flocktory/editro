@@ -102,8 +102,8 @@ editro.on('change', content =>
 //   create: el => {
 //     return {
 //       node,
-//       destroy() {}
+//       destroy() {},
+//       group
 //     }
-//   },
-//   group(el) {return ''}
+//   }
 // }
