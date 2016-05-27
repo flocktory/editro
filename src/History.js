@@ -15,7 +15,8 @@ export default class History {
   }
 
   destroy() {
-    this._$iframe.contentDocument.removeEventListener('keydown', this._handler);
+    this._$iframe.contentDocument &&
+      this._$iframe.contentDocument.removeEventListener('keydown', this._handler);
     window.document.removeEventListener('keydown', this._handler);
   }
 

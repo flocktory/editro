@@ -4,6 +4,7 @@ import History from './History';
 import editorHtml from './templates/editro.html';
 import defaultHtml from './templates/default.html';
 import { controllers } from './library';
+import Code from './Code';
 
 const EDITED_ATTR = 'current-edited-element';
 
@@ -30,7 +31,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
 
   let toolbox = null;
   const createToolbox = (selected) => new Toolbox(selected, {
-    controllers,
+    controllers: controllers.concat(options.controllers || []),
     root: root.querySelector('[editro-toolbox]')
   });
 
@@ -58,6 +59,20 @@ export default function Editro(root, html = defaultHtml, options = {}) {
 
   editor.srcdoc = html;
 
+  const codeEl = $el('code');
+  const cm = new Code(codeEl, {
+    getHtml,
+    onChange(h) {
+      editor.srcdoc = h;
+      emitChange(h);
+    }
+  });
+  click($el('html'), () => cm.toggle());
+  click($el('codeClose'), () => cm.toggle());
+
+
+  click($el('backward'), () => history.backward());
+  click($el('forward'), () => history.forward());
 
   return {
     getHtml,
