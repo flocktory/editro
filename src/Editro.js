@@ -29,26 +29,24 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   history.push(html);
 
   let toolbox = null;
+  const createToolbox = (selected) => new Toolbox(selected, {
+    components,
+    root: $el('toolbox')
+  });
 
   editor.addEventListener('load', () => {
     const body = editor.contentDocument.body;
     if (toolbox) toolbox.destroy();
     const selected = body.querySelector(`[${EDITED_ATTR}]`);
     if (selected) {
-      toolbox = new Toolbox(selected, {
-        components,
-        el: $el('toolbox')
-      });
+      toolbox = createToolbox(selected);
     }
     // Create toolbox when element selected
     click(body, (e) => {
       [].forEach.call(body.querySelectorAll(`[${EDITED_ATTR}]`), el => el.removeAttribute(EDITED_ATTR));
       e.target.setAttribute(EDITED_ATTR, EDITED_ATTR);
       if (toolbox) toolbox.destroy();
-      toolbox = new Toolbox(e.target, {
-        components,
-        el: $el('toolbox')
-      });
+      toolbox = createToolbox(e.target);
     });
 
     // subscribe to all DOM changes
