@@ -49,14 +49,11 @@ export default function Editro(root, html = defaultHtml, options = {}) {
       toolbox = createToolbox(e.target);
     });
 
-    // subscribe to all DOM changes
-    const observer = new window.MutationObserver(() => {
+    observeMutation(body, () => {
       const h = getHtml();
       history.push(h);
       emitChange(h);
     });
-    const config = { attributes: true, childList: true, characterData: true, subtree: true };
-    observer.observe(body, config);
   });
 
   editor.srcdoc = html;
@@ -77,4 +74,18 @@ export default function Editro(root, html = defaultHtml, options = {}) {
 
 function click(el, handler) {
   return el.addEventListener('click', handler);
+}
+
+
+/**
+ * Subscribe to element mutation
+ * @param {Element} element
+ * @param {Function} onMutate
+ */
+function observeMutation(element, onMutate) {
+  const observer = new window.MutationObserver(() => {
+    onMutate();
+  });
+  const config = { attributes: true, childList: true, characterData: true, subtree: true };
+  observer.observe(element, config);
 }
