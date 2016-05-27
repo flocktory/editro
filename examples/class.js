@@ -2,6 +2,15 @@ import EventEmitter from 'events';
 import system from './system';
 
 
+class BaseController extends EventEmitter {
+  test() {}
+  
+  create() {}
+  
+  group() {}
+}
+
+
 class Controller extends EventEmitter {
   static test(el) {
     return false;

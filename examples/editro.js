@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import Controller from './Controller';
 import Component from './Component';
-import Toolbox from './toolbox';
+import Toolbox from '../src/toolbox';
 import HistoryPlugin from './HistoryPlugin';
 import RawHtmlEditPlugin from './RawHtmlEditPlugin';
 
@@ -95,3 +95,15 @@ const editro = new Editro(
 editro.on('change', content =>
   $scope.apply(() =>
     $scope.widget.version.content = content));
+
+
+// {
+//   test: el => true,
+//   create: el => {
+//     return {
+//       node,
+//       destroy() {}
+//     }
+//   },
+//   group(el) {return ''}
+// }
