@@ -35,6 +35,7 @@
     "webpack-dev-server": "1.14.1"
   },
   "dependencies": {
-    "ace-editor-builds": "^1.2.0"
+    "ace-editor-builds": "^1.2.0",
+    "brace": "^0.8.0"
   }
 }
