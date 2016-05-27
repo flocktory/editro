@@ -30,27 +30,27 @@ export default class History {
     }
   }
 
-  _onKeyDown(e) {
-    if (e.keyCode === 90 && e.metaKey) {
-      if (e.shiftKey) {
-        this._forward();
-      } else {
-        this._back();
-      }
-    }
-  }
-
-  _forward() {
+  forward() {
     if (this._pointer < this._history.length - 1) {
       this._pointer++;
       this._onChange.call(null, this._history[this._pointer]);
     }
   }
 
-  _back() {
+  backward() {
     if (this._pointer > 0) {
       this._pointer--;
       this._onChange.call(null, this._history[this._pointer]);
+    }
+  }
+
+  _onKeyDown(e) {
+    if (e.keyCode === 90 && e.metaKey) {
+      if (e.shiftKey) {
+        this.forward();
+      } else {
+        this.backward();
+      }
     }
   }
 

@@ -90,4 +90,18 @@ describe('History', () => {
     back();
     onChange.lastCall.args[0].should.be.eql(2);
   });
+
+  it('should move backward when method called', () => {
+    history.push(1);
+    history.push(2);
+    history.backward();
+    onChange.should.have.been.calledWith(1);
+  });
+  it('should move forward when method called', () => {
+    history.push(1);
+    history.push(2);
+    history.backward();
+    history.forward();
+    onChange.lastCall.args[0].should.be.eql(2);
+  });
 });

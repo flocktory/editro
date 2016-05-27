@@ -2,19 +2,10 @@
 import Toolbox from './Toolbox';
 import History from './History';
 import editorHtml from './templates/editro.html';
+import defaultHtml from './templates/default.html';
+import { components } from './library';
 
 const EDITED_ATTR = 'current-edited-element';
-
-const defaultHtml = `
-  <!doctype html>
-  <html>
-    <body>
-      <div>
-        <h1>Hello world!</h1>
-      </div>
-    </body>
-  </html>
-`;
 
 
 // Editor itself, get node, start html (optional), options
@@ -24,9 +15,8 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   }
   root.innerHTML = editorHtml;
 
-
   const $el = q => root.querySelector('.Editro-' + q);
-  const editor = $el('editor');
+  const editor = $el('preview');
   const getHtml = () => '<!doctype html>\n' +
     editor.contentDocument.documentElement.outerHTML;
   const handlers = { change: [] };
@@ -45,14 +35,20 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     if (toolbox) toolbox.destroy();
     const selected = body.querySelector(`[${EDITED_ATTR}]`);
     if (selected) {
-      toolbox = Toolbox($el('toolbox'), selected, options);
+      toolbox = new Toolbox(selected, {
+        components,
+        el: $el('toolbox')
+      });
     }
     // Create toolbox when element selected
     click(body, (e) => {
-      [].forEach.call(body.querySelectorAll(`[${EDITED_ATTR}]`), e => e.removeAttribute(EDITED_ATTR));
+      [].forEach.call(body.querySelectorAll(`[${EDITED_ATTR}]`), el => el.removeAttribute(EDITED_ATTR));
       e.target.setAttribute(EDITED_ATTR, EDITED_ATTR);
       if (toolbox) toolbox.destroy();
-      toolbox = Toolbox($el('toolbox'), e.target, options);
+      toolbox = new Toolbox(e.target, {
+        components,
+        el: $el('toolbox')
+      });
     });
 
     // subscribe to all DOM changes

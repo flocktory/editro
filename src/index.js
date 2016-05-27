@@ -1,5 +1,5 @@
 /* eslint-disable max-len, no-console, new-cap */
-import './editro.scss';
+import './Editro.scss';
 import Editro from './Editro';
 
 const root = document.getElementById('root');
