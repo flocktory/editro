@@ -29,7 +29,7 @@ export default class Toolbox {
 
         const form = createDocumentFragment(`<article class="EditroForm">
           <div class="EditroForm-title">${controller.title}</div>
-          <div class="EditroForm-controls" editoro-controls></div>
+          <div class="EditroForm-controls ${controller.component.isInline ? 'EditroForm-controls--inline' : ''}" editoro-controls></div>
         </article>`);
 
         form.querySelector('[editoro-controls]').appendChild(controller.node);

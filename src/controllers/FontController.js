@@ -20,12 +20,16 @@ export default class FontController extends Controller {
     const computedStyle = window.getComputedStyle(this.el);
 
     return {
-      textAlign: ['left', 'center', 'right'].indexOf(computedStyle.textAlign) === -1 ? 'left' : computedStyle.textAlign
+      textAlign: ['left', 'center', 'right'].indexOf(computedStyle.textAlign) === -1 ? 'left' : computedStyle.textAlign,
+      fontWeight: computedStyle.fontWeight,
+      fontStyle: computedStyle.fontStyle
     };
   }
 
-  set({textAlign}) {
+  set({textAlign, fontWeight, fontStyle}) {
     this.el.style.textAlign = textAlign;
+    this.el.style.fontWeight = fontWeight;
+    this.el.style.fontStyle = fontStyle;
   }
 
   get title() {
