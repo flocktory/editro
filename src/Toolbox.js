@@ -1,3 +1,6 @@
+import {createDocumentFragment} from './utils';
+
+
 export default class Toolbox {
   constructor(el, controllers, root) {
     this.root = root;
@@ -12,11 +15,11 @@ export default class Toolbox {
   }
 
   render() {
-    const panel = document.createRange().createContextualFragment(`<section class="EditroPanel"></section>`);
+    const panel = createDocumentFragment(`<section class="EditroPanel"></section>`);
 
     // Render groups
     this.getControllerGroups(this.controllers).forEach(controllers => {
-      const group = document.createRange().createContextualFragment(`<div class="EditroPanel-section"></div>`);
+      const group = createDocumentFragment(`<div class="EditroPanel-section"></div>`);
 
       // Render components in group
       controllers.forEach(controller => {
@@ -24,7 +27,7 @@ export default class Toolbox {
           return;
         }
 
-        const form = document.createRange().createContextualFragment(`<article class="EditroForm">
+        const form = createDocumentFragment(`<article class="EditroForm">
           <div class="EditroForm-title">${controller.title}</div>
           <div class="EditroForm-controls" editoro-controls></div>
         </article>`);
