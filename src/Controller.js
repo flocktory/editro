@@ -6,6 +6,7 @@ import EventEmitter from 'events';
  *   `test` returns true, if element could be customized via controller
  *   `create` returns instance of controller with next properties:
  *     `node` — dom node of controller component, required
+ *     `destroy` — destroy callback, required
  *     `group` — name of group in toolbox, optional
  *     `title` — title in toolbox, optional
  */
@@ -40,5 +41,9 @@ export default class Controller extends EventEmitter {
 
   get group() {
     return 'basic';
+  }
+
+  destroy() {
+    this.component.destroy();
   }
 }

@@ -21,4 +21,6 @@ export default class Component extends EventEmitter {
   }
 
   watch() {}
+
+  destroy() {}
 }

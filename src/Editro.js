@@ -3,7 +3,7 @@ import Toolbox from './Toolbox';
 import History from './History';
 import editorHtml from './templates/editro.html';
 import defaultHtml from './templates/default.html';
-import { components } from './library';
+import { controllers } from './library';
 
 const EDITED_ATTR = 'current-edited-element';
 
@@ -30,8 +30,8 @@ export default function Editro(root, html = defaultHtml, options = {}) {
 
   let toolbox = null;
   const createToolbox = (selected) => new Toolbox(selected, {
-    components,
-    root: $el('toolbox')
+    controllers,
+    root: root.querySelector('[editro-toolbox]')
   });
 
   editor.addEventListener('load', () => {

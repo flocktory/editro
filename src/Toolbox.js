@@ -2,7 +2,7 @@ import {createDocumentFragment} from './utils';
 
 
 export default class Toolbox {
-  constructor(el, controllers, root) {
+  constructor(el, {controllers, root}) {
     this.root = root;
     this.controllers = this.getControllers(el, controllers);
     this.render();
@@ -33,10 +33,10 @@ export default class Toolbox {
         </article>`);
 
         form.querySelector('[editoro-controls]').appendChild(controller.node);
-        group.appendChild(form);
+        group.firstChild.appendChild(form);
       });
 
-      panel.appendChild(group);
+      panel.firstChild.appendChild(group);
     });
 
     this.root.appendChild(panel);
@@ -49,7 +49,7 @@ export default class Toolbox {
     controllers.forEach(controller => {
       const group = controller.group || basicGroup;
 
-      controllerGroups[group] = controllerGroups[group] || {};
+      controllerGroups[group] = controllerGroups[group] || [];
       controllerGroups[group].push(controller)
     });
 
