@@ -64,6 +64,26 @@ const editro = new Editro(
   </html>`,
 
   {
+    controllers: {
+      fontSize: {
+        test: el => el.tagName === 'SPAN',
+        get: el => window.getComputedStyle(el).fontSize,
+        set: (el, value) => el.style.fontSize = value,
+        createComponent: (value, Component) => new Component.extend({
+          template() {
+            return `<input class="SexyInput" type="text" value="${this.value}" />`;
+          },
+
+          watch() {
+            const input = this.el.querySelector('input');
+
+            input.addEventListener('keyup', () => {
+              this.emit('change', input.value);
+            });
+          }
+        })(value)
+      }
+    },
     history: {
       maxLength: 10
     },

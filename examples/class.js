@@ -9,14 +9,14 @@ class Controller extends EventEmitter {
 
   constructor(el) {
     this.el = el;
-    this.component = this.createComponent(this.get());
+    this.component = this.createComponent(this.get(), Component);
     this.component.on('change', newValue => {
       this.set(newValue);
       this.emit('change');
     });
   }
 
-  createComponent() {}
+  createComponent(value, Component) {}
 
   get() {}
 
@@ -31,7 +31,13 @@ class Controller extends EventEmitter {
   }
 
   static extend(options) {
-    // ...
+    const CustomController = function() {
+      Controller.apply(this, arguments);
+    };
+
+    Object.assign(CustomController.prototype, Controller.prototype, options);
+
+    return CustomController;
   }
 }
 
@@ -72,6 +78,16 @@ class Component extends EventEmitter {
   }
 
   watch() {}
+
+  static extend(options) {
+    const CustomController = function() {
+      Controller.apply(this, arguments);
+    };
+
+    Object.assign(CustomController.prototype, Controller.prototype, options);
+
+    return CustomController;
+  }
 }
 
 
