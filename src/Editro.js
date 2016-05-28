@@ -5,6 +5,7 @@ import editorHtml from './templates/editro.html';
 import defaultHtml from './templates/default.html';
 import { controllers } from './library';
 import Code from './Code';
+import { elementSearch, click } from './utils';
 
 const EDITED_ATTR = 'current-edited-element';
 
@@ -16,7 +17,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   }
   root.innerHTML = editorHtml;
 
-  const $el = q => root.querySelector('.Editro-' + q);
+  const $el = elementSearch(root, 'Editro');
   const editor = $el('preview');
   const getHtml = () => '<!doctype html>\n' +
     editor.contentDocument.documentElement.outerHTML;
@@ -59,8 +60,8 @@ export default function Editro(root, html = defaultHtml, options = {}) {
 
   editor.srcdoc = html;
 
-  const codeEl = $el('code');
-  const cm = new Code(codeEl, {
+  // Code editor
+  const cm = new Code($el('code'), {
     getHtml,
     onChange(h) {
       editor.srcdoc = h;
@@ -68,7 +69,6 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     }
   });
   click($el('html'), () => cm.toggle());
-  click($el('codeClose'), () => cm.toggle());
 
 
   click($el('backward'), () => history.backward());
@@ -83,12 +83,9 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     destroy() {
       editor.parentNode.removeChild(editor);
       history.destroy();
+      cm.destroy();
     }
   };
-}
-
-function click(el, handler) {
-  return el.addEventListener('click', handler);
 }
 
 

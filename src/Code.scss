@@ -1,0 +1,24 @@
+@mixin control() {
+  position: absolute;
+  cursor: pointer;
+  bottom: 4px;
+  z-index: 100;
+}
+
+.Code {
+  display: none;
+  position: relative;
+
+  &--on {
+    display: block;
+  }
+
+  &-close {
+    @include control();
+    right: 4px;
+  }
+  &-fullScreen {
+    @include control();
+    right: 30px;
+  }
+}

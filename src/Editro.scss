@@ -67,22 +67,6 @@ $control-border-radius: 2px;
     left: 100% - $codeWidth;
     height: 100%;
     background: #fff;
-    display: none;
-  }
-
-  &-codeClose {
-    position: absolute;
-    cursor: pointer;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-  }
-  &-codeFS {
-    position: absolute;
-    cursor: pointer;
-    top: 30px;
-    right: 10px;
-    z-index: 1000;
   }
 }
 
