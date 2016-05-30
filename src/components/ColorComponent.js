@@ -87,7 +87,7 @@ export default class ColorComponent extends Component {
   template() {
     const {color, opacity} = colorToPair(this.value);
 
-    return `<div class="EditroColor EditroColor--separate">
+    return `<div class="EditroColor EditroColor--separate EditroControl">
               <div class="EditroColor-sample" style="background-color: ${this.value};" sample></div>
               <div class="EditroColor-panel">
                 <input class="EditroColor-color" type="color" value="${color}">

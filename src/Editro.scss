@@ -137,6 +137,7 @@ $control-border-radius: 2px;
 
 // Form
 
+.EditroControl {}
 .EditroForm {
   display: inline-block;
   width: 100%;
@@ -150,6 +151,11 @@ $control-border-radius: 2px;
 
   &--half {
     width: 50%;
+  }
+  &--controls-separated {
+    .EditroControl + .EditroControl {
+      margin-top: 10px;
+    }
   }
 
   &-title {

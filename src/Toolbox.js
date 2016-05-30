@@ -29,7 +29,7 @@ export default class Toolbox {
 
         const isInline = controller.component && controller.component.isInline;
 
-        const form = createDocumentFragment(`<article class="EditroForm ${(controller.modificators || []).map(m => `EditroForm--${m}`)}">
+        const form = createDocumentFragment(`<article class="EditroForm ${(controller.modificators || []).map(m => `EditroForm--${m}`).join(' ')}">
           <div class="EditroForm-title">${controller.title}</div>
           <div class="EditroForm-controls ${isInline ? 'EditroForm-controls--inline' : ''}" editoro-controls></div>
         </article>`);

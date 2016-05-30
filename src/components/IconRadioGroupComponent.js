@@ -14,7 +14,7 @@ export default class IconRadioGroupComponent extends Component {
     const name = `radio-group-${uid()}`;
 
     return `<div class="EditroBtnGroup">    
-      ${this.config.items.map(({value, icon}) => `<label class="EditroBtnGroup-item">
+      ${this.config.items.map(({value, icon}) => `<label class="EditroBtnGroup-item EditroControl">
         <input class="EditroBtnGroup-input" 
                type="radio" 
                name="${name}" 

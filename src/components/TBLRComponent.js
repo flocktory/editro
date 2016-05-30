@@ -6,7 +6,7 @@ import Component from '../Component';
  */
 export default class TBLRComponent extends Component {
   template() {
-    return `<div class="EditroFourInputs" arrow-direction="${this.config.arrowDirection}">
+    return `<div class="EditroFourInputs EditroControl" arrow-direction="${this.config.arrowDirection}">
               <div class="EditroFourInputs-outer" shape="${this.config.shapes.outer}"></div>
               <div class="EditroFourInputs-inner" shape="${this.config.shapes.inner}"></div>
               <div class="EditroFourInputs-arrow EditroFourInputs-arrow--top"></div>
