@@ -59,6 +59,15 @@ $control-border-radius: 2px;
     height: 100%;
     background: white;
   }
+
+  $codeWidth: 50%;
+  &-code {
+    position: absolute;
+    width: $codeWidth;
+    left: 100% - $codeWidth;
+    height: 100%;
+    background: #fff;
+  }
 }
 
 

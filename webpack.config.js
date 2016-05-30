@@ -13,9 +13,6 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/static/'
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
   module: {
     loaders: [
       {
@@ -29,6 +26,11 @@ module.exports = {
         include: path.join(__dirname, 'src')
       },
       {
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader'],
+        include: path.join(__dirname, 'node_modules/codemirror/')
+      },
+      {
         test: /\.html/,
         loaders: ['html-loader'],
         include: path.join(__dirname, 'src')
@@ -38,5 +40,12 @@ module.exports = {
         loader: 'url-loader?limit=8192'
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      'process.env.KEY_MAP': JSON.stringify(process.env.KEY_MAP || 'default')
+    })
+  ]
 };

@@ -27,9 +27,11 @@ export default class Toolbox {
           return;
         }
 
+        const isInline = controller.component && controller.component.isInline;
+
         const form = createDocumentFragment(`<article class="EditroForm">
           <div class="EditroForm-title">${controller.title}</div>
-          <div class="EditroForm-controls ${controller.component.isInline ? 'EditroForm-controls--inline' : ''}" editoro-controls></div>
+          <div class="EditroForm-controls ${isInline ? 'EditroForm-controls--inline' : ''}" editoro-controls></div>
         </article>`);
 
         form.querySelector('[editoro-controls]').appendChild(controller.node);

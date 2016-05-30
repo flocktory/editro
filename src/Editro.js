@@ -4,6 +4,8 @@ import History from './History';
 import editorHtml from './templates/editro.html';
 import defaultHtml from './templates/default.html';
 import { controllers } from './library';
+import Code from './Code';
+import { elementSearch, click } from './utils';
 
 const EDITED_ATTR = 'current-edited-element';
 
@@ -15,7 +17,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   }
   root.innerHTML = editorHtml;
 
-  const $el = q => root.querySelector('.Editro-' + q);
+  const $el = elementSearch(root, 'Editro');
   const editor = $el('preview');
   const getHtml = () => '<!doctype html>\n' +
     editor.contentDocument.documentElement.outerHTML;
@@ -30,7 +32,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
 
   let toolbox = null;
   const createToolbox = (selected) => new Toolbox(selected, {
-    controllers,
+    controllers: controllers.concat(options.controllers || []),
     root: root.querySelector('[editro-toolbox]')
   });
 
@@ -49,18 +51,28 @@ export default function Editro(root, html = defaultHtml, options = {}) {
       toolbox = createToolbox(e.target);
     });
 
-    // subscribe to all DOM changes
-    const observer = new window.MutationObserver(() => {
+    observeMutation(body, () => {
       const h = getHtml();
       history.push(h);
       emitChange(h);
     });
-    const config = { attributes: true, childList: true, characterData: true, subtree: true };
-    observer.observe(body, config);
   });
 
   editor.srcdoc = html;
 
+  // Code editor
+  const cm = new Code($el('code'), {
+    getHtml,
+    onChange(h) {
+      editor.srcdoc = h;
+      emitChange(h);
+    }
+  });
+  click($el('html'), () => cm.toggle());
+
+
+  click($el('backward'), () => history.backward());
+  click($el('forward'), () => history.forward());
 
   return {
     getHtml,
@@ -71,10 +83,21 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     destroy() {
       editor.parentNode.removeChild(editor);
       history.destroy();
+      cm.destroy();
     }
   };
 }
 
-function click(el, handler) {
-  return el.addEventListener('click', handler);
+
+/**
+ * Subscribe to element mutation
+ * @param {Element} element
+ * @param {Function} onMutate
+ */
+function observeMutation(element, onMutate) {
+  const observer = new window.MutationObserver(() => {
+    onMutate();
+  });
+  const config = { attributes: true, childList: true, characterData: true, subtree: true };
+  observer.observe(element, config);
 }
