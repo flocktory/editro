@@ -7,13 +7,13 @@ function uid() {
 
 
 /**
- * config = {items: [{value: 'bold', icon: 'fwb'}]}
+ * config = {items: [{value: 'bold', icon: 'fwb'}], position: 'right'}
  */
 export default class IconRadioGroupComponent extends Component {
   template() {
     const name = `radio-group-${uid()}`;
 
-    return `<div class="EditroBtnGroup">    
+    return `<div class="EditroBtnGroup ${this.config.position ? `EditroBtnGroup--${this.config.position}` : ``}">    
       ${this.config.items.map(({value, icon}) => `<label class="EditroBtnGroup-item EditroControl">
         <input class="EditroBtnGroup-input" 
                type="radio" 

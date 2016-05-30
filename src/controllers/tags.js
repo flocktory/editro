@@ -22,3 +22,4 @@ export const contentTags = ['p', 'address', 'blockquote', 'cite', 'code', 'pre']
 export const formTags = ['form', 'caption', 'fieldset', 'legend', 'label', 'td', 'th'];
 
 
+export const embeddedTags = ['img', 'object'];

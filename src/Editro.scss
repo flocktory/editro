@@ -643,18 +643,30 @@ $control-border-radius: 2px;
   font-size: 0;
 
   &-input {
+    position: relative;
     display: inline-block;
     vertical-align: middle;
     width: 60px;
+    padding-right: 10px;
 
     .EditroInput {
       width: 100%;
+    }
+
+    &:after {
+      content: 'px';
+      position: absolute;
+      top: 0;
+      right: 2px;
+      line-height: 27px;
+      font-size: 11px;
+      color: #999;
     }
   }
   &-separator {
     display: inline-block;
     vertical-align: middle;
-    margin: 0 4px;
+    margin: 0 5px;
     font-size: 14px;
     color: #999;
   }
