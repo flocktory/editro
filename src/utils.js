@@ -42,3 +42,13 @@ export function toggleAttr(el, attrName) {
     el.setAttribute(attrName, '');
   }
 }
+
+
+export function num(valueStr, defaultValue=null) {
+  return valueStr === '' ? defaultValue : parseInt(valueStr, 10);
+}
+
+
+export function px(value, defaultValue='auto') {
+  return value || value === 0  ? value + 'px' : defaultValue;
+}

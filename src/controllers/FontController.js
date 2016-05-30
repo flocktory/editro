@@ -1,6 +1,7 @@
 import Controller from '../Controller';
 import FontComponent from '../components/FontComponent';
 import {inputTags, inlineTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags} from './tags';
+import {px} from '../utils';
 
 
 export default class FontController extends Controller {
@@ -43,8 +44,8 @@ export default class FontController extends Controller {
     this.el.style.textAlign = textAlign;
     this.el.style.fontWeight = fontWeight;
     this.el.style.fontStyle = fontStyle;
-    this.el.style.lineHeight = lineHeight + 'px';
-    this.el.style.fontSize = fontSize + 'px';
+    this.el.style.lineHeight = px(lineHeight);
+    this.el.style.fontSize = px(fontSize);
   }
 
   normalize(value) {

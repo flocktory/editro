@@ -1,6 +1,6 @@
 import Controller from '../Controller';
-
 import {inputTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags} from './tags';
+import {num, px} from '../utils';
 
 
 const direction = ['top', 'bottom', 'left', 'right'];
@@ -38,13 +38,13 @@ export default class BaseTBLRController extends Controller {
   }
 
   set(value) {
-    direction.forEach(direction => this.el.style[getStyleName(this.stylesPrefix, direction)] = value[direction] + 'px');
+    direction.forEach(direction => this.el.style[getStyleName(this.stylesPrefix, direction)] = px(value[direction]));
   }
 
   normalize(value) {
     const result = Object.assign({}, value);
 
-    direction.forEach(direction => result[direction] = parseInt(result[direction], 10));
+    direction.forEach(direction => result[direction] = num(result[direction]));
 
     return result;
   }

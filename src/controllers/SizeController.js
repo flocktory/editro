@@ -1,6 +1,7 @@
 import Controller from '../Controller';
 import SizeComponent from '../components/SizeComponent';
 import {inputTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags, embeddedTags} from './tags';
+import {num, px} from '../utils';
 
 
 export default class SizeController extends Controller {
@@ -36,16 +37,16 @@ export default class SizeController extends Controller {
   }
 
   set({width, height, float}) {
-    this.el.style.width = width + 'px';
-    this.el.style.height = height + 'px';
+    this.el.style.width = px(width);
+    this.el.style.height = px(height);
     this.el.style.float = float;
   }
 
   normalize(value) {
     const normalizedValue = Object.assign({}, value);
 
-    normalizedValue.width = parseInt(normalizedValue.width, 10);
-    normalizedValue.height = parseInt(normalizedValue.height, 10);
+    normalizedValue.width = num(normalizedValue.width);
+    normalizedValue.height = num(normalizedValue.height);
     if (['left', 'none', 'right'].indexOf(normalizedValue.float) === -1) {
       normalizedValue.float = 'none';
     }
