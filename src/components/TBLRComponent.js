@@ -21,7 +21,7 @@ export default class TBLRComponent extends Component {
   }
 
   watch() {
-    this.el.querySelectorAll('input').forEach(
+    Array.prototype.slice.call(this.el.querySelectorAll('input')).forEach(
       input => input.addEventListener('keyup',
         () => {
           this.value[input.getAttribute('target-name')] = input.value;

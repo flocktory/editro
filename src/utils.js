@@ -4,7 +4,17 @@
 
 
 export function createDocumentFragment(html) {
-  return document.createRange().createContextualFragment(html);
+  try {
+    return document.createRange().createContextualFragment(html);
+  } catch (e) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+
+    const fragment = document.createDocumentFragment();
+    Array.prototype.slice.call(div.children).forEach(child => fragment.appendChild(child));
+
+    return fragment;
+  }
 }
 
 

@@ -12,7 +12,8 @@ const EDITED_ATTR = 'current-edited-element';
 
 // Editor itself, get node, start html (optional), options
 export default function Editro(root, html = defaultHtml, options = {}) {
-  if (window.getComputedStyle(root).position === 'static') {
+  const rootComputedStyle = window.getComputedStyle(root);
+  if (!rootComputedStyle || rootComputedStyle.position === 'static') {
     root.style.position = 'relative';
   }
   root.innerHTML = editorHtml;
