@@ -531,16 +531,36 @@ $control-border-radius: 2px;
 
 // Input
 
-.EditroInput {
+.EditroInputWrapper {
+  position: relative;
   display: inline-block;
   vertical-align: top;
   height: 27px;
-  padding: 0 5px;
   border: $control-border;
   border-radius: $control-border-radius;
   background: $control-background;
+
+  &[unit] {
+    padding-right: 14px;
+  }
+  &[unit]:after {
+    content: attr(unit);
+    position: absolute;
+    top: 0;
+    right: 3px;
+    line-height: 26px;
+    display: inline;
+    font-size: 12px;
+    color: #999;
+  }
+}
+.EditroInput {
+  height: 25px;
+  padding: 0 5px;
   font-size: 12px;
   outline: none;
+  background: none;
+  border: none;
 
   &--small {
     width: 60px;

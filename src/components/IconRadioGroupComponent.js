@@ -2,7 +2,7 @@ import Component from '../Component';
 
 
 function uid() {
-  return uid.id = uid.id ? uid.id + 1 : 0;
+  return uid.id = (uid.id ? uid.id + 1 : 1);
 }
 
 
