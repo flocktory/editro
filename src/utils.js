@@ -27,3 +27,18 @@ export function elementSearch(root, blockName) {
 export function click(el, handler) {
   el.addEventListener('click', handler);
 }
+
+
+
+/**
+ * Toggle Attribute
+ * @param {Element} el
+ * @param {String} attrName
+ */
+export function toggleAttr(el, attrName) {
+  if (el.hasAttribute(attrName)) {
+    el.removeAttribute(attrName);
+  } else {
+    el.setAttribute(attrName, '');
+  }
+}

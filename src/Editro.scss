@@ -1001,10 +1001,10 @@ $code-offset: 7px;
   background: white;
   box-shadow: 0 0 7px rgba(black, 0.2);
 
-  &.is-opened {
+  &[is-opened] {
     display: block;
   }
-  &.is-half {
+  &[is-half] {
     left: 50%;
   }
 
@@ -1028,22 +1028,22 @@ $code-offset: 7px;
     right: -1px;
     font-size: 0;
   }
-  &.is-fullScreen &-actions {
+  &[is-fullScreen] &-actions {
     position: fixed;
   }
   &-close {}
   &-resize {}
-  &.is-fullScreen &-resize {
+  &[is-fullScreen] &-resize {
     display: none;
   }
   &-fullScreen {}
-  &.is-fullScreen &-fullScreen .EditroIcon--fullScreen {
+  &[is-fullScreen] &-fullScreen .EditroIcon--fullScreen {
     display: none;
   }
   &-fullScreen .EditroIcon--fullScreenOut {
     display: none;
   }
-  &.is-fullScreen &-fullScreen .EditroIcon--fullScreenOut {
+  &[is-fullScreen] &-fullScreen .EditroIcon--fullScreenOut {
     display: inline-block;
   }
 }

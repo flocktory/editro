@@ -12,7 +12,7 @@ import 'codemirror/addon/display/fullscreen.css';
 import 'codemirror/addon/display/fullscreen';
 import html from './templates/code.html';
 import CodeMirror from 'codemirror';
-import { elementSearch, click } from './utils';
+import {elementSearch, click, toggleAttr} from './utils';
 
 
 
@@ -59,7 +59,7 @@ export default class Code {
   }
 
   toggle() {
-    this._el.firstChild.classList.toggle('is-opened');
+    toggleAttr(this._el.firstChild, 'is-opened');
 
     if (!this.codeMirrorInstance) {
       this.codeMirrorInstance = this.createCodeMirrorInstance();
@@ -72,7 +72,7 @@ export default class Code {
   }
 
   resize() {
-    this._el.firstChild.classList.toggle('is-half');
+    toggleAttr(this._el.firstChild, 'is-half');
   }
 
   toggleFullscreen() {
@@ -81,6 +81,8 @@ export default class Code {
     }
 
     this.codeMirrorInstance.setOption('fullScreen', !this.codeMirrorInstance.getOption('fullScreen'));
-    this._el.firstChild.classList.toggle('is-fullScreen');
+    toggleAttr(this._el.firstChild, 'is-fullScreen');
   }
+
+  toggleRootElementAttr
 }
