@@ -51,6 +51,9 @@ $control-border-radius: 2px;
       margin-left: -1px;
     }
   }
+  &-reset {
+    display: none;
+  }
   &-panel {
     position: absolute;
     top: 0;
@@ -59,15 +62,7 @@ $control-border-radius: 2px;
     height: 100%;
     background: white;
   }
-
-  $codeWidth: 50%;
-  &-code {
-    position: absolute;
-    width: $codeWidth;
-    left: 100% - $codeWidth;
-    height: 100%;
-    background: #fff;
-  }
+  &-code {}
 }
 
 
@@ -419,6 +414,31 @@ $control-border-radius: 2px;
     }
     &:after {
       height: 20px;
+    }
+  }
+  &--resize {
+    &:before {
+      content: '↔';
+      font-size: 18px;
+    }
+  }
+  &--close {
+    &:before {
+      content: '×';
+      font-size: 24px;
+      line-height: 13px;
+    }
+  }
+  &--fullScreen {
+    &:before {
+      content: '⇱';
+      font-size: 18px;
+    }
+  }
+  &--fullScreenOut {
+    &:before {
+      content: '⇲';
+      font-size: 18px;
     }
   }
 }
@@ -940,63 +960,83 @@ $range-border: 1px solid #777;
     border-radius: 100%;
     -webkit-appearance: none;
   }
-  &:focus::-webkit-slider-runnable-track {
-    background: #367ebd;
-  }
   &::-moz-range-track {
     width: 100%;
-    height: 8.4px;
+    height: 0;
     cursor: pointer;
-    animate: 0.2s;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
-    border-radius: 1.3px;
-    border: 0.2px solid #010101;
+    border-top: $range-border;
+    box-shadow: none;
   }
   &::-moz-range-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 36px;
-    width: 16px;
-    border-radius: 3px;
-    background: #ffffff;
+    border: $range-border;
+    height: 11px;
+    width: 11px;
+    margin-top: -6px;
     cursor: pointer;
+    background: white;
+    border-radius: 100%;
+    -webkit-appearance: none;
   }
-  &::-ms-track {
+}
+
+
+// HTML source editor
+
+$code-offset: 7px;
+
+.EditroCode {
+  position: absolute;
+  top: $code-offset;
+  bottom: $code-offset;
+  left: $code-offset;
+  right: $code-offset;
+  display: none;
+  background: white;
+  box-shadow: 0 0 7px rgba(black, 0.2);
+
+  &.is-opened {
+    display: block;
+  }
+  &.is-half {
+    left: 50%;
+  }
+
+  &-codeMirror {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
     width: 100%;
-    height: 8.4px;
-    cursor: pointer;
-    animate: 0.2s;
-    background: transparent;
-    border-color: transparent;
-    border-width: 16px 0;
-    color: transparent;
+    height: 100%;
+    font-size: 12px;
+
+    .CodeMirror {
+      height: 100%;
+    }
   }
-  &::-ms-fill-lower {
-    background: #2a6495;
-    border: 0.2px solid #010101;
-    border-radius: 2.6px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  &-actions {
+    position: absolute;
+    z-index: 2;
+    top: -1px;
+    right: -1px;
+    font-size: 0;
   }
-  &::-ms-fill-upper {
-    background: #3071a9;
-    border: 0.2px solid #010101;
-    border-radius: 2.6px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  &.is-fullScreen &-actions {
+    position: fixed;
   }
-  &::-ms-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 36px;
-    width: 16px;
-    border-radius: 3px;
-    background: #ffffff;
-    cursor: pointer;
+  &-close {}
+  &-resize {}
+  &.is-fullScreen &-resize {
+    display: none;
   }
-  &:focus::-ms-fill-lower {
-    background: #3071a9;
+  &-fullScreen {}
+  &.is-fullScreen &-fullScreen .EditroIcon--fullScreen {
+    display: none;
   }
-  &:focus::-ms-fill-upper {
-    background: #367ebd;
+  &-fullScreen .EditroIcon--fullScreenOut {
+    display: none;
+  }
+  &.is-fullScreen &-fullScreen .EditroIcon--fullScreenOut {
+    display: inline-block;
   }
 }
