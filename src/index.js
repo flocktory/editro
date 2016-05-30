@@ -50,7 +50,7 @@ const makeFlCloseControlle = {
     node.setAttribute('type', 'checkbox');
     node.addEventListener('change', e => {
       if (e.target.checked) {
-        el.setAttribute('fl-close');
+        el.setAttribute('fl-close', '');
       } else {
         el.removeAttribute('fl-close');
       }
@@ -67,7 +67,7 @@ const makeFlCloseControlle = {
 
 const options = {
   keyMap: process.env.KEY_MAP || 'default',
-  controllers: [customController]
+  controllers: [customController, makeFlCloseControlle]
 };
 
 
