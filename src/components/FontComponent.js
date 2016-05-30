@@ -42,6 +42,7 @@ export default class FontComponent extends Component {
     this.el = document.createDocumentFragment();
     [
       this.getFontSizeComponent(),
+      this.getLineHeightComponent(),
       this.getTextAlignComponent(),
       this.getStyleAndWeightComponent()
     ].forEach(component => {
@@ -62,6 +63,21 @@ export default class FontComponent extends Component {
 
     component.on('change', fontSize => {
       this.value.fontSize = fontSize;
+      this.collect();
+    });
+
+    return component;
+  }
+
+  getLineHeightComponent() {
+    const component = new InputComponent(this.value.lineHeight, {
+      type: 'number',
+      icon: 'lh',
+      unit: 'px'
+    });
+
+    component.on('change', lineHeight => {
+      this.value.lineHeight = lineHeight;
       this.collect();
     });
 

@@ -32,14 +32,16 @@ export default class FontController extends Controller {
       textAlign: computedStyle.textAlign,
       fontWeight: computedStyle.fontWeight,
       fontStyle: computedStyle.fontStyle,
-      fontSize: computedStyle.fontSize
+      fontSize: computedStyle.fontSize,
+      lineHeight: computedStyle.lineHeight
     };
   }
 
-  set({textAlign, fontWeight, fontStyle, fontSize}) {
+  set({textAlign, fontWeight, fontStyle, fontSize, lineHeight, lineHeightInPx}) {
     this.el.style.textAlign = textAlign;
     this.el.style.fontWeight = fontWeight;
     this.el.style.fontStyle = fontStyle;
+    this.el.style.lineHeight = lineHeight + 'px';
     this.el.style.fontSize = fontSize + 'px';
   }
 
@@ -47,6 +49,7 @@ export default class FontController extends Controller {
     const normalizedValue = Object.assign({}, value);
 
     normalizedValue.fontSize = parseFloat(normalizedValue.fontSize);
+    normalizedValue.lineHeight = parseFloat(normalizedValue.lineHeight);
     if (['left', 'center', 'right'].indexOf(normalizedValue.textAlign) === -1) {
       normalizedValue.textAlign = 'left';
     }
