@@ -103,7 +103,9 @@ export default class ColorComponent extends Component {
     const sample = this.el.querySelector('[sample]');
 
     sample.addEventListener('click', function() {
-      root.setAttribute('is-opened', root.getAttribute('is-opened') === 'true' ? 'false' : 'true');
+      const isOpenedValue = root.getAttribute('is-opened') === 'true' ? 'false' : 'true';
+
+      root.setAttribute('is-opened', isOpenedValue);
     });
 
     const collectColor = () => {

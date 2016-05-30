@@ -776,6 +776,13 @@ $four-inputs-h-gap: 55px;
     outline: none;
     background: white;
 
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
     &--top {
       top: $four-inputs-v-gap / 2;
       left: 50%;
