@@ -1,6 +1,7 @@
 import Component from '../Component';
 import IconRadioGroupComponent from './IconRadioGroupComponent';
 import InputComponent from './InputComponent';
+import ColorComponent from './ColorComponent';
 
 
 const textAligns = [
@@ -41,6 +42,7 @@ export default class FontComponent extends Component {
   render() {
     this.el = document.createDocumentFragment();
     [
+      this.getColorComponent(),
       this.getFontSizeComponent(),
       this.getLineHeightComponent(),
       this.getTextAlignComponent(),
@@ -52,6 +54,17 @@ export default class FontComponent extends Component {
 
   collect() {
     this.emit('change', this.value);
+  }
+
+  getColorComponent() {
+    const component = new ColorComponent(this.value.color);
+
+    component.on('change', color => {
+      this.value.color = color;
+      this.collect();
+    });
+
+    return component;
   }
 
   getFontSizeComponent() {

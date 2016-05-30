@@ -29,6 +29,7 @@ export default class FontController extends Controller {
     const computedStyle = window.getComputedStyle(this.el);
 
     return {
+      color: computedStyle.color,
       textAlign: computedStyle.textAlign,
       fontWeight: computedStyle.fontWeight,
       fontStyle: computedStyle.fontStyle,
@@ -37,7 +38,8 @@ export default class FontController extends Controller {
     };
   }
 
-  set({textAlign, fontWeight, fontStyle, fontSize, lineHeight, lineHeightInPx}) {
+  set({textAlign, fontWeight, fontStyle, fontSize, lineHeight, lineHeightInPx, color}) {
+    this.el.style.color = color;
     this.el.style.textAlign = textAlign;
     this.el.style.fontWeight = fontWeight;
     this.el.style.fontStyle = fontStyle;

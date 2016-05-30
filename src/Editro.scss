@@ -467,9 +467,8 @@ $control-border-radius: 2px;
   position: relative;
   display: inline-block;
   vertical-align: top;
-  width: 33px;
+  width: 43px;
   height: 27px;
-  overflow: hidden;
   border-radius: $control-border-radius;
   background: url($transparent);
 
@@ -485,6 +484,7 @@ $control-border-radius: 2px;
     width: 100%;
     height: 100%;
     cursor: pointer;
+    overflow: hidden;
     border-radius: $control-border-radius;
   }
   &-placeholder {
@@ -503,6 +503,31 @@ $control-border-radius: 2px;
       color: #999;
       font-weight: lighter;
     }
+  }
+  &-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    margin-top: -1px;
+    width: 120px;
+    padding: 5px;
+    background: $control-background;
+    border: $control-border;
+  }
+  &[is-opened="true"] &-panel {
+    display: block;
+  }
+  &-color {
+    width: 100%;
+    height: 50px;
+    background: none;
+    border: none;
+    outline: none;
+  }
+  &-opacity.EditroRange {
+    margin: 10px 0 5px 2px;
+    width: 102px;
   }
 }
 
@@ -883,5 +908,95 @@ $four-inputs-h-gap: 55px;
       color: #999;
       line-height: 1;
     }
+  }
+}
+
+
+// Range input
+
+$range-border: 1px solid #777;
+
+.EditroRange {
+  -webkit-appearance: none;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 0;
+    cursor: pointer;
+    border-top: $range-border;
+    box-shadow: none;
+  }
+  &::-webkit-slider-thumb {
+    border: $range-border;
+    height: 11px;
+    width: 11px;
+    margin-top: -6px;
+    cursor: pointer;
+    background: white;
+    border-radius: 100%;
+    -webkit-appearance: none;
+  }
+  &:focus::-webkit-slider-runnable-track {
+    background: #367ebd;
+  }
+  &::-moz-range-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #3071a9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  &::-moz-range-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  &::-ms-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+  }
+  &::-ms-fill-lower {
+    background: #2a6495;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  &::-ms-fill-upper {
+    background: #3071a9;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  &::-ms-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  &:focus::-ms-fill-lower {
+    background: #3071a9;
+  }
+  &:focus::-ms-fill-upper {
+    background: #367ebd;
   }
 }
