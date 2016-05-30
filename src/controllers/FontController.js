@@ -1,15 +1,24 @@
 import Controller from '../Controller';
 import FontComponent from '../components/FontComponent';
+import {inputTags, inlineTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags} from './tags';
 
 
 export default class FontController extends Controller {
   static test(el) {
-    return [
-      'a','address','article','aside','b','blockquote','body','button','caption','center','cite','code','dd','del','dl',
-      'dt','em','fieldset','figcaption','figure','font','footer','form','h1','h2','h3','h4','h5','h6','header','i',
-      'input','label','legend','li','nav','ol','p','pre','s','section','select','small','span','strike','strong','sub',
-      'sup','td','textarea','th','u','ul'
-    ].indexOf(el.tagName.toLowerCase()) !== -1;
+    const tags = [];
+
+    tags.push(
+      ...inputTags,
+      ...inlineTags,
+      ...listTags,
+      ...definitionTags,
+      ...blockTags,
+      ...headersTags,
+      ...contentTags,
+      ...formTags
+    );
+
+    return tags.indexOf(el.tagName.toLowerCase()) !== -1;
   }
 
   createComponent(value) {
@@ -20,16 +29,34 @@ export default class FontController extends Controller {
     const computedStyle = window.getComputedStyle(this.el);
 
     return {
-      textAlign: ['left', 'center', 'right'].indexOf(computedStyle.textAlign) === -1 ? 'left' : computedStyle.textAlign,
+      color: computedStyle.color,
+      textAlign: computedStyle.textAlign,
       fontWeight: computedStyle.fontWeight,
-      fontStyle: computedStyle.fontStyle
+      fontStyle: computedStyle.fontStyle,
+      fontSize: computedStyle.fontSize,
+      lineHeight: computedStyle.lineHeight
     };
   }
 
-  set({textAlign, fontWeight, fontStyle}) {
+  set({textAlign, fontWeight, fontStyle, fontSize, lineHeight, lineHeightInPx, color}) {
+    this.el.style.color = color;
     this.el.style.textAlign = textAlign;
     this.el.style.fontWeight = fontWeight;
     this.el.style.fontStyle = fontStyle;
+    this.el.style.lineHeight = lineHeight + 'px';
+    this.el.style.fontSize = fontSize + 'px';
+  }
+
+  normalize(value) {
+    const normalizedValue = Object.assign({}, value);
+
+    normalizedValue.fontSize = parseFloat(normalizedValue.fontSize);
+    normalizedValue.lineHeight = parseFloat(normalizedValue.lineHeight);
+    if (['left', 'center', 'right'].indexOf(normalizedValue.textAlign) === -1) {
+      normalizedValue.textAlign = 'left';
+    }
+
+    return normalizedValue;
   }
 
   get title() {

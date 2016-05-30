@@ -22,9 +22,9 @@ export default class Controller extends EventEmitter {
   constructor(el) {
     super();
     this.el = el;
-    this.component = this.createComponent(this.get());
+    this.component = this.createComponent(this.normalize(this.get()));
     this.component.on('change', newValue => {
-      this.set(newValue);
+      this.set(this.normalize(newValue));
       this.emit('change');
     });
   }
@@ -34,6 +34,10 @@ export default class Controller extends EventEmitter {
   get() {}
 
   set() {}
+
+  normalize(value) {
+    return value;
+  }
 
   get node() {
     return this.component.el;

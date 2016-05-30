@@ -1,5 +1,7 @@
 import Component from '../Component';
 import IconRadioGroupComponent from './IconRadioGroupComponent';
+import InputComponent from './InputComponent';
+import ColorComponent from './ColorComponent';
 
 
 const textAligns = [
@@ -40,6 +42,9 @@ export default class FontComponent extends Component {
   render() {
     this.el = document.createDocumentFragment();
     [
+      this.getColorComponent(),
+      this.getFontSizeComponent(),
+      this.getLineHeightComponent(),
       this.getTextAlignComponent(),
       this.getStyleAndWeightComponent()
     ].forEach(component => {
@@ -49,6 +54,47 @@ export default class FontComponent extends Component {
 
   collect() {
     this.emit('change', this.value);
+  }
+
+  getColorComponent() {
+    const component = new ColorComponent(this.value.color);
+
+    component.on('change', color => {
+      this.value.color = color;
+      this.collect();
+    });
+
+    return component;
+  }
+
+  getFontSizeComponent() {
+    const component = new InputComponent(this.value.fontSize, {
+      type: 'number',
+      unit: 'px',
+      icon: 'fz'
+    });
+
+    component.on('change', fontSize => {
+      this.value.fontSize = fontSize;
+      this.collect();
+    });
+
+    return component;
+  }
+
+  getLineHeightComponent() {
+    const component = new InputComponent(this.value.lineHeight, {
+      type: 'number',
+      icon: 'lh',
+      unit: 'px'
+    });
+
+    component.on('change', lineHeight => {
+      this.value.lineHeight = lineHeight;
+      this.collect();
+    });
+
+    return component;
   }
 
   getTextAlignComponent() {
