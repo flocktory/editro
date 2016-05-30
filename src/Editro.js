@@ -29,6 +29,8 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     emitChange(h);
   });
   history.push(html);
+  click($el('backward'), () => history.backward());
+  click($el('forward'), () => history.forward());
 
   let toolbox = null;
   const createToolbox = (selected) => new Toolbox(selected, {
@@ -63,6 +65,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   // Code editor
   const cm = new Code($el('code'), {
     getHtml,
+    keyMap: options.keyMap,
     onChange(h) {
       editor.srcdoc = h;
       emitChange(h);
@@ -70,9 +73,6 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   });
   click($el('html'), () => cm.toggle());
 
-
-  click($el('backward'), () => history.backward());
-  click($el('forward'), () => history.forward());
 
   return {
     getHtml,

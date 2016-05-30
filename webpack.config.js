@@ -1,5 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+
+const env = process.env;
 
 module.exports = {
   devtool: 'eval',
@@ -44,8 +46,8 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      'process.env.KEY_MAP': JSON.stringify(process.env.KEY_MAP || 'default')
+      'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV || 'development'),
+      'process.env.KEY_MAP': JSON.stringify(env.KEY_MAP || 'default')
     })
   ]
 };

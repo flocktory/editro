@@ -33,6 +33,10 @@ export default class Code {
     click(this._elem('fullScreen'), this.toggleFullscreen.bind(this));
   }
 
+  destroy() {
+    // do nothing
+  }
+
   toggle() {
     this._el.classList.toggle('Code--on');
 

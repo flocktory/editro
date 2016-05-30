@@ -43,6 +43,27 @@ const customController = {
     };
   }
 };
+const makeFlCloseControlle = {
+  test: () => true,
+  create: (el) => {
+    const node = window.document.createElement('input');
+    node.setAttribute('type', 'checkbox');
+    node.addEventListener('change', e => {
+      if (e.target.checked) {
+        el.setAttribute('fl-close');
+      } else {
+        el.removeAttribute('fl-close');
+      }
+    });
+
+    return {
+      node,
+      title: 'Make fl-close',
+      destroy() {
+      }
+    };
+  }
+};
 
 const options = {
   keyMap: process.env.KEY_MAP || 'default',
