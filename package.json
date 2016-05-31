@@ -1,6 +1,6 @@
 {
   "name": "editro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "HTML editor in HTML",
   "main": "./lib/editro.js",
   "scripts": {
@@ -37,5 +37,8 @@
   },
   "dependencies": {
     "codemirror": "5.15.2"
+  },
+  "publishConfig": {
+    "registry" : "http://artifacts.dev.flocktory.com:8081/nexus/content/repositories/npm-private/"
   }
 }
