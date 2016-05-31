@@ -59,7 +59,7 @@ function parseRgbaColor(color) {
 
 function colorToPair(color) {
   let components = [255, 255, 255];
-  let opacity = 0;
+  let opacity = 1;
 
   const match = parseShortColor(color) || parseLongColor(color) || parseRgbColor(color) || parseRgbaColor(color);
   if (match) {
@@ -86,25 +86,18 @@ export default class ColorComponent extends Component {
     const {color, opacity} = colorToPair(this.value);
 
     return `<div class="EditroColor EditroColor--separate EditroControl">
-              <div class="EditroColor-sample" style="background-color: ${this.value};" sample></div>
+              <div class="EditroColor-colorWrapper">
+                <input class="EditroColor-color" type="color" value="${color}" style="opacity: ${opacity / 100}" />
+              </div>
               <div class="EditroColor-panel">
-                <input class="EditroColor-color" type="color" value="${color}">
                 <input class="EditroColor-opacity EditroRange" type="range" value="${opacity}" min="0" max="100">
               </div>
             </div>`;
   }
 
   watch() {
-    const root = this.el.firstChild;
     const color = this.el.querySelector('input[type=color]');
     const opacity = this.el.querySelector('input[type=range]');
-    const sample = this.el.querySelector('[sample]');
-
-    sample.addEventListener('click', function() {
-      const isOpenedValue = root.getAttribute('is-opened') === 'true' ? 'false' : 'true';
-
-      root.setAttribute('is-opened', isOpenedValue);
-    });
 
     const collectColor = () => {
       const value = pairToColor({
@@ -112,7 +105,7 @@ export default class ColorComponent extends Component {
         opacity: opacity.value
       });
 
-      sample.style.backgroundColor = value;
+      color.style.opacity = opacity.value / 100;
       this.emit('change', value);
     };
 

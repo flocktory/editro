@@ -43,15 +43,19 @@
   vertical-align: top;
   width: 43px;
   height: 27px;
+  border: $control-border;
   border-radius: $control-border-radius;
   background: url($transparent);
+
+  &:hover {
+    z-index: 100;
+  }
 
   // TODO Зарефакторить
   &--separate {
     margin-right: 20px;
   }
-
-  &-sample {
+  &-colorWrapper {
     position: absolute;
     top: 0;
     left: 0;
@@ -61,10 +65,19 @@
     overflow: hidden;
     border-radius: $control-border-radius;
   }
+  &-color {
+    margin: -10px 0 0 -10px;
+    width: 100px;
+    height: 100px;
+    background: none;
+    border: none;
+    outline: none;
+  }
   &-placeholder {
     line-height: 22px;
     height: 27px;
     text-align: center;
+    margin: -1px;
     border: $control-border;
     border-style: dashed;
     border-radius: $control-border-radius;
@@ -89,15 +102,8 @@
     background: $control-background;
     border: $control-border;
   }
-  &[is-opened="true"] &-panel {
+  &:hover &-panel {
     display: block;
-  }
-  &-color {
-    width: 100%;
-    height: 50px;
-    background: none;
-    border: none;
-    outline: none;
   }
   &-opacity.EditroRange {
     margin: 10px 0 5px 2px;
@@ -444,7 +450,9 @@ $range-border: 1px solid #777;
   position: relative;
   display: inline-block;
   vertical-align: top;
+  width: 43px;
   height: 27px;
+  text-align: center;
   padding: 5px 10px;
   border: $control-border;
   border-radius: $control-border-radius;

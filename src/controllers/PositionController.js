@@ -25,7 +25,6 @@ export default class PositionController extends BaseTBLRController {
   normalize(value) {
     const normalizedValue = super.normalize(value);
 
-    console.log("normalizedValue.position", normalizedValue.position);
     if (['static', 'relative', 'absolute', 'fixed'].indexOf(normalizedValue.position) === -1) {
       normalizedValue.position = 'static';
     }
