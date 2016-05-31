@@ -1,4 +1,5 @@
 /* eslint-disable new-cap */
+import './styles/editro.scss';
 import Toolbox from './Toolbox';
 import History from './History';
 import editorHtml from './templates/editro.html';
@@ -18,6 +19,9 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     root.style.position = 'relative';
   }
   root.innerHTML = editorHtml;
+  click(root, (ev) => {
+    ev.stopPropagation();
+  });
 
   const i18nFunction = i18n(options.i18n);
   const $el = elementSearch(root, 'Editro');
@@ -85,7 +89,8 @@ export default function Editro(root, html = defaultHtml, options = {}) {
       handlers[name].push(h);
     },
     destroy() {
-      editor.parentNode.removeChild(editor);
+      const e = root.querySelector('.Editro');
+      root.removeChild(e);
       history.destroy();
       cm.destroy();
     }

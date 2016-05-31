@@ -1,7 +1,8 @@
 {
-  "name": "Editro",
+  "name": "editro",
   "version": "1.0.0",
   "description": "HTML editor in HTML",
+  "main": "./dist/editro.js",
   "scripts": {
     "start": "node server.js",
     "test": "mocha -r setupUnits.js --compilers js:babel-register --recursive src/**/*.unit.js",
