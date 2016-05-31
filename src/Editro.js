@@ -6,6 +6,7 @@ import defaultHtml from './templates/default.html';
 import { controllers } from './library';
 import Code from './Code';
 import { elementSearch, click } from './utils';
+import i18n from './i18n';
 
 const EDITED_ATTR = 'current-edited-element';
 
@@ -18,6 +19,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   }
   root.innerHTML = editorHtml;
 
+  const i18nFunction = i18n(options.i18n);
   const $el = elementSearch(root, 'Editro');
   const editor = $el('preview');
   const getHtml = () => '<!doctype html>\n' +
@@ -36,7 +38,8 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   let toolbox = null;
   const createToolbox = (selected) => new Toolbox(selected, {
     controllers: controllers.concat(options.controllers || []),
-    root: root.querySelector('[editro-toolbox]')
+    root: root.querySelector('[editro-toolbox]'),
+    i18n: i18nFunction
   });
 
   editor.addEventListener('load', () => {

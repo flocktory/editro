@@ -20,7 +20,7 @@
     "comma-dangle": [2, "never"],
     "brace-style": [2, "1tbs", {"allowSingleLine": false}],
     "no-underscore-dangle": [0],
-    "no-unused-expressions": [2, {"allowShortCircuit": true}]
+    "no-unused-expressions": [2, {"allowShortCircuit": true}],
     "indent": [2, 2, {"SwitchCase": 1}]
   },
   "globals": {

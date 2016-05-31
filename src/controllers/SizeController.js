@@ -55,6 +55,6 @@ export default class SizeController extends Controller {
   }
 
   get title() {
-    return 'Size';
+    return this.i18n('size');
   }
 }

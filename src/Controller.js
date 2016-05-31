@@ -15,12 +15,13 @@ export default class Controller extends EventEmitter {
     return false;
   }
 
-  static create(el) {
-    return new this(el);
+  static create(...params) {
+    return new this(...params);
   }
 
-  constructor(el) {
+  constructor(el, { i18n }) {
     super();
+    this.i18n = i18n;
     this.el = el;
     this.component = this.createComponent(this.normalize(this.get()));
     this.component.on('change', newValue => {

@@ -3,8 +3,8 @@ import TBLRComponent from '../components/TBLRComponent';
 
 
 export default class PaddingController extends BaseTBLRController {
-  constructor(el) {
-    super(el);
+  constructor(...params) {
+    super(...params);
     this.stylesPrefix = 'padding';
   }
 

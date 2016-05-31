@@ -1,8 +1,18 @@
-import {createDocumentFragment} from './utils';
+import { createDocumentFragment } from './utils';
 
 
 export default class Toolbox {
-  constructor(el, {controllers, root}) {
+  /**
+   * Toolbox constructor
+   * @param {Element} el current edited DOM node
+   * @param {Object} options
+   * @param {Array} optionsi.controllers list of controllers to use
+   * @param {Element} options.root element to render toobox in
+   * @param {Function} options.i18n translation function, return localized string by key
+   * @returns {undefined}
+   */
+  constructor(el, { controllers, root, i18n }) {
+    this.i18n = i18n;
     this.root = root;
     this.controllers = this.getControllers(el, controllers);
     this.render();
@@ -11,11 +21,11 @@ export default class Toolbox {
   getControllers(el, controllers) {
     return controllers
       .filter(Controller => Controller.test(el))
-      .map(Controller => Controller.create(el));
+      .map(Controller => Controller.create(el, { i18n: this.i18n }));
   }
 
   render() {
-    const panel = createDocumentFragment(`<section class="EditroPanel"></section>`);
+    const panel = createDocumentFragment('<section class="EditroPanel"></section>');
 
     // Render groups
     this.getControllerGroups(this.controllers).forEach(controllers => {

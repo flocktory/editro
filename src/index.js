@@ -18,6 +18,12 @@ const initHtml = `
   </html>
 `;
 
+const espanolI18n = (k) => ({
+  key2: 'Es Translatamos key',
+  key3: 'Translations ctrl',
+  size: 'El sizoo'
+})[k];
+
 const customController = {
   test: (el) => el.tagName.toLowerCase() === 'img',
   create: (el) => {
@@ -65,9 +71,28 @@ const makeFlCloseControlle = {
   }
 };
 
+const i18nTestCtrl = {
+  test: () => true,
+  create: (el, { i18n }) => {
+    const node = window.document.createElement('div');
+    node.innerHTML = `
+      No translate: ${i18n('key1')}
+      <br/>
+      With translate: ${i18n('key2')}
+    `;
+    node.style.fontSize = '12px';
+    return {
+      node,
+      title: i18n('key3'),
+      destroy() {}
+    };
+  }
+};
+
 const options = {
   keyMap: process.env.KEY_MAP || 'default',
-  controllers: [customController, makeFlCloseControlle]
+  controllers: [customController, makeFlCloseControlle, i18nTestCtrl],
+  i18n: espanolI18n
 };
 
 
@@ -85,8 +110,10 @@ const init = () => {
 };
 
 init();
-
 if (module.hot) {
+  module.hot.accept(() => {
+    init();
+  });
   module.hot.accept('./Editro', () => {
     init();
   });
