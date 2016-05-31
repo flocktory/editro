@@ -5,7 +5,8 @@ const translations = {
 };
 
 export default function i18n(redefine) {
+  const translate = (k) => translations[k] || k;
   return redefine ?
-    (k) => redefine(k) || translations[k] :
-    (k) => translations[k];
+    (k) => redefine(k) || translate(k) :
+    translate;
 }
