@@ -268,5 +268,57 @@
   &--upload {
     background: url(../images/upload.svg) 50% 50% / cover no-repeat;
   }
+  &--bgsn,
+  &--bgscov,
+  &--bgscon,
+  &--bgptl,
+  &--bgptr,
+  &--bgpbl,
+  &--bgpbr,
+  &--bgpc {
+    box-shadow: inset 0 0 4px #888;
+  }
+  &--bgsn {
+    background: url(../images/liza.jpg) 50% 50% / 8px no-repeat;
+  }
+  &--bgscov {
+    background: url(../images/liza.jpg) 50% 50% / cover no-repeat;
+  }
+  &--bgscon {
+    background: url(../images/liza.jpg) 50% 50% / contain no-repeat;
+  }
+  &--bgptl {
+    background: url(../images/liza.jpg) 0 0 / 8px no-repeat;
+  }
+  &--bgptr {
+    background: url(../images/liza.jpg) 100% 0 / 8px no-repeat;
+  }
+  &--bgpbl {
+    background: url(../images/liza.jpg) 0 100% / 8px no-repeat;
+  }
+  &--bgpbr {
+    background: url(../images/liza.jpg) 100% 100% / 8px no-repeat;
+  }
+  &--bgpc {
+    background: url(../images/liza.jpg) 50% 50% / 8px no-repeat;
+  }
+  &--gradr,
+  &--gradbr,
+  &--gradb,
+  &--gradbl {
+    box-shadow: inset 0 0 3px #888;
+  }
+  &--gradr {
+    background: linear-gradient(to right, transparent 20%, rgba(black, 0.6) 100%);
+  }
+  &--gradbr {
+    background: linear-gradient(to bottom right, transparent 20%, rgba(black, 0.6) 100%);
+  }
+  &--gradb {
+    background: linear-gradient(to bottom, transparent 20%, rgba(black, 0.6) 100%);
+  }
+  &--gradbl {
+    background: linear-gradient(to bottom left, transparent 20%, rgba(black, 0.6) 100%);
+  }
 }
 
