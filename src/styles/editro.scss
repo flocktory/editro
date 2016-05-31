@@ -239,17 +239,16 @@ $control-border-radius: 2px;
 // Edit text content
 
 .EditroTextContent {
+  position: relative;
   padding: 5px 8px;
   border: $control-border;
   border-radius: $control-border-radius;
   background: $control-background;
   font-size: 12px;
   outline: none;
+  line-height: 1.4;
 
   &-preview {
-    position: relative;
-    font-size: 12px;
-    line-height: 1.4;
     color: #ccc;
 
     &:before {
@@ -259,6 +258,19 @@ $control-border-radius: 2px;
       right: -2px;
       color: #999;
       line-height: 1;
+    }
+  }
+  &-item {
+    display: inline-block;
+    padding: 1px 2px;
+
+    &[contenteditable] {
+      &:hover {
+        outline: 1px dotted #bbb;
+      }
+      &:focus {
+        outline: 1px dotted;
+      }
     }
   }
 }

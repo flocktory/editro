@@ -1,4 +1,5 @@
 import Component from '../Component';
+import {toArray} from '../utils';
 
 
 export default class WidthHeightComponent extends Component {
@@ -19,7 +20,7 @@ export default class WidthHeightComponent extends Component {
   }
 
   watch() {
-    Array.prototype.slice.call(this.el.querySelectorAll('input')).forEach(
+    toArray(this.el.querySelectorAll('input')).forEach(
       input => input.addEventListener('keyup',
         () => {
           this.value[input.getAttribute('target-name')] = input.value;

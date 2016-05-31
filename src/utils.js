@@ -3,6 +3,11 @@
  */
 
 
+export function toArray(pseudoArray) {
+  return Array.prototype.slice.call(pseudoArray);
+}
+
+
 export function createDocumentFragment(html) {
   try {
     return document.createRange().createContextualFragment(html);
@@ -11,7 +16,7 @@ export function createDocumentFragment(html) {
     div.innerHTML = html;
 
     const fragment = document.createDocumentFragment();
-    Array.prototype.slice.call(div.children).forEach(child => fragment.appendChild(child));
+    toArray(div.children).forEach(child => fragment.appendChild(child));
 
     return fragment;
   }

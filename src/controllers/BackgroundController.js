@@ -1,7 +1,6 @@
 import Controller from '../Controller';
 import BackgroundComponent from '../components/BackgroundComponent';
 import {inputTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags} from './tags';
-import {num, px} from '../utils';
 
 
 export default class BackgroundController extends Controller {

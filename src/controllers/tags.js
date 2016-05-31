@@ -10,7 +10,7 @@ export const listTags = ['ul', 'li', 'ol'];
 export const definitionTags = ['dt', 'dd', 'dl'];
 
 
-export const blockTags = ['body', 'section', 'article', 'aside', 'center', 'header', 'footer', 'nav', 'figure', 'figcaption'];
+export const blockTags = ['body', 'section', 'article', 'aside', 'center', 'header', 'footer', 'nav', 'figure', 'figcaption', 'div'];
 
 
 export const headersTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
