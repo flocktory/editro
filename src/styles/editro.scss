@@ -1,0 +1,321 @@
+$panel-width: 400px;
+$transparent: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==';
+$control-background: linear-gradient(to bottom, #f8f8f8 0%, #f0f0f0 100%);
+$control-border: 1px solid #ccc;
+$control-border-radius: 2px;
+
+
+// Layout
+
+.Editro {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Helvetica, Arial, sans-serif;
+
+  &,
+  & *,
+  & *:before,
+  & *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  &-previewWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: $panel-width;
+    height: 100%;
+    background: url($transparent);
+  }
+  &-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: none;
+  }
+  &-nav {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 0;
+
+    .EditroButton + .EditroButton {
+      margin-left: -1px;
+    }
+  }
+  &-reset {
+    display: none;
+  }
+  &-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: $panel-width;
+    height: 100%;
+    background: white;
+  }
+  &-code {}
+}
+
+
+// Just button
+
+.EditroButton {
+  background: $control-background;
+  border: $control-border;
+  cursor: pointer;
+  outline: none;
+
+  &-wrapper {
+    display: block;
+    padding: 3px 7px;
+    background: transparent;
+    transition: background 0.3s;
+  }
+  &:active &-wrapper {
+    background: #e2e2e2;
+  }
+
+  &[disabled] .EditroIcon {
+    opacity: 0.2;
+  }
+}
+
+
+// Placeholder for panel
+
+.EditroPanelPlaceholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background: #fafafa;
+  align-items: center;
+
+  &-text {
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    line-height: 2;
+    font-weight: 100;
+    color: #ccc;
+  }
+}
+
+
+// Panel (Toolbox)
+
+.EditroPanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background: white;
+  font-size: 0;
+
+  &-section {
+    padding: 20px;
+
+    & + & {
+      border-top: 1px solid #ddd;
+    }
+  }
+}
+
+
+// Form
+
+.EditroControl {}
+.EditroForm {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  margin-bottom: 30px;
+  padding-right: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &--half {
+    width: 50%;
+  }
+  &--controls-separated {
+    .EditroControl + .EditroControl {
+      margin-top: 10px;
+    }
+  }
+
+  &-title {
+    margin-bottom: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #bbb;
+  }
+  &-controls {
+    & + & {
+      margin-top: 10px;
+    }
+    &--inline {
+      & + & {
+        margin-top: 5px;
+      }
+      & > * {
+        margin: 0 10px 10px 0;
+      }
+    }
+  }
+}
+
+
+// Action
+
+.EditroAction {
+  display: inline-block;
+  vertical-align: top;
+  height: 34px;
+  border: $control-border;
+  border-radius: $control-border-radius;
+  background: $control-background;
+  outline: none;
+  font-size: 0;
+
+  &-text {
+    display: inline-block;
+    padding: 0 20px;
+    text-align: left;
+    line-height: 34px;
+    font-size: 14px;
+  }
+  &-choice {
+    vertical-align: top;
+    height: 32px;
+    padding: 0 7px;
+    background: none;
+    border: none;
+    border-left: $control-border;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      background: rgba(black, 0.1);
+    }
+  }
+
+  &-delete {
+    width: auto;
+    margin-right: 0;
+    float: right;
+    border-color: #a0252b;
+    background: linear-gradient(to bottom, #e4353e 0%, #d9333b 100%);
+    color: white;
+    cursor: pointer;
+  }
+}
+
+
+// Edit text content
+
+.EditroTextContent {
+  padding: 5px 8px;
+  border: $control-border;
+  border-radius: $control-border-radius;
+  background: $control-background;
+  font-size: 12px;
+  outline: none;
+
+  &-preview {
+    position: relative;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #ccc;
+
+    &:before {
+      content: 'Click to edit';
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      color: #999;
+      line-height: 1;
+    }
+  }
+}
+
+
+// HTML source editor
+
+$code-offset: 7px;
+
+.EditroCode {
+  position: absolute;
+  top: $code-offset;
+  bottom: $code-offset;
+  left: $code-offset;
+  right: $code-offset;
+  display: none;
+  background: white;
+  box-shadow: 0 0 7px rgba(black, 0.2);
+
+  &[is-opened] {
+    display: block;
+  }
+  &[is-half] {
+    left: 50%;
+  }
+
+  &-codeMirror {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+
+    .CodeMirror {
+      height: 100%;
+    }
+  }
+  &-actions {
+    position: absolute;
+    z-index: 2;
+    top: -1px;
+    right: -1px;
+    font-size: 0;
+  }
+  &[is-fullScreen] &-actions {
+    position: fixed;
+  }
+  &-close {}
+  &-resize {}
+  &[is-fullScreen] &-resize {
+    display: none;
+  }
+  &-fullScreen {}
+  &[is-fullScreen] &-fullScreen .EditroIcon--fullScreen {
+    display: none;
+  }
+  &-fullScreen .EditroIcon--fullScreenOut {
+    display: none;
+  }
+  &[is-fullScreen] &-fullScreen .EditroIcon--fullScreenOut {
+    display: inline-block;
+  }
+}
+
+
+
+@import "controls";
+@import "icons";
