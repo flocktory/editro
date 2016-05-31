@@ -5,11 +5,15 @@ export default class WidthHeightComponent extends Component {
   template() {
     return `<div class="EditroSize">
               <div class="EditroSize-input">
-                <input type="number" class="EditroInput" placeholder="auto" value="${this.value.width}" target-name="width" />
+                <div class="EditroInputWrapper" unit="px">
+                  <input type="number" class="EditroInput" placeholder="auto" value="${this.value.width}" target-name="width" />
+                </div>
               </div>
               <div class="EditroSize-separator">&times;</div>
               <div class="EditroSize-input">
-                <input type="number" class="EditroInput" placeholder="auto" value="${this.value.height}" target-name="height" />
+                <div class="EditroInputWrapper" unit="px">
+                  <input type="number" class="EditroInput" placeholder="auto" value="${this.value.height}" target-name="height" />
+                </div>
               </div>
             </div>`;
   }

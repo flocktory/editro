@@ -646,21 +646,10 @@ $control-border-radius: 2px;
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    width: 60px;
-    padding-right: 10px;
+    width: 80px;
 
     .EditroInput {
       width: 100%;
-    }
-
-    &:after {
-      content: 'px';
-      position: absolute;
-      top: 0;
-      right: 2px;
-      line-height: 27px;
-      font-size: 11px;
-      color: #999;
     }
   }
   &-separator {

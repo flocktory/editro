@@ -77,8 +77,6 @@ function colorToPair(color) {
 function pairToColor({color, opacity}) {
   const {components} = parseLongColor(color);
 
-  console.log("{color, opacity, result: `rgba(${components[0]}, ${components[1]}, ${components[2]}, ${opacity / 100})`}", JSON.stringify({color, opacity, result: `rgba(${components[0]}, ${components[1]}, ${components[2]}, ${opacity / 100})`}, true, 2));
-
   return `rgba(${components[0]}, ${components[1]}, ${components[2]}, ${opacity / 100})`;
 }
 
