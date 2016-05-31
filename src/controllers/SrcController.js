@@ -16,7 +16,7 @@ export default class SrcController extends Controller {
   }
 
   set(value) {
-    return this.el.setAttribute('src', value);
+    this.el.setAttribute('src', value);
   }
 
   get group() {

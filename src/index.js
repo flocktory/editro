@@ -14,6 +14,7 @@ const initHtml = `
         <img alt="bat" height="220" src="https://assets.flocktory.com/uploads/clients/1791/55e5a0ef-9ea7-45cb-bf81-7683bc44d87c_readImage.jpg"/>
         <img alt="sup" height="220" src="http://3.bp.blogspot.com/-WGTtRLTo_0I/VXAKQ6GTNFI/AAAAAAAAAgk/HWAKeDLV3X8/s1600/b_a92203e1.png" alt="" style="float: right;">
         <div style="margin: 10px;padding: 30px 10px;background: #ccc;">
+        <a href="http://flocktory.com">Flocktory</a>
         </div>
       </div>
     </body>

@@ -49,7 +49,8 @@ export default class FontComponent extends BaseCompositeComponent {
         component: () => new InputComponent(this.value.fontSize, {
           type: 'number',
           unit: 'px',
-          icon: 'fz'
+          icon: 'fz',
+          size: 'small'
         }),
         onChange: fontSize => this.value.fontSize = fontSize
       },
@@ -57,7 +58,8 @@ export default class FontComponent extends BaseCompositeComponent {
         component: () => new InputComponent(this.value.lineHeight, {
           type: 'number',
           icon: 'lh',
-          unit: 'px'
+          unit: 'px',
+          size: 'small'
         }),
         onChange: lineHeight => this.value.lineHeight = lineHeight
       },

@@ -167,14 +167,6 @@
     font-size: 12px;
     color: #999;
   }
-}
-.EditroInput {
-  height: 25px;
-  padding: 0 5px;
-  font-size: 12px;
-  outline: none;
-  background: none;
-  border: none;
 
   &--small {
     width: 60px;
@@ -185,6 +177,14 @@
   &--full {
     width: 100%;
   }
+}
+.EditroInput {
+  height: 25px;
+  padding: 0 5px;
+  font-size: 12px;
+  outline: none;
+  background: none;
+  border: none;
 }
 
 
