@@ -121,6 +121,8 @@ export default class BorderComponent extends Component {
       this.on('change-collapsed', () => components.forEach((component, i) => component.set(this.value.borders[index][i])));
     });
 
+    // TODO rewrite
+
     const collapsedRoot = this.el.querySelector(`[collapsed]`);
     this.el.querySelector(`[expand-border]`).addEventListener('click', () => {
       isBordersEqual = false;

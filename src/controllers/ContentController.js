@@ -20,7 +20,10 @@ export default class ContentController extends Controller {
       ...inlineTags
     );
 
-    return tags.indexOf(el.tagName.toLowerCase()) !== -1;
+    const tagMatch = () => tags.indexOf(el.tagName.toLowerCase()) !== -1;
+    const textNodesExists = () => toArray(el.childNodes).filter(node => node.nodeType === 3 && node.textContent.trim().length).length;
+
+    return tagMatch() && textNodesExists();
   }
 
   createComponent(value) {
