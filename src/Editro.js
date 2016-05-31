@@ -11,6 +11,7 @@ import i18n from './i18n';
 
 const EDITED_ATTR = 'current-edited-element';
 
+const stopPropagation = (e) => e.stopPropagation();
 
 // Editor itself, get node, start html (optional), options
 export default function Editro(root, html = defaultHtml, options = {}) {
@@ -19,9 +20,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     root.style.position = 'relative';
   }
   root.innerHTML = editorHtml;
-  click(root, (ev) => {
-    ev.stopPropagation();
-  });
+  click(root, stopPropagation);
 
   const i18nFunction = i18n(options.i18n);
   const $el = elementSearch(root, 'Editro');
@@ -89,6 +88,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
       handlers[name].push(h);
     },
     destroy() {
+      root.removeEventListener(stopPropagation);
       const e = root.querySelector('.Editro');
       root.removeChild(e);
       history.destroy();

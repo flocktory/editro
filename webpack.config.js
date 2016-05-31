@@ -13,7 +13,7 @@ const entry = isProd ?
   ];
 
 const output = {
-  path: path.join(__dirname, 'dist'),
+  path: path.join(__dirname, isProd ? 'lib' : 'dist'),
   filename: 'bundle.js',
   publicPath: '/static/'
 };
