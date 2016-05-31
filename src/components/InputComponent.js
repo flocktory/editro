@@ -7,7 +7,7 @@ import Component from '../Component';
 export default class InputComponent extends Component {
   template() {
     return `${this.config.icon ? `<span class="EditroIcon EditroIcon--${this.config.icon}"></span>` : ``}
-            <span class="EditroInputWrapper EditroInputWrapper--${this.config.size}"
+            <span class="EditroInputWrapper EditroInputWrapper--${this.config.size} EditroControl"
                   ${this.config.unit ? `unit="${this.config.unit}"` : ``}>
               <input type="${this.config.type || 'text'}" 
                      class="EditroInput" 
@@ -16,7 +16,7 @@ export default class InputComponent extends Component {
   }
 
   watch() {
-    this.el.querySelector('input').addEventListener('keyup', e => {
+    this.el.querySelector('input').addEventListener('change', e => {
       this.emit('change', e.target.value);
     });
   }

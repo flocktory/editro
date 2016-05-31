@@ -6,13 +6,17 @@ import SizeController from './controllers/SizeController';
 import SrcController from './controllers/SrcController';
 import BackgroundController from './controllers/BackgroundController';
 import ContentController from './controllers/ContentController';
+import BorderController from './controllers/BorderController';
+import HrefController from './controllers/HrefController';
 
 
 export const controllers = [
   ContentController,
   SrcController,
+  HrefController,
   FontController,
   BackgroundController,
+  BorderController,
   SizeController,
   MarginController,
   PaddingController,

@@ -149,6 +149,9 @@ $control-border-radius: 2px;
     margin-bottom: 0;
   }
 
+  &--inline {
+    margin-bottom: 20px;
+  }
   &--half {
     width: 50%;
   }
@@ -187,6 +190,17 @@ $control-border-radius: 2px;
   margin: 0 !important;
 
   & + & {}
+
+  &-inlineItem {
+    & + & {
+      margin-top: 10px;
+    }
+
+    .EditroControl {
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+  }
 }
 
 
@@ -337,6 +351,19 @@ $code-offset: 7px;
   }
 }
 
+
+// Toggler
+
+.EditroToggler {
+  &[collapsed=false] &-less,
+  &-less[collapsed=false] {
+    display: none;
+  }
+  &[collapsed=true] &-more,
+  &-more[collapsed=true] {
+    display: none;
+  }
+}
 
 
 @import "controls";

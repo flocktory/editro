@@ -167,6 +167,7 @@
   &--solid,
   &--dashed,
   &--dotted {
+    width: 20px;
     height: 8px;
     margin-top: 7px;
     border-top: 2px #999;
@@ -238,6 +239,18 @@
     }
     &:after {
       height: 20px;
+    }
+  }
+  &--expand {
+    &:before {
+      content: '↧';
+      font-size: 18px;
+    }
+  }
+  &--collapse {
+    &:before {
+      content: '↥';
+      font-size: 18px;
     }
   }
   &--resize {
