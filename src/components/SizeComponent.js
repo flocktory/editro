@@ -1,5 +1,5 @@
 import BaseCompositeComponent from './BaseCompositeComponent';
-import IconRadioGroupComponent from './IconRadioGroupComponent';
+import SelectComponent from './SelectComponent';
 import WidthHeightComponent from './WidthHeightComponent';
 
 
@@ -7,30 +7,21 @@ export default class PositionComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new IconRadioGroupComponent(this.value.float, {
-          position: 'right',
-          items: [
-            {
-              value: 'none',
-              icon: 'fln'
-            },
-            {
-              value: 'left',
-              icon: 'fll'
-            },
-            {
-              value: 'right',
-              icon: 'flr'
-            }
-          ]
+        component: () => new WidthHeightComponent(this.value, {
+          label: this.config.i18n('Dimensions')
         }),
-        onChange: float => this.value.float = float
-      },
-      {
-        component: () => new WidthHeightComponent(this.value),
         onChange: value => {
           this.value.width = value.width;
           this.value.height = value.height;
+        }
+      },
+      {
+        component: () => new SelectComponent(this.value.float, {
+          choices: ['none', 'left', 'right'].map(item => [item, this.config.i18n(item)]),
+          label: this.config.i18n('Floating')
+        }),
+        onChange: float => {
+          this.value.float = float;
         }
       }
     ];

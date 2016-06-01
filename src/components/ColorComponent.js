@@ -14,7 +14,7 @@ function parseShortColor(color) {
       return v * 16 + v;
     }),
     opacity: 1
-  }
+  };
 }
 
 
@@ -27,7 +27,7 @@ function parseLongColor(color) {
   return {
     components: [0, 1, 2].map(i => parseInt(match[i + 1], 16)),
     opacity: 1
-  }
+  };
 }
 
 
@@ -40,7 +40,7 @@ function parseRgbColor(color) {
   return {
     components: [0, 1, 2].map(i => parseInt(match[i + 1], 10)),
     opacity: 1
-  }
+  };
 }
 
 
@@ -53,7 +53,7 @@ function parseRgbaColor(color) {
   return {
     components: [0, 1, 2].map(i => parseInt(match[i + 1], 10)),
     opacity: parseFloat(match[4])
-  }
+  };
 }
 
 
@@ -67,15 +67,21 @@ function colorToPair(color) {
     opacity = parseInt(match.opacity * 100, 10);
   }
 
+  const formatHex = num => {
+    const hex = num.toString(16);
+
+    return hex.length === 1 ? `0${hex}` : hex;
+  };
+
   return {
-    color: `#${components[0].toString(16)}${components[1].toString(16)}${components[2].toString(16)}`,
+    color: `#${formatHex(components[0])}${formatHex(components[1])}${formatHex(components[2])}`,
     opacity
   };
 }
 
 
-function pairToColor({color, opacity}) {
-  const {components} = parseLongColor(color);
+function pairToColor({ color, opacity }) {
+  const { components } = parseLongColor(color);
 
   return `rgba(${components[0]}, ${components[1]}, ${components[2]}, ${opacity / 100})`;
 }
@@ -83,14 +89,26 @@ function pairToColor({color, opacity}) {
 
 export default class ColorComponent extends Component {
   template() {
-    const {color, opacity} = colorToPair(this.value);
+    const { color, opacity } = colorToPair(this.value);
 
-    return `<div class="EditroColor EditroColor--separate EditroControl">
-              <div class="EditroColor-colorWrapper">
-                <input class="EditroColor-color" type="color" value="${color}" style="opacity: ${opacity / 100}" />
+    return `<div class="EditroField">
+              <div class="EditroField-label">
+                <div class="EditroField-labelWrapper">
+                  ${this.config.label}
+                </div>
               </div>
-              <div class="EditroColor-panel">
-                <input class="EditroColor-opacity EditroRange" type="range" value="${opacity}" min="0" max="100">
+              <div class="EditroField-control EditroField-control--inline">
+                <div class="EditroColor EditroControl">
+                  <div class="EditroColor-colorWrapper">
+                    <input class="EditroColor-color" type="color" value="${color}" style="opacity: ${opacity / 100}" />
+                  </div>
+                  <div class="EditroColor-panel">
+                    <input class="EditroColor-opacity EditroRange" type="range" value="${opacity}" min="0" max="100">
+                  </div>
+                </div>
+                <div class="EditroInputWrapper EditroInputWrapper--full EditroControl">
+                  <input type="text" class="EditroInput" value="${color}" />
+                </div>
               </div>
             </div>`;
   }
@@ -98,6 +116,7 @@ export default class ColorComponent extends Component {
   watch() {
     const color = this.el.querySelector('input[type=color]');
     const opacity = this.el.querySelector('input[type=range]');
+    const text = this.el.querySelector('input[type=text]');
 
     const collectColor = () => {
       const value = pairToColor({
@@ -106,10 +125,20 @@ export default class ColorComponent extends Component {
       });
 
       color.style.opacity = opacity.value / 100;
+      text.value = value;
       this.emit('change', value);
     };
 
     this.addListener(color, 'change', collectColor);
     this.addListener(opacity, 'change', collectColor);
+    this.addListener(text, 'keyup', () => {
+      const newValues = colorToPair(text.value);
+
+      color.value = newValues.color;
+      opacity.opacity = newValues.opacity;
+
+      color.style.opacity = opacity.value / 100;
+      this.emit('change', pairToColor(newValues));
+    });
   }
 }

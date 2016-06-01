@@ -1,9 +1,21 @@
 import Controller from '../Controller';
-import {inputTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags} from './tags';
-import {num, px} from '../utils';
+import {
+  inputTags,
+  listTags,
+  definitionTags,
+  blockTags,
+  headersTags,
+  contentTags,
+  formTags,
+  embeddedTags
+} from './tags';
+import {
+  num,
+  px
+} from '../utils';
 
 
-const direction = ['top', 'bottom', 'left', 'right'];
+const directions = ['top', 'bottom', 'left', 'right'];
 
 
 function getStyleName(prefix, direction) {
@@ -22,7 +34,8 @@ export default class BaseTBLRController extends Controller {
       ...blockTags,
       ...headersTags,
       ...contentTags,
-      ...formTags
+      ...formTags,
+      ...embeddedTags
     );
 
     return tags.indexOf(el.tagName.toLowerCase()) !== -1;
@@ -32,24 +45,26 @@ export default class BaseTBLRController extends Controller {
     const computedStyle = window.getComputedStyle(this.el);
     const value = {};
 
-    direction.forEach(direction => value[direction] = computedStyle[getStyleName(this.stylesPrefix, direction)]);
+    directions.forEach(direction => {
+      value[direction] = computedStyle[getStyleName(this.stylesPrefix, direction)];
+    });
 
     return value;
   }
 
   set(value) {
-    direction.forEach(direction => this.el.style[getStyleName(this.stylesPrefix, direction)] = px(value[direction]));
+    directions.forEach(direction => {
+      this.el.style[getStyleName(this.stylesPrefix, direction)] = px(value[direction]);
+    });
   }
 
   normalize(value) {
     const result = Object.assign({}, value);
 
-    direction.forEach(direction => result[direction] = num(result[direction]));
+    directions.forEach(direction => {
+      result[direction] = num(result[direction]);
+    });
 
     return result;
-  }
-
-  get modificators() {
-    return ['half'];
   }
 }

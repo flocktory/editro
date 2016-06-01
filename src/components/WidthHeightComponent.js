@@ -4,16 +4,27 @@ import {toArray} from '../utils';
 
 export default class WidthHeightComponent extends Component {
   template() {
-    return `<div class="EditroSize">
-              <div class="EditroSize-input">
-                <div class="EditroInputWrapper" unit="px">
-                  <input type="number" class="EditroInput" placeholder="auto" value="${this.value.width}" target-name="width" />
+    return `<div class="EditroField">
+              <div class="EditroField-label">
+                <div class="EditroField-labelWrapper">
+                  ${this.config.label}
                 </div>
               </div>
-              <div class="EditroSize-separator">&times;</div>
-              <div class="EditroSize-input">
-                <div class="EditroInputWrapper" unit="px">
-                  <input type="number" class="EditroInput" placeholder="auto" value="${this.value.height}" target-name="height" />
+              <div class="EditroField-control">
+                <div class="EditroSize EditroControl">
+                  <div class="EditroSize-input">
+                    <div class="EditroInputWrapper" unit="px">
+                      <input type="number" class="EditroInput" placeholder="auto" 
+                             value="${this.value.width}" target-name="width" />
+                    </div>
+                  </div>
+                  <div class="EditroSize-separator">&times;</div>
+                  <div class="EditroSize-input">
+                    <div class="EditroInputWrapper" unit="px">
+                      <input type="number" class="EditroInput" placeholder="auto" 
+                             value="${this.value.height}" target-name="height" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>`;

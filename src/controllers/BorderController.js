@@ -22,33 +22,43 @@ export default class BorderController extends Controller {
   }
 
   createComponent(value) {
-    return new BorderComponent(value);
+    return new BorderComponent(value, {
+      i18n: this.i18n
+    });
   }
 
   get() {
-    const borders = [];
     const computedStyle = window.getComputedStyle(this.el);
-
-    ['Top', 'Right', 'Bottom', 'Left'].forEach(position =>
-      borders.push(['Width', 'Style', 'Color'].map((prop, i) =>
-        i ? computedStyle[`border${position}${prop}`] : num(computedStyle[`border${position}${prop}`]))));
-
-    const radius = ['TopRight', 'BottomRight', 'BottomLeft', 'TopLeft'].map(position =>
-      num(computedStyle[`border${position}Radius`]));
+    const components = ['Top', 'Right', 'Bottom', 'Left'].map(position =>
+      ['Width', 'Color'].map((prop, i) =>
+        i ? computedStyle[`border${position}${prop}`] : num(computedStyle[`border${position}${prop}`])));
+    const showComponents = components.reduce(
+      (condition, rad, i) => condition ||
+        (i ? components[i][0] !== components[i - 1][0] || components[i][1] !== components[i - 1][1] : false),
+      false
+    );
 
     return {
-      borders,
-      radius
+      oneValue: components[0].slice(),
+      showComponents,
+      components
     };
   }
 
   set(value) {
-    ['Top', 'Right', 'Bottom', 'Left'].forEach((position, i) =>
-      ['Width', 'Style', 'Color'].map((prop, j) =>
-        this.el.style[`border${position}${prop}`] = j ? value.borders[i][j] : px(value.borders[i][j])));
-
-    ['TopRight', 'BottomRight', 'BottomLeft', 'TopLeft'].map((position, i) =>
-      this.el.style[`border${position}Radius`] = px(value.radius[i]));
+    if (value.showComponents) {
+      ['Top', 'Right', 'Bottom', 'Left'].forEach((position, i) =>
+        ['Width', 'Color'].forEach((prop, j) => {
+          this.el.style[`border${position}${prop}`] = {
+            0: px(value.components[i][j]),
+            1: value.components[i][j]
+          }[j];
+        }));
+    } else {
+      this.el.style.borderWidth = px(value.oneValue[0]);
+      this.el.style.borderColor = value.oneValue[1];
+    }
+    this.el.style.borderStyle = 'solid';
   }
 
   get title() {

@@ -21,7 +21,9 @@ export default class BackgroundController extends Controller {
   }
 
   createComponent(value) {
-    return new BackgroundComponent(value);
+    return new BackgroundComponent(value, {
+      i18n: this.i18n
+    });
   }
 
   get() {

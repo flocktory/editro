@@ -5,7 +5,7 @@ export default class BaseCompositeComponent extends Component {
   render() {
     this.el = document.createDocumentFragment();
 
-    this.components = this.getSubComponentsFactories().map(({component, onChange}) => {
+    this.components = this.getSubComponentsFactories().map(({ component, onChange }) => {
       const componentInstance = component();
 
       componentInstance.on('change', data => {

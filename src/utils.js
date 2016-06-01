@@ -67,3 +67,10 @@ export function num(valueStr, defaultValue=null) {
 export function px(value, defaultValue='auto') {
   return value || value === 0  ? value + 'px' : defaultValue;
 }
+
+
+export function emitDomEvent(elements, eventName) {
+  const eventInstance = document.createEvent('Event');
+  eventInstance.initEvent(eventName, true, true);
+  toArray(elements).forEach(element => element.dispatchEvent(eventInstance));
+}

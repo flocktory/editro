@@ -1,145 +1,95 @@
-import Component from '../Component';
+import BaseCompositeComponent from './BaseCompositeComponent';
 import InputComponent from './InputComponent';
-import IconRadioGroupComponent from './IconRadioGroupComponent';
 import ColorComponent from './ColorComponent';
-import {createDocumentFragment} from '../utils';
+import TogglerComponent from './TogglerComponent';
+import { createDocumentFragment, emitDomEvent } from '../utils';
 
 
-export default class BorderComponent extends Component {
-  isBordersEqual() {
-    for (let i = 1; i < this.value.borders.length; i++) {
-      for (let j = 0; j < this.value.borders[i].length; j++) {
-        if (this.value.borders[i][j] !== this.value.borders[i - 1][j]) {
-          return false;
+export default class BorderComponent extends BaseCompositeComponent {
+  getSubComponentsFactories() {
+    const subComponents = [
+      {
+        component: () => new InputComponent(this.value.oneValue[0], {
+          type: 'number',
+          unit: 'px',
+          label: this.config.i18n('Border width'),
+          class: 'EditroToggler-less'
+        }),
+        onChange: value => {
+          this.value.oneValue[0] = value;
+        }
+      },
+      {
+        component: () => new ColorComponent(this.value.oneValue[1], {
+          label: this.config.i18n('Border color'),
+          class: 'EditroToggler-less'
+        }),
+        onChange: value => {
+          this.value.oneValue[1] = value;
         }
       }
-    }
+    ];
 
-    return true;
-  }
+    ['Top', 'Right', 'Bottom', 'Left'].forEach((side, i) => {
+      subComponents.push({
+        component: () => new InputComponent(this.value.components[i][0], {
+          type: 'number',
+          unit: 'px',
+          label: this.config.i18n(`${side} border width`),
+          class: 'EditroToggler-more'
+        }),
+        onChange: value => {
+          this.value.components[i][0] = value;
+        }
+      });
+      subComponents.push({
+        component: () => new ColorComponent(this.value.components[i][1], {
+          label: this.config.i18n(`${side} border color`),
+          class: 'EditroToggler-more'
+        }),
+        onChange: value => {
+          this.value.components[i][1] = value;
+        }
+      });
+    });
 
-  collapseBorders() {
-    for (let i = 1; i < this.value.borders.length; i++) {
-      for (let j = 0; j < this.value.borders[i].length; j++) {
-        this.value.borders[i][j] = this.value.borders[i - 1][j];
+    subComponents.push({
+      component: () => new TogglerComponent(this.value.showComponents, {
+        label: this.config.i18n('expand')
+      }),
+      onChange: value => {
+        this.value.showComponents = value;
+        this.toggle();
       }
-    }
+    });
 
-    this.emit('change', this.value);
-  }
-
-  isRadiusEqual() {
-    for (let i = 1; i < this.value.radius.length; i++) {
-      if (this.value.radius[i] !== this.value.radius[i - 1]) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  collapseRadius() {
-    for (let i = 1; i < this.value.radius.length; i++) {
-      this.value.radius[i] = this.value.radius[i - 1];
-    }
-
-    this.emit('change', this.value);
+    return subComponents;
   }
 
   render() {
-    let isBordersEqual = this.isBordersEqual();
+    super.render();
 
-    this.el = createDocumentFragment(`<div class="EditroSubForm EditroToggler EditroToggler-less" collapsed="${isBordersEqual}">
-                                        <div class="EditroSubForm-inlineItem">
-                                          <div class="EditroIcon EditroIcon--bd"></div>
-                                          <span border-full></span>
-                                          <div class="EditroIcon EditroIcon--expand" expand-border style="display: none"></div>
-                                        </div>
-                                        <div class="EditroSubForm-inlineItem EditroToggler-more">
-                                          <div class="EditroIcon EditroIcon--bdt"></div>
-                                          <span border-t></span>
-                                        </div>
-                                        <div class="EditroSubForm-inlineItem EditroToggler-more">
-                                          <div class="EditroIcon EditroIcon--bdr"></div>
-                                          <span border-r></span>
-                                        </div>
-                                        <div class="EditroSubForm-inlineItem EditroToggler-more">
-                                          <div class="EditroIcon EditroIcon--bdb"></div>
-                                          <span border-b></span>
-                                        </div>
-                                        <div class="EditroSubForm-inlineItem EditroToggler-more">
-                                          <div class="EditroIcon EditroIcon--bdl"></div>
-                                          <span border-l></span>
-                                          <div class="EditroIcon EditroIcon--collapse" collapse-border></div>
-                                        </div>
-                                      </div>
-                                      <div class="EditroSubForm">
-                                      
-                                      </div>`);
+    const newEl = createDocumentFragment('<div class="EditroToggler EditroToggler--full"></div>');
+    this.toggler = newEl.firstChild;
+    this.toggler.appendChild(this.el);
+    this.el = newEl;
 
-    [
-      ['border-full', 0],
-      ['border-t', 0],
-      ['border-r', 1],
-      ['border-b', 2],
-      ['border-l', 3]
-    ].forEach(([selector, index]) => {
-      const container = this.el.querySelector(`[${selector}]`);
-      const components = [
-        new InputComponent(this.value.borders[index][0], {
-          type: 'number',
-          unit: 'px',
-          size: 'small'
-        }),
-        new IconRadioGroupComponent(this.value.borders[index][1], {
-          items: [
-            {
-              value: 'solid',
-              icon: 'solid'
-            },
-            {
-              value: 'dashed',
-              icon: 'dashed'
-            },
-            {
-              value: 'dotted',
-              icon: 'dotted'
-            }
-          ]
-        }),
-        new ColorComponent(this.value.borders[index][2])
-      ];
+    this.toggle();
+  }
 
-      components.forEach((component, i) => {
-        component.on('change', val => {
-          this.value.borders[index][i] = val;
-          this.emit('change-component');
-        });
-        container.appendChild(component.el);
-      });
+  toggle() {
+    this.toggler.setAttribute('collapsed', String(!this.value.showComponents));
 
-      this.on('change-collapsed', () => components.forEach((component, i) => component.set(this.value.borders[index][i])));
-    });
+    const el = i => this.toggler.children[i].querySelector('input') || document.createElement('input');
 
-    // TODO rewrite
+    if (this.value.showComponents) {
+      el(2).value = el(4).value = el(6).value = el(8).value = el(0).value;
+      el(3).value = el(5).value = el(7).value = el(9).value = el(1).value;
+    } else {
+      el(0).value = el(2).value;
+      el(1).value = el(3).value;
+    }
 
-    const collapsedRoot = this.el.querySelector(`[collapsed]`);
-    this.addListener(this.el.querySelector(`[expand-border]`), 'click', () => {
-      isBordersEqual = false;
-      this.emit('change-collapsed');
-    });
-    this.addListener(this.el.querySelector(`[collapse-border]`), 'click', () => {
-      isBordersEqual = true;
-      this.emit('change-collapsed');
-      this.emit('change-component');
-    });
-
-    this.on('change-collapsed', () => collapsedRoot.setAttribute('collapsed', String(isBordersEqual)));
-    this.on('change-component', () => {
-      if (isBordersEqual) {
-        this.collapseBorders();
-        this.emit('change', this.value);
-      }
-    })
+    emitDomEvent(this.toggler.querySelectorAll('input'), 'change');
   }
 }

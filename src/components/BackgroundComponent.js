@@ -1,52 +1,50 @@
 import Component from '../Component';
 import BaseCompositeComponent from './BaseCompositeComponent';
-import IconRadioGroupComponent from './IconRadioGroupComponent';
+import SelectComponent from './SelectComponent';
 import ColorComponent from './ColorComponent';
 import ColorPlaceholderComponent from './ColorPlaceholderComponent';
 import ImageComponent from './ImageComponent';
-import {createDocumentFragment} from '../utils';
+import { createDocumentFragment } from '../utils';
 
 
-const visibleIf = isVisible => isVisible ? 'inline-block' : 'none';
+const visibleIf = isVisible => isVisible ? 'flex' : 'none';
 
 
 class BackgroundColorComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new ColorComponent(this.value.color1),
-        onChange: color => this.value.color1 = color
-      },
-      {
-        component: () => new ColorPlaceholderComponent(),
-        onChange: () => this.value.hasGradient = true
-      },
-      {
-        component: () => new ColorComponent(this.value.color2),
-        onChange: color => this.value.color2 = color
-      },
-      {
-        component: () => new IconRadioGroupComponent(this.value.gradientDirection, {
-          items: [
-            {
-              value: 'to right',
-              icon: 'gradr'
-            },
-            {
-              value: 'to right bottom',
-              icon: 'gradbr'
-            },
-            {
-              value: 'to bottom',
-              icon: 'gradb'
-            },
-            {
-              value: 'to left bottom',
-              icon: 'gradbl'
-            }
-          ]
+        component: () => new ColorComponent(this.value.color1, {
+          label: this.config.i18n('Main background color')
         }),
-        onChange: backgroundSize => this.value.gradientDirection = backgroundSize
+        onChange: color => {
+          this.value.color1 = color;
+        }
+      },
+      {
+        component: () => new ColorPlaceholderComponent(null, {
+          label: this.config.i18n('Second background color')
+        }),
+        onChange: () => {
+          this.value.hasGradient = true;
+        }
+      },
+      {
+        component: () => new ColorComponent(this.value.color2, {
+          label: this.config.i18n('Second background color')
+        }),
+        onChange: color => {
+          this.value.color2 = color;
+        }
+      },
+      {
+        component: () => new SelectComponent(this.value.gradientDirection, {
+          choices: ['to right', 'to right bottom', 'to bottom', 'to left bottom'].map(grad => [grad, this.config.i18n(grad)]),
+          label: this.config.i18n('Gradient direction')
+        }),
+        onChange: gradientDirection => {
+          this.value.gradientDirection = gradientDirection;
+        }
       }
     ];
   }
@@ -73,54 +71,36 @@ class BackgroundImageComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new ImageComponent(this.value.backgroundImage),
-        onChange: image => this.value.backgroundImage = image
+        component: () => new ImageComponent(this.value.backgroundImage, {
+          label: this.config.i18n('Background image')
+        }),
+        onChange: image => {
+          this.value.backgroundImage = image;
+        }
       },
       {
-        component: () => new IconRadioGroupComponent(this.value.backgroundSize, {
-          items: [
-            {
-              value: 'auto',
-              icon: 'bgsn'
-            },
-            {
-              value: 'cover',
-              icon: 'bgscov'
-            },
-            {
-              value: 'contain',
-              icon: 'bgscon'
-            }
-          ]
+        component: () => new SelectComponent(this.value.backgroundSize, {
+          choices: ['auto', 'cover', 'contain'].map(bgSize => [bgSize, this.config.i18n(bgSize)]),
+          label: this.config.i18n('Background size')
         }),
-        onChange: backgroundSize => this.value.backgroundSize = backgroundSize
+        onChange: backgroundSize => {
+          this.value.backgroundSize = backgroundSize;
+        }
       },
       {
-        component: () => new IconRadioGroupComponent(this.value.backgroundPosition, {
-          items: [
-            {
-              value: '0 0',
-              icon: 'bgptl'
-            },
-            {
-              value: '100% 0',
-              icon: 'bgptr'
-            },
-            {
-              value: '0 100%',
-              icon: 'bgpbl'
-            },
-            {
-              value: '100% 100%',
-              icon: 'bgpbr'
-            },
-            {
-              value: '50% 50%',
-              icon: 'bgpc'
-            }
-          ]
+        component: () => new SelectComponent(this.value.backgroundPosition, {
+          choices: [
+            ['0 0', this.config.i18n('Top left corner')],
+            ['100% 0', this.config.i18n('Top right corner')],
+            ['0 100%', this.config.i18n('Bottom left corner')],
+            ['100% 100%', this.config.i18n('Bottom right corner')],
+            ['50% 50%', this.config.i18n('Center')]
+          ],
+          label: this.config.i18n('Background position')
         }),
-        onChange: backgroundPosition => this.value.backgroundPosition = backgroundPosition
+        onChange: backgroundPosition => {
+          this.value.backgroundPosition = backgroundPosition;
+        }
       }
     ];
   }
@@ -143,20 +123,20 @@ class BackgroundImageComponent extends BaseCompositeComponent {
 
 export default class BackgroundComponent extends Component {
   render() {
-    this.el = createDocumentFragment(`<div class="EditroSubForm"></div><div class="EditroSubForm"></div>`);
+    this.el = document.createDocumentFragment();
     ([
-      new BackgroundColorComponent(this.value),
-      new BackgroundImageComponent(this.value)
-    ]).forEach((component, i) => {
+      new BackgroundColorComponent(this.value, {
+        i18n: this.config.i18n
+      }),
+      new BackgroundImageComponent(this.value, {
+        i18n: this.config.i18n
+      })
+    ]).forEach(component => {
       component.on('change', value => {
         this.emit('change', value);
       });
 
-      this.el.children[i].appendChild(component.el);
+      this.el.appendChild(component.el);
     });
-  }
-
-  get isInline() {
-    return true;
   }
 }

@@ -2,22 +2,34 @@ import Component from '../Component';
 
 
 /**
- * config = {type: 'number', unit: 'px', icon: 'fz', size: 'small'}
+ * config = {type: 'number', unit: 'px'}
  */
 export default class InputComponent extends Component {
   template() {
-    return `${this.config.icon ? `<span class="EditroIcon EditroIcon--${this.config.icon}"></span>` : ``}
-            <span class="EditroInputWrapper EditroInputWrapper--${this.config.size} EditroControl"
+    return `<div class="EditroField">
+              <div class="EditroField-label">
+                <div class="EditroField-labelWrapper">
+                  ${this.config.label}
+                </div>
+              </div>
+              <div class="EditroField-control">
+                <div class="EditroInputWrapper EditroInputWrapper--full EditroControl"
                   ${this.config.unit ? `unit="${this.config.unit}"` : ``}>
-              <input type="${this.config.type || 'text'}" 
-                     class="EditroInput" 
-                     value="${this.value}"/>
-            </span>`;
+                  <input type="${this.config.type || 'text'}" 
+                         class="EditroInput" 
+                         value="${this.value}"/>
+                </div>
+              </div>
+            </div>`;
   }
 
   watch() {
-    this.addListener(this.el.querySelector('input'), 'change', e => {
+    const input = this.el.querySelector('input');
+    const onChanged = e => {
       this.emit('change', e.target.value);
-    });
+    };
+
+    this.addListener(input, 'change', onChanged);
+    this.addListener(input, 'keyup', onChanged);
   }
 }

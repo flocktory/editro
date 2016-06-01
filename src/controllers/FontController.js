@@ -1,7 +1,7 @@
 import Controller from '../Controller';
 import FontComponent from '../components/FontComponent';
-import {inputTags, inlineTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags} from './tags';
-import {px} from '../utils';
+import { inputTags, inlineTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags } from './tags';
+import { px } from '../utils';
 
 
 export default class FontController extends Controller {
@@ -23,7 +23,9 @@ export default class FontController extends Controller {
   }
 
   createComponent(value) {
-    return new FontComponent(value);
+    return new FontComponent(value, {
+      i18n: this.i18n
+    });
   }
 
   get() {
@@ -39,7 +41,7 @@ export default class FontController extends Controller {
     };
   }
 
-  set({textAlign, fontWeight, fontStyle, fontSize, lineHeight, lineHeightInPx, color}) {
+  set({ textAlign, fontWeight, fontStyle, fontSize, lineHeight, color }) {
     this.el.style.color = color;
     this.el.style.textAlign = textAlign;
     this.el.style.fontWeight = fontWeight;

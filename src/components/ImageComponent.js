@@ -3,9 +3,18 @@ import Component from '../Component';
 
 export default class ImageComponent extends Component {
   template() {
-    return `<div class="EditroFileInput">
-              <div class="EditroIcon EditroIcon--upload"></div>
-              <input class="EditroFileInput-control" type="file" />
+    return `<div class="EditroField">
+              <div class="EditroField-label">
+                <div class="EditroField-labelWrapper">
+                  ${this.config.label}
+                </div>
+              </div>
+              <div class="EditroField-control EditroField-control--inline">
+                <div class="EditroFileInput">
+                  <div class="EditroIcon EditroIcon--upload"></div>
+                  <input class="EditroFileInput-control" type="file" />
+                </div>
+              </div>
             </div>`;
   }
 
