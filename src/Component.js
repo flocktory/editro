@@ -7,6 +7,7 @@ export default class Component extends EventEmitter {
     super();
     this.value = initialValue;
     this.config = config;
+    this._listeners = [];
     this.on('change', newValue => this.value = newValue);
     this.render();
   }
@@ -22,5 +23,16 @@ export default class Component extends EventEmitter {
 
   watch() {}
 
-  destroy() {}
+  addListener(element, event, listener) {
+    if (!element) {
+      return;
+    }
+
+    element.addEventListener(event, listener);
+    this._listeners.push({element, event, listener});
+  }
+
+  destroy() {
+    this._listeners.forEach(({element, event, listener}) => element.removeEventListener(event, listener));
+  }
 }

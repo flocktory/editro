@@ -12,12 +12,12 @@ export default class ImageComponent extends Component {
   watch() {
     const fileInput = this.el.querySelector('input');
 
-    fileInput.addEventListener('change', e => {
+    this.addListener(fileInput, 'change', e => {
       const file = fileInput.files[0];
       const reader = new FileReader();
 
       // Setup model when file is read
-      reader.addEventListener('load', () => {
+      this.addListener(reader, 'load', () => {
         this.emit('change', reader.result);
       }, false);
 

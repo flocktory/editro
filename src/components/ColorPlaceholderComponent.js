@@ -8,6 +8,6 @@ export default class ColorPlaceholderComponent extends Component {
   }
 
   watch() {
-    this.el.firstChild.addEventListener('click', () => this.emit('change'));
+    this.addListener(this.el.firstChild, 'click', () => this.emit('change'));
   }
 }

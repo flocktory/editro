@@ -28,7 +28,7 @@ export default class IconRadioGroupComponent extends Component {
   }
 
   watch() {
-    this.el.firstChild.addEventListener('change', e => {
+    this.addListener(this.el.firstChild, 'change', e => {
       this.emit('change', e.target.value);
     });
   }

@@ -21,10 +21,9 @@ export default class ContentComponent extends Component {
 
   watch() {
     toArray(this.el.querySelectorAll('[contenteditable]')).forEach(
-      contenteditable => contenteditable.addEventListener('keyup',
-        () => {
-          this.value.nodes[+contenteditable.getAttribute('index')].content = contenteditable.textContent;
-          this.emit('change', this.value);
-        }));
+      contenteditable => this.addListener(contenteditable, 'keyup', () => {
+        this.value.nodes[+contenteditable.getAttribute('index')].content = contenteditable.textContent;
+        this.emit('change', this.value);
+      }));
   }
 }

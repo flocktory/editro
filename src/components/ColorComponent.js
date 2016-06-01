@@ -109,7 +109,7 @@ export default class ColorComponent extends Component {
       this.emit('change', value);
     };
 
-    color.addEventListener('change', collectColor);
-    opacity.addEventListener('change', collectColor);
+    this.addListener(color, 'change', collectColor);
+    this.addListener(opacity, 'change', collectColor);
   }
 }

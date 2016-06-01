@@ -124,11 +124,11 @@ export default class BorderComponent extends Component {
     // TODO rewrite
 
     const collapsedRoot = this.el.querySelector(`[collapsed]`);
-    this.el.querySelector(`[expand-border]`).addEventListener('click', () => {
+    this.addListener(this.el.querySelector(`[expand-border]`), 'click', () => {
       isBordersEqual = false;
       this.emit('change-collapsed');
     });
-    this.el.querySelector(`[collapse-border]`).addEventListener('click', () => {
+    this.addListener(this.el.querySelector(`[collapse-border]`), 'click', () => {
       isBordersEqual = true;
       this.emit('change-collapsed');
       this.emit('change-component');

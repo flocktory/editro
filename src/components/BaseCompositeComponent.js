@@ -5,7 +5,7 @@ export default class BaseCompositeComponent extends Component {
   render() {
     this.el = document.createDocumentFragment();
 
-    this.getSubComponentsFactories().forEach(({component, onChange}) => {
+    this.components = this.getSubComponentsFactories().map(({component, onChange}) => {
       const componentInstance = component();
 
       componentInstance.on('change', data => {
@@ -14,6 +14,8 @@ export default class BaseCompositeComponent extends Component {
       });
 
       this.el.appendChild(componentInstance.el);
+
+      return componentInstance;
     });
   }
 
@@ -22,5 +24,9 @@ export default class BaseCompositeComponent extends Component {
    */
   getSubComponentsFactories() {
     return [];
+  }
+
+  destroy() {
+    this.components.forEach(component => component.destroy());
   }
 }

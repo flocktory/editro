@@ -16,7 +16,7 @@ export default class InputComponent extends Component {
   }
 
   watch() {
-    this.el.querySelector('input').addEventListener('change', e => {
+    this.addListener(this.el.querySelector('input'), 'change', e => {
       this.emit('change', e.target.value);
     });
   }

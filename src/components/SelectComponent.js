@@ -14,7 +14,7 @@ export default class SelectComponent extends Component {
   }
 
   watch() {
-    this.el.querySelector('select').addEventListener('change', e => {
+    this.addListener(this.el.querySelector('select'), 'change', e => {
       this.emit('change', e.target.value);
     });
   }

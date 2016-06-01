@@ -21,7 +21,7 @@ export default class WidthHeightComponent extends Component {
 
   watch() {
     toArray(this.el.querySelectorAll('input')).forEach(
-      input => input.addEventListener('keyup',
+      input => this.addListener(input, 'keyup',
         () => {
           this.value[input.getAttribute('target-name')] = input.value;
           this.emit('change', this.value);
