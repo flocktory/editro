@@ -28,6 +28,7 @@ export default function Editro(root, html = defaultHtml, options = {}) {
   const getHtml = () => '<!doctype html>\n' + preview.contentDocument.documentElement.outerHTML;
   const handlers = { change: [] };
   const emitChange = html => handlers.change.forEach(handler => handler(html));
+  const findEdited = () => preview.contentDocument.body.querySelector(`[${EDITED_ATTR}]`);
 
   const history = new History(preview, html => {
     preview.srcdoc = html;
@@ -67,6 +68,10 @@ export default function Editro(root, html = defaultHtml, options = {}) {
       const html = getHtml();
       history.push(html);
       emitChange(html);
+      if (!findEdited()) {
+        toolbox.destroy();
+        toolbox = null;
+      }
     });
   });
 
