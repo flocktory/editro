@@ -8,6 +8,7 @@ import BackgroundController from './controllers/BackgroundController';
 import ContentController from './controllers/ContentController';
 import BorderController from './controllers/BorderController';
 import HrefController from './controllers/HrefController';
+import FontFamilyController from './controllers/FontFamilyController';
 
 
 export const controllers = [
@@ -15,6 +16,7 @@ export const controllers = [
   SrcController,
   HrefController,
   FontController,
+  FontFamilyController,
   BackgroundController,
   BorderController,
   SizeController,

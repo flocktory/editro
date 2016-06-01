@@ -4,7 +4,7 @@
 
 
 export function toArray(pseudoArray) {
-  return Array.prototype.slice.call(pseudoArray);
+  return Array.prototype.slice.call(pseudoArray || []);
 }
 
 
