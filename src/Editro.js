@@ -24,15 +24,14 @@ export default function Editro(root, html = defaultHtml, options = {}) {
 
   const i18nFunction = i18n(options.i18n);
   const $el = elementSearch(root, 'Editro');
-  const editor = $el('preview');
-  const getHtml = () => '<!doctype html>\n' +
-    editor.contentDocument.documentElement.outerHTML;
+  const preview = $el('preview');
+  const getHtml = () => '<!doctype html>\n' + preview.contentDocument.documentElement.outerHTML;
   const handlers = { change: [] };
-  const emitChange = (h) => handlers.change.forEach(f => f(h));
+  const emitChange = html => handlers.change.forEach(handler => handler(html));
 
-  const history = new History(editor, (h) => {
-    editor.srcdoc = h;
-    emitChange(h);
+  const history = new History(preview, html => {
+    preview.srcdoc = html;
+    emitChange(html);
   });
   history.push(html);
   click($el('backward'), () => history.backward());
@@ -45,9 +44,11 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     i18n: i18nFunction
   });
 
-  editor.addEventListener('load', () => {
-    const body = editor.contentDocument.body;
-    if (toolbox) toolbox.destroy();
+  preview.addEventListener('load', () => {
+    const body = preview.contentDocument.body;
+    if (toolbox) {
+      toolbox.destroy();
+    }
     const selected = body.querySelector(`[${EDITED_ATTR}]`);
     if (selected) {
       toolbox = createToolbox(selected);
@@ -56,43 +57,46 @@ export default function Editro(root, html = defaultHtml, options = {}) {
     click(body, (e) => {
       [].forEach.call(body.querySelectorAll(`[${EDITED_ATTR}]`), el => el.removeAttribute(EDITED_ATTR));
       e.target.setAttribute(EDITED_ATTR, EDITED_ATTR);
-      if (toolbox) toolbox.destroy();
+      if (toolbox) {
+        toolbox.destroy();
+      }
       toolbox = createToolbox(e.target);
     });
 
     observeMutation(body, () => {
-      const h = getHtml();
-      history.push(h);
-      emitChange(h);
+      const html = getHtml();
+      history.push(html);
+      emitChange(html);
     });
   });
 
-  editor.srcdoc = html;
+  preview.srcdoc = html;
 
   // Code editor
-  const cm = new Code($el('code'), {
+  const codeEditor = new Code($el('code'), {
     getHtml,
     keyMap: options.keyMap,
-    onChange(h) {
-      editor.srcdoc = h;
-      emitChange(h);
+    onChange(html) {
+      preview.srcdoc = html;
+      emitChange(html);
     }
   });
-  click($el('html'), () => cm.toggle());
+  click($el('html'), () => codeEditor.toggle());
 
 
   return {
     getHtml,
-    on(name, h) {
+    // TODO А мы не хотим нормальный EventEmitter?
+    on(name, handler) {
       handlers[name] = handlers[name] || [];
-      handlers[name].push(h);
+      handlers[name].push(handler);
     },
     destroy() {
       root.removeEventListener(stopPropagation);
       const e = root.querySelector('.Editro');
       root.removeChild(e);
       history.destroy();
-      cm.destroy();
+      codeEditor.destroy();
     }
   };
 }

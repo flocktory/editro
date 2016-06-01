@@ -102,7 +102,9 @@ let editro = null;
 let html = initHtml;
 
 const init = () => {
-  if (editro) editro.destroy();
+  if (editro) {
+    editro.destroy();
+  }
   editro = Editro(root, html, options);
   editro.on('change', h => {
     window.document.getElementById('html').innerText = h;

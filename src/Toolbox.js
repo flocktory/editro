@@ -1,7 +1,12 @@
-import { createDocumentFragment } from './utils';
+import EventEmitter from 'events';
+import {createDocumentFragment} from './utils';
 
 
-export default class Toolbox {
+const basicGroup = 'basic';
+const actionsGroup = 'actions';
+
+
+export default class Toolbox extends EventEmitter {
   /**
    * Toolbox constructor
    * @param {Element} el current edited DOM node
@@ -12,9 +17,11 @@ export default class Toolbox {
    * @returns {undefined}
    */
   constructor(el, { controllers, root, i18n }) {
+    super();
     this.i18n = i18n;
     this.root = root;
     this.controllers = this.getControllers(el, controllers);
+    this.controllers.forEach(controller => controller.on && controller.on('select-element', el => this.emit('select-element', el)));
     this.render();
   }
 
@@ -28,7 +35,7 @@ export default class Toolbox {
     const panel = createDocumentFragment('<section class="EditroPanel"></section>');
 
     // Render groups
-    this.getControllerGroups(this.controllers).forEach(controllers => {
+    this.getControllerGroups(this.controllers).forEach(([groupName, controllers]) => {
       const group = createDocumentFragment(`<div class="EditroPanel-section"></div>`);
 
       // Render components in group
@@ -39,7 +46,7 @@ export default class Toolbox {
 
         const isInline = controller.component && controller.component.isInline;
 
-        const form = createDocumentFragment(`<article class="EditroForm ${isInline ? 'EditroForm--inline' : ''} ${(controller.modificators || []).map(m => `EditroForm--${m}`).join(' ')}">
+        const form = createDocumentFragment(groupName === actionsGroup ? `<span editoro-controls></span>` : `<article class="EditroForm ${isInline ? 'EditroForm--inline' : ''} ${(controller.modificators || []).map(m => `EditroForm--${m}`).join(' ')}">
           <div class="EditroForm-title">${controller.title}</div>
           <div class="EditroForm-controls ${isInline ? 'EditroForm-controls--inline' : ''}" editoro-controls></div>
         </article>`);
@@ -56,7 +63,6 @@ export default class Toolbox {
 
   getControllerGroups(controllers) {
     const controllerGroups = {};
-    const basicGroup = 'basic';
 
     controllers.forEach(controller => {
       const group = controller.group || basicGroup;
@@ -69,8 +75,9 @@ export default class Toolbox {
     return Object
       .getOwnPropertyNames(controllerGroups)
       .map(key => [key, controllerGroups[key]])
-      .sort((a, b) => a[0] === basicGroup && b[0] !== basicGroup ? 1 : 0)
-      .map(item => item[1]);
+      .sort((itemLeft, itemRight) =>
+        itemLeft[0] === actionsGroup && itemRight[0] !== actionsGroup ? 0 :
+        (itemLeft[0] === basicGroup && itemRight[0] !== basicGroup ? 1 : 0));
   }
 
   destroy() {

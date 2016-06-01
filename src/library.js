@@ -9,9 +9,11 @@ import ContentController from './controllers/ContentController';
 import BorderController from './controllers/BorderController';
 import HrefController from './controllers/HrefController';
 import FontFamilyController from './controllers/FontFamilyController';
+import DeleteController from './controllers/DeleteController';
 
 
 export const controllers = [
+  DeleteController,
   ContentController,
   SrcController,
   HrefController,

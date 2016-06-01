@@ -126,6 +126,8 @@ $control-border-radius: 2px;
   font-size: 0;
 
   &-section {
+    display: inline-block;
+    width: 100%;
     padding: 20px;
 
     & + & {
@@ -238,7 +240,7 @@ $control-border-radius: 2px;
     }
   }
 
-  &-delete {
+  &--delete {
     width: auto;
     margin-right: 0;
     float: right;

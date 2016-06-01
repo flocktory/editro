@@ -1,5 +1,6 @@
 import Component from '../Component';
 
+
 export default class ColorPlaceholderComponent extends Component {
   template() {
     return `<div class="EditroColor EditroControl">
