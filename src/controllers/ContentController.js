@@ -16,7 +16,7 @@ allowedContentEditableTags.push(...inlineTags, ...headersTags, ...listTags, ...c
 
 
 const hasOnlyTags = (html, tags) => {
-  const search = /<(\w)>|<(\w)\s/gim;
+  const search = /<(\w+)>|<(\w+)\s/gim;
 
   for (let match = search.exec(html); match; match = search.exec(html)) {
     if (tags.indexOf(match[1] || match[2]) === -1) {
