@@ -1,4 +1,4 @@
-$panel-width: 400px;
+$panel-width: 440px;
 $transparent: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==';
 $control-background: linear-gradient(to bottom, #f8f8f8 0%, #f0f0f0 100%);
 $control-border: 1px solid #ccc;
@@ -145,18 +145,11 @@ $control-border-radius: 2px;
   width: 100%;
   vertical-align: top;
   margin-bottom: 30px;
-  padding-right: 20px;
 
   &:last-child {
     margin-bottom: 0;
   }
 
-  &--inline {
-    margin-bottom: 20px;
-  }
-  &--half {
-    width: 50%;
-  }
   &--controls-separated {
     .EditroControl + .EditroControl {
       margin-top: 10px;
@@ -164,8 +157,8 @@ $control-border-radius: 2px;
   }
 
   &-title {
-    margin-bottom: 4px;
-    font-size: 11px;
+    margin-bottom: 10px;
+    font-size: 13px;
     text-transform: uppercase;
     color: #bbb;
   }
@@ -173,35 +166,47 @@ $control-border-radius: 2px;
     & + & {
       margin-top: 10px;
     }
-    &--inline {
-      & + & {
-        margin-top: 5px;
-      }
-      & > *,
-      .EditroSubForm > * {
-        margin: 0 10px 10px 0;
-      }
-    }
   }
 }
+.EditroField {
+  display: flex;
 
+  & + & {
+    margin-top: 10px;
+  }
 
-// Sub forms
+  &-label {
+    width: 40%;
+    margin-right: 20px;
+    white-space: nowrap;
 
-.EditroSubForm {
-  margin: 0 !important;
-
-  & + & {}
-
-  &-inlineItem {
-    & + & {
-      margin-top: 10px;
-    }
-
-    .EditroControl {
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 0;
+      height: 27px;
       vertical-align: middle;
-      margin-left: 10px;
     }
+  }
+  &-labelWrapper {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
+    font-size: 13px;
+    line-height: 1;
+  }
+  &-control {
+    width: 60%;
+
+    &--inline {
+      display: flex;
+    }
+  }
+  &-controlLabel {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    font-size: 12px;
   }
 }
 

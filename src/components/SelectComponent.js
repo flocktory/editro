@@ -6,10 +6,21 @@ import Component from '../Component';
  */
 export default class SelectComponent extends Component {
   template() {
-    return `<div class="EditroSelect EditroControl">
-              <select class="EditroSelect-select">
-                ${(this.config.choices || []).map(([key, value]) => `<option value="${key}">${value}</option>`)}
-              </select>
+    return `<div class="EditroField">
+              <div class="EditroField-label">
+                <div class="EditroField-labelWrapper">
+                  ${this.config.label}
+                </div>
+              </div>
+              <div class="EditroField-control">
+                <div class="EditroSelect EditroControl">
+                  <select class="EditroSelect-select">
+                    <option value=""></option>
+                    ${(this.config.choices || []).map(([key, value]) => 
+                      `<option value='${key}' ${key === this.value ? 'selected' : ''}>${value}</option>`)}
+                  </select>
+                </div>
+              </div>
             </div>`;
   }
 

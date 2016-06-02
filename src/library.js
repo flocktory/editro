@@ -7,6 +7,7 @@ import SrcController from './controllers/SrcController';
 import BackgroundController from './controllers/BackgroundController';
 import ContentController from './controllers/ContentController';
 import BorderController from './controllers/BorderController';
+import BorderRadiusController from './controllers/BorderRadiusController';
 import HrefController from './controllers/HrefController';
 import FontFamilyController from './controllers/FontFamilyController';
 import DeleteController from './controllers/DeleteController';
@@ -21,6 +22,7 @@ export const controllers = [
   FontFamilyController,
   BackgroundController,
   BorderController,
+  BorderRadiusController,
   SizeController,
   MarginController,
   PaddingController,

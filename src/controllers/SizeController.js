@@ -23,7 +23,9 @@ export default class SizeController extends Controller {
   }
 
   createComponent(value) {
-    return new SizeComponent(value);
+    return new SizeComponent(value, {
+      i18n: this.i18n
+    });
   }
 
   get() {

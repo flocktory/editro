@@ -13,9 +13,12 @@ export default class PositionComponent extends BaseCompositeComponent {
             ['relative', 'relative'],
             ['absolute', 'absolute'],
             ['fixed', 'fixed']
-          ]
+          ],
+          label: this.config.i18n('Type of positioning')
         }),
-        onChange: position =>  this.value.position = position
+        onChange: position => {
+          this.value.position = position;
+        }
       },
       {
         component: () => new TBLRComponent(this.value, {
@@ -23,7 +26,8 @@ export default class PositionComponent extends BaseCompositeComponent {
           shapes: {
             inner: 'real',
             outer: 'real'
-          }
+          },
+          label: this.config.i18n('Offset relative to the container')
         }),
         onChange: value => {
           this.value.top = value.top;

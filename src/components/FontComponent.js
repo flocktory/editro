@@ -1,93 +1,67 @@
 import BaseCompositeComponent from './BaseCompositeComponent';
-import IconRadioGroupComponent from './IconRadioGroupComponent';
 import InputComponent from './InputComponent';
 import ColorComponent from './ColorComponent';
-
-
-const textAligns = [
-  {
-    value: 'left',
-    icon: 'tal'
-  },
-  {
-    value: 'center',
-    icon: 'tac'
-  },
-  {
-    value: 'right',
-    icon: 'tar'
-  }
-];
-const styleAndWeights = [
-  {
-    value: 'normal normal',
-    icon: 'fwn'
-  },
-  {
-    value: 'bold normal',
-    icon: 'fwb'
-  },
-  {
-    value: 'normal italic',
-    icon: 'fsi'
-  },
-  {
-    value: 'bold italic',
-    icon: 'fwbfsi'
-  }
-];
+import SelectComponent from './SelectComponent';
 
 
 export default class FontComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new ColorComponent(this.value.color),
-        onChange: color => this.value.color = color
+        component: () => new ColorComponent(this.value.color, {
+          label: this.config.i18n('Text color')
+        }),
+        onChange: color => {
+          this.value.color = color;
+        }
       },
       {
         component: () => new InputComponent(this.value.fontSize, {
           type: 'number',
           unit: 'px',
-          icon: 'fz',
-          size: 'small'
+          label: this.config.i18n('Font size')
         }),
-        onChange: fontSize => this.value.fontSize = fontSize
+        onChange: fontSize => {
+          this.value.fontSize = fontSize;
+        }
       },
       {
         component: () => new InputComponent(this.value.lineHeight, {
           type: 'number',
-          icon: 'lh',
           unit: 'px',
-          size: 'small'
+          label: this.config.i18n('Line height')
         }),
-        onChange: lineHeight => this.value.lineHeight = lineHeight
+        onChange: lineHeight => {
+          this.value.lineHeight = lineHeight;
+        }
       },
       {
-        component: () => {
-          const isInitialValueAllowed = !!textAligns.find(i => i.value === this.value.textAlign);
-          const initialValue = isInitialValueAllowed ? this.value.textAlign : textAligns[0];
-
-          return new IconRadioGroupComponent(initialValue, {
-            items: textAligns
-          });
-        },
-        onChange: textAlign => this.value.textAlign = textAlign
+        component: () => new SelectComponent(this.value.textAlign, {
+          choices: ['left', 'center', 'right'].map(ta => [ta, this.config.i18n(ta)]),
+          label: this.config.i18n('Text align')
+        }),
+        onChange: textAlign => {
+          this.value.textAlign = textAlign;
+        }
       },
       {
-        component: () => new IconRadioGroupComponent([this.value.fontWeight, this.value.fontStyle].join(' '), {
-          items: styleAndWeights
+        component: () => new SelectComponent(this.value.fontWeight, {
+          choices: ['normal', 'light', 'bold'].map(ta => [ta, this.config.i18n(ta)]),
+          label: this.config.i18n('Font weight')
         }),
-        onChange: styleAndWeight => {
-          const [fontWeight, fontStyle] = styleAndWeight.split(' ');
+        onChange: fontWeight => {
           this.value.fontWeight = fontWeight;
+        }
+      },
+      {
+        component: () => new SelectComponent(this.value.fontStyle, {
+          choices: ['normal', 'italic'].map(ta => [ta, this.config.i18n(ta)]),
+          label: this.config.i18n('Font style')
+        }),
+        onChange: fontStyle => {
           this.value.fontStyle = fontStyle;
         }
       }
     ];
-  }
-
-  get isInline() {
-    return true;
   }
 }

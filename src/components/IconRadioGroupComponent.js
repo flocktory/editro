@@ -2,7 +2,9 @@ import Component from '../Component';
 
 
 function uid() {
-  return uid.id = (uid.id ? uid.id + 1 : 1);
+  const id = uid.id = (uid.id ? uid.id + 1 : 1);
+
+  return id;
 }
 
 
@@ -13,8 +15,8 @@ export default class IconRadioGroupComponent extends Component {
   template() {
     const name = `radio-group-${uid()}`;
 
-    return `<div class="EditroBtnGroup ${this.config.position ? `EditroBtnGroup--${this.config.position}` : ``} EditroControl">    
-      ${this.config.items.map(({value, icon}) => `<label class="EditroBtnGroup-item">
+    return `<div class="EditroBtnGroup EditroControl">    
+      ${this.config.items.map(({ value, icon }) => `<label class="EditroBtnGroup-item">
         <input class="EditroBtnGroup-input" 
                type="radio" 
                name="${name}" 

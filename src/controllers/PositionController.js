@@ -4,7 +4,9 @@ import PositionComponent from '../components/PositionComponent';
 
 export default class PositionController extends BaseTBLRController {
   createComponent(value) {
-    return new PositionComponent(value);
+    return new PositionComponent(value, {
+      i18n: this.i18n
+    });
   }
 
   get() {
@@ -34,9 +36,5 @@ export default class PositionController extends BaseTBLRController {
 
   get title() {
     return 'Position';
-  }
-
-  get modificators() {
-    return ['half', 'controls-separated'];
   }
 }

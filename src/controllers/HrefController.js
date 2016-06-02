@@ -8,9 +8,7 @@ export default class HrefController extends Controller {
   }
 
   createComponent(value) {
-    return new InputComponent(value, {
-      size: 'full'
-    });
+    return new InputComponent(value);
   }
 
   get() {

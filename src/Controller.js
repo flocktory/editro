@@ -48,10 +48,6 @@ export default class Controller extends EventEmitter {
     return 'basic';
   }
 
-  get modificators() {
-    return [];
-  }
-
   destroy() {
     this.component.destroy();
   }

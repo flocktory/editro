@@ -44,11 +44,9 @@ export default class Toolbox extends EventEmitter {
           return;
         }
 
-        const isInline = controller.component && controller.component.isInline;
-
-        const form = createDocumentFragment(groupName === actionsGroup ? `<span editoro-controls></span>` : `<article class="EditroForm ${isInline ? 'EditroForm--inline' : ''} ${(controller.modificators || []).map(m => `EditroForm--${m}`).join(' ')}">
+        const form = createDocumentFragment(groupName === actionsGroup ? `<span editoro-controls></span>` : `<article class="EditroForm">
           <div class="EditroForm-title">${controller.title}</div>
-          <div class="EditroForm-controls ${isInline ? 'EditroForm-controls--inline' : ''}" editoro-controls></div>
+          <div class="EditroForm-controls" editoro-controls></div>
         </article>`);
 
         form.querySelector('[editoro-controls]').appendChild(controller.node);

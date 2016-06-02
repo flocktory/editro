@@ -3,12 +3,21 @@ import Component from '../Component';
 
 export default class ColorPlaceholderComponent extends Component {
   template() {
-    return `<div class="EditroColor EditroControl">
-              <div class="EditroColor-placeholder"></div>
+    return `<div class="EditroField">
+              <div class="EditroField-label">
+                <div class="EditroField-labelWrapper">
+                  ${this.config.label}
+                </div>
+              </div>
+              <div class="EditroField-control">
+                <div class="EditroColor EditroControl">
+                  <div class="EditroColor-placeholder" color-placeholder></div>
+                </div>
+              </div>
             </div>`;
   }
 
   watch() {
-    this.addListener(this.el.firstChild, 'click', () => this.emit('change'));
+    this.addListener(this.el.querySelector('[color-placeholder]'), 'click', () => this.emit('change'));
   }
 }

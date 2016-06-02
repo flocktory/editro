@@ -3,9 +3,8 @@ import TBLRComponent from '../components/TBLRComponent';
 
 
 export default class MarginController extends BaseTBLRController {
-  constructor(...params) {
-    super(...params);
-    this.stylesPrefix = 'margin';
+  get stylesPrefix() {
+    return 'margin';
   }
 
   createComponent(value) {
@@ -14,7 +13,8 @@ export default class MarginController extends BaseTBLRController {
       shapes: {
         inner: 'real',
         outer: 'imag'
-      }
+      },
+      label: this.i18n('Space between element and others')
     });
   }
 
