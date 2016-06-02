@@ -1,67 +1,80 @@
 import Controller from '../Controller';
 import ContentComponent from '../components/ContentComponent';
-import {inputTags, listTags, definitionTags, blockTags, headersTags, contentTags, formTags, embeddedTags, inlineTags} from './tags';
-import {toArray} from '../utils';
+import {
+  listTags,
+  headersTags,
+  contentTags,
+  inlineTags
+} from './tags';
+import {
+  toArray
+} from '../utils';
+
+
+const allowedContentEditableTags = [];
+allowedContentEditableTags.push(...inlineTags, ...headersTags, ...listTags, ...contentTags);
+
+
+const hasOnlyTags = (html, tags) => {
+  const search = /<(\w)>|<(\w)\s/gim;
+
+  for (let match = search.exec(html); match; match = search.exec(html)) {
+    if (tags.indexOf(match[1] || match[2]) === -1) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+
+const clearTags = (html, allowedTags) => {
+  function clear(node) {
+    toArray(node.children).forEach(child => {
+      if (allowedTags.indexOf(child.tagName.toLowerCase()) === -1) {
+        const placeholder = document.createElement('span');
+        placeholder.innerHTML = '<&hellip;>';
+        node.replaceChild(placeholder, child);
+      } else if (child.children) {
+        clear(child);
+      }
+    });
+
+    return node;
+  }
+
+  const root = document.createElement('div');
+  root.innerHTML = html;
+
+  return clear(root).innerHTML;
+};
 
 
 export default class ContentController extends Controller {
   static test(el) {
-    const tags = [];
-
-    tags.push(
-      ...inputTags,
-      ...listTags,
-      ...definitionTags,
-      ...blockTags,
-      ...headersTags,
-      ...contentTags,
-      ...formTags,
-      ...embeddedTags,
-      ...inlineTags
-    );
-
-    const tagMatch = () => tags.indexOf(el.tagName.toLowerCase()) !== -1;
-    const textNodesExists = () => toArray(el.childNodes).filter(node => node.nodeType === 3 && node.textContent.trim().length).length;
-
-    return tagMatch() && textNodesExists();
+    return el.textContent.trim() && hasOnlyTags(el.innerHTML, allowedContentEditableTags);
   }
 
   createComponent(value) {
-    return new ContentComponent(value);
+    return new ContentComponent(value, {
+      i18n: this.i18n
+    });
   }
 
   get() {
-    const nodes = [];
-    let prevNodeIsText = true;
+    const disabled = !hasOnlyTags(this.el.innerHTML, allowedContentEditableTags);
+    const content = disabled ? clearTags(this.el.innerHTML, allowedContentEditableTags) : this.el.innerHTML;
 
-    toArray(this.el.childNodes).forEach(node => {
-      const isText = node.nodeType === 3;
-
-      if (isText) {
-        nodes.push({
-          type: 'text',
-          content: node.textContent,
-          node
-        });
-      } else if (isText !== prevNodeIsText) {
-        nodes.push({
-          type: 'other',
-          content: node.textContent
-        });
-      }
-
-      prevNodeIsText = isText;
-    });
-
-    return {nodes};
+    return {
+      content,
+      disabled
+    };
   }
 
   set(value) {
-    value.nodes.forEach(item => {
-      if (item.type === 'text') {
-        item.node.textContent = item.content;
-      }
-    });
+    if (!value.disabled) {
+      this.el.innerHTML = value.content;
+    }
   }
 
   get group() {

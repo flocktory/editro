@@ -5,25 +5,23 @@ import {toArray} from '../utils';
 export default class ContentComponent extends Component {
   template() {
     return `<div class="EditroTextContent">
-              <div class="${this.value.isPreview ? 'EditroTextContent-preview' : ''}">
-                ${this.value.nodes.map((item, index) => {
-                  switch (item.type) {
-                    case 'text': return `<div class="EditroTextContent-item" 
-                                              index="${index}" 
-                                              contenteditable>${item.content}</div>`;
-                    case 'other': return `<div class="EditroTextContent-item" 
-                                               title="${item.content}"><&hellip;></div>`;
-                  }
-                }).join('')}
-              </div>
+              ${this.value.disabled ? `
+                <div class="EditroTextContent-preview">
+                  ${this.value.content}
+                  <div class="EditroTextContent-previewLabel">${this.config.i18n('click to undlock and edit')}</div>
+                </div>
+              ` : `
+                <div class="EditroTextContent-editable" contenteditable>
+                  ${this.value.content}
+                </div>
+              `}
             </div>`;
   }
 
   watch() {
-    toArray(this.el.querySelectorAll('[contenteditable]')).forEach(
-      contenteditable => this.addListener(contenteditable, 'keyup', () => {
-        this.value.nodes[+contenteditable.getAttribute('index')].content = contenteditable.textContent;
-        this.emit('change', this.value);
-      }));
+    this.addListener(this.el.querySelector('[contenteditable]'), 'keyup', e => {
+      this.value.content = e.target.innerHTML;
+      this.emit('change', this.value);
+    });
   }
 }

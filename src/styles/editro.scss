@@ -285,28 +285,17 @@ $control-border-radius: 2px;
 
   &-preview {
     color: #ccc;
-
-    &:before {
-      content: 'Click to edit';
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      color: #999;
-      line-height: 1;
-    }
   }
-  &-item {
-    display: inline-block;
-    padding: 1px 2px;
-
-    &[contenteditable] {
-      &:hover {
-        outline: 1px dotted #bbb;
-      }
-      &:focus {
-        outline: 1px dotted;
-      }
-    }
+  &-previewLabel {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    color: #999;
+    font-size: 11px;
+    line-height: 1;
+  }
+  &-editable {
+    outline: none;
   }
 }
 
