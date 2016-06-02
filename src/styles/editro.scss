@@ -11,6 +11,8 @@ $control-border-radius: 2px;
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   font-family: Helvetica, Arial, sans-serif;
@@ -24,6 +26,18 @@ $control-border-radius: 2px;
     box-sizing: border-box;
   }
 
+  &-wrapper {
+    position: relative;
+    height: 100%;
+  }
+  &-code {
+    display: none;
+  }
+  &-code[is-opened] {
+    position: relative;
+    display: block;
+    min-height: 50%;
+  }
   &-previewWrapper {
     position: absolute;
     top: 0;
@@ -45,6 +59,7 @@ $control-border-radius: 2px;
     position: absolute;
     left: 0;
     bottom: 0;
+    z-index: 1;
     font-size: 0;
 
     .EditroButton + .EditroButton {
@@ -62,7 +77,6 @@ $control-border-radius: 2px;
     height: 100%;
     background: white;
   }
-  &-code {}
 }
 
 
@@ -299,21 +313,15 @@ $control-border-radius: 2px;
 
 // HTML source editor
 
-$code-offset: 7px;
-
 .EditroCode {
   position: absolute;
-  top: $code-offset;
-  bottom: $code-offset;
-  left: $code-offset;
-  right: $code-offset;
-  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: white;
   box-shadow: 0 0 7px rgba(black, 0.2);
 
-  &[is-opened] {
-    display: block;
-  }
   &[is-half] {
     left: 50%;
   }

@@ -41,7 +41,6 @@ export default class Code {
     this._keyMap = keyMap || 'default';
 
     click(this._elem('close'), this.toggle.bind(this));
-    click(this._elem('resize'), this.resize.bind(this));
     click(this._elem('fullScreen'), this.toggleFullscreen.bind(this));
   }
 
@@ -59,7 +58,7 @@ export default class Code {
   }
 
   toggle() {
-    toggleAttr(this._el.firstChild, 'is-opened');
+    toggleAttr(this._el, 'is-opened');
 
     if (!this.codeMirrorInstance) {
       this.codeMirrorInstance = this.createCodeMirrorInstance();
@@ -71,10 +70,6 @@ export default class Code {
     }
   }
 
-  resize() {
-    toggleAttr(this._el.firstChild, 'is-half');
-  }
-
   toggleFullscreen() {
     if (!this.codeMirrorInstance) {
       return;
@@ -83,6 +78,4 @@ export default class Code {
     this.codeMirrorInstance.setOption('fullScreen', !this.codeMirrorInstance.getOption('fullScreen'));
     toggleAttr(this._el.firstChild, 'is-fullScreen');
   }
-
-  toggleRootElementAttr
 }

@@ -1,40 +1,41 @@
 <section class="Editro">
-  <section class="Editro-previewWrapper">
-    <iframe class="Editro-preview" frameborder="0"></iframe>
-    <div class="Editro-nav">
-      <button class="Editro-backward EditroButton">
-        <span class="EditroButton-wrapper">
-          <span class="EditroIcon EditroIcon--b"></span>
-        </span>
-      </button>
-      <button class="Editro-forward EditroButton" >
-        <span class="EditroButton-wrapper">
-          <span class="EditroIcon EditroIcon--f"></span>
-        </span>
-      </button>
-      <button class="Editro-reset EditroButton">
-        <span class="EditroButton-wrapper">
-          <span class="EditroIcon EditroIcon--reset"></span>
-        </span>
-      </button>
-      <button class="Editro-html EditroButton">
-        <span class="EditroButton-wrapper">
-          <span class="EditroIcon EditroIcon--html"></span>
-        </span>
-      </button>
-    </div>
-  </section>
-
-  <aside class="Editro-panel">
-    <section class="EditroPanelPlaceholder">
-      <div class="EditroPanelPlaceholder-text">
-        Click on element to select
+  <div class="Editro-wrapper">
+    <section class="Editro-previewWrapper">
+      <iframe class="Editro-preview" frameborder="0"></iframe>
+      <div class="Editro-nav">
+        <button class="Editro-backward EditroButton">
+          <span class="EditroButton-wrapper">
+            <span class="EditroIcon EditroIcon--b"></span>
+          </span>
+        </button>
+        <button class="Editro-forward EditroButton" >
+          <span class="EditroButton-wrapper">
+            <span class="EditroIcon EditroIcon--f"></span>
+          </span>
+        </button>
+        <button class="Editro-reset EditroButton">
+          <span class="EditroButton-wrapper">
+            <span class="EditroIcon EditroIcon--reset"></span>
+          </span>
+        </button>
+        <button class="Editro-html EditroButton">
+          <span class="EditroButton-wrapper">
+            <span class="EditroIcon EditroIcon--html"></span>
+          </span>
+        </button>
       </div>
     </section>
 
-    <div editro-toolbox></div>
-  </aside>
+    <aside class="Editro-panel">
+      <section class="EditroPanelPlaceholder">
+        <div class="EditroPanelPlaceholder-text">
+          Click on element to select
+        </div>
+      </section>
 
+      <div editro-toolbox></div>
+    </aside>
+  </div>
   <div class="Editro-code"></div>
 </section>
 
