@@ -131,7 +131,8 @@ export default class ColorComponent extends Component {
 
     this.addListener(color, 'change', collectColor);
     this.addListener(opacity, 'change', collectColor);
-    this.addListener(text, 'keyup', () => {
+
+    const onTextChanged = () => {
       const newValues = colorToPair(text.value);
 
       color.value = newValues.color;
@@ -139,6 +140,8 @@ export default class ColorComponent extends Component {
 
       color.style.opacity = opacity.value / 100;
       this.emit('change', pairToColor(newValues));
-    });
+    };
+    this.addListener(text, 'keyup', onTextChanged);
+    this.addListener(text, 'change', onTextChanged);
   }
 }

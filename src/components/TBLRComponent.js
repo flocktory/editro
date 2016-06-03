@@ -37,11 +37,13 @@ export default class TBLRComponent extends Component {
   }
 
   watch() {
-    toArray(this.el.querySelectorAll('input')).forEach(
-      input => this.addListener(input, 'keyup',
-        () => {
-          this.value[input.getAttribute('target-name')] = input.value;
-          this.emit('change', this.value);
-        }));
+    toArray(this.el.querySelectorAll('input')).forEach(input => {
+      const onChange = () => {
+        this.value[input.getAttribute('target-name')] = input.value;
+        this.emit('change', this.value);
+      };
+      this.addListener(input, 'keyup', onChange);
+      this.addListener(input, 'change', onChange);
+    });
   }
 }

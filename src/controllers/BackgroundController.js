@@ -62,14 +62,14 @@ export default class BackgroundController extends Controller {
   set(value) {
     const backgroundImages = [];
 
+    if (value.backgroundImage) {
+      backgroundImages.push(`url(${value.backgroundImage})`);
+    }
+
     if (!value.hasGradient) {
       this.el.style.backgroundColor = value.color1;
     } else {
       backgroundImages.push(`linear-gradient(${value.gradientDirection}, ${value.color1} 0%, ${value.color2} 100%)`);
-    }
-
-    if (value.backgroundImage) {
-      backgroundImages.push(`url(${value.backgroundImage})`);
     }
 
     if (backgroundImages.length) {
@@ -78,6 +78,7 @@ export default class BackgroundController extends Controller {
 
     this.el.style.backgroundSize = value.backgroundSize;
     this.el.style.backgroundPosition = value.backgroundPosition;
+    this.el.style.backgroundRepeat = 'no-repeat';
   }
 
   get title() {

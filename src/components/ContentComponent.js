@@ -19,9 +19,11 @@ export default class ContentComponent extends Component {
   }
 
   watch() {
-    this.addListener(this.el.querySelector('[contenteditable]'), 'keyup', e => {
+    const onChange = e => {
       this.value.content = e.target.innerHTML;
       this.emit('change', this.value);
-    });
+    };
+    this.addListener(this.el.querySelector('[contenteditable]'), 'keyup', onChange);
+    this.addListener(this.el.querySelector('[contenteditable]'), 'change', onChange);
   }
 }
