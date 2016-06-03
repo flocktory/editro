@@ -6,7 +6,7 @@ import Component from '../Component';
  */
 export default class InputComponent extends Component {
   template() {
-    return `<div class="EditroField">
+    return `<div class="EditroField ${!this.config.label ? 'EditroField--controlOnly' : ''}">
               <div class="EditroField-label">
                 <div class="EditroField-labelWrapper">
                   ${this.config.label}

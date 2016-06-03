@@ -8,7 +8,9 @@ export default class SrcController extends Controller {
   }
 
   createComponent(value) {
-    return new ImageComponent(value);
+    return new ImageComponent(value, {
+      label: this.i18n('Upload new image')
+    });
   }
 
   get() {

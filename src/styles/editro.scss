@@ -202,6 +202,9 @@ $control-border-radius: 2px;
       vertical-align: middle;
     }
   }
+  &--controlOnly &-label {
+    display: none;
+  }
   &-labelWrapper {
     display: inline-block;
     vertical-align: middle;
@@ -215,6 +218,9 @@ $control-border-radius: 2px;
     &--inline {
       display: flex;
     }
+  }
+  &--controlOnly &-control {
+    width: 100%;
   }
   &-controlLabel {
     display: inline-block;
