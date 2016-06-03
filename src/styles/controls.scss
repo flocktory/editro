@@ -222,10 +222,12 @@ $four-inputs-h-gap: 55px;
   &-inner {
     border: 2px solid #999;
     border-radius: $control-border-radius;
+    background: rgba(black, 0.05);
 
     &[shape=real] {}
     &[shape=imag] {
       border-style: dashed;
+      background: none;
     }
   }
   &-outer {
@@ -327,6 +329,7 @@ $four-inputs-h-gap: 55px;
     outline: none;
     background: #aaa;
     border-radius: 2px;
+    font-size: 10px;
     color: white;
 
     &::-webkit-input-placeholder {
