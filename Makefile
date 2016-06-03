@@ -5,18 +5,7 @@ build_path = build
 
 .PHONY: build
 build:
-	rm -rf $(build_path)
-	NODE_ENV=production BUILD_PATH=$(build_path) $(bin)/webpack
-	# Копируем статические файлы
-	cp src/flock_push_worker.js $(build_path)/push_worker.js
-	cp src/provider.html $(build_path)/provider.html
-	# Проставляем хеши файлам
-	cat $(build_path)/provider.js | $(checksum) | xargs -I {} sed -i.bak "s|___PROVIDER_HASHED_NAME___|provider.{}.js|g" "$(build_path)/provider.html"
-	cat $(build_path)/provider.js | $(checksum) | xargs -I {} mv $(build_path)/provider.js $(build_path)/provider.{}.js
-	cat $(build_path)/guerilla.js | $(checksum) | xargs -I {} sed -i.bak "s|___GUERILA_HASHED_NAME___|guerilla.{}.js|g" "$(build_path)/loader.js"
-	cat $(build_path)/guerilla.js | $(checksum) | xargs -I {} mv $(build_path)/guerilla.js $(build_path)/guerilla.{}.js
-	rm $(build_path)/*.bak
-	ls $(build_path)
+	NODE_ENV=production $(bin)/webpack -p
 
 .PHONY: install
 install:
