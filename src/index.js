@@ -5,6 +5,13 @@ const root = document.getElementById('root');
 const initHtml = `
   <!doctype html>
   <html>
+    <head>
+      <script>
+        function helloWorld(a) {
+          console.log(1)
+        }
+      </script>
+    </head>
     <body>
       <div>
         <h1 id="x">Check</h1>
