@@ -8,103 +8,173 @@ import { controllers } from './library';
 import Code from './Code';
 import { elementSearch, click } from './utils';
 import i18n from './i18n';
+import EventEmitter from 'events';
 
 const EDITED_ATTR = 'current-edited-element';
+const bodyClass = 'editro-body';
 
 const stopPropagation = (e) => e.stopPropagation();
 
-// Editor itself, get node, start html (optional), options
-export default function Editro(root, html = defaultHtml, options = {}) {
-  const rootComputedStyle = window.getComputedStyle(root);
-  if (!rootComputedStyle || rootComputedStyle.position === 'static') {
-    root.style.position = 'relative';
+// чистые
+// - снаружи
+// - на выход
+// - в кодредакторе
+// грязные
+// - в истории
+// - в ифрейме
+//
+
+class Editro extends EventEmitter {
+  constructor(root, html = defaultHtml, options = {}) {
+    super();
+
+    this.options = options;
+    this.root = root;
+    this.i18n = i18n(options.i18n);
+    this.elem = elementSearch(this.root, 'Editro');
+
+    const rootComputedStyle = window.getComputedStyle(root);
+    if (!rootComputedStyle || rootComputedStyle.position === 'static') {
+      this.root.style.position = 'relative';
+    }
+    this.root.innerHTML = editorHtml;
+    click(this.root, stopPropagation);
+
+    this.preview = this.elem('preview');
+
+    // Create history
+    this.history = new History(this.preview, html => {
+      this.preview.srcdoc = html;
+      this.emit('change', this.sanitize(html));
+    });
+    click(this.elem('backward'), () => history.backward());
+    click(this.elem('forward'), () => history.forward());
+
+    this.preview.addEventListener('load', this.onPreviewLoad);
+
+    const enrichedHtml = this.enrich(html);
+    this.history.push(enrichedHtml);
+    this.preview.srcdoc = enrichedHtml;
+
+    // Code editor
+    this.codeEditor = new Code(this.elem('code'), {
+      getHtml: () => this.sanitize(this.getHtml()),
+      keyMap: this.options.keyMap,
+      onChange: (html) => {
+        this.emit('change', html);
+        const enrichedHtml = this.enrich(html);
+        this.history.push(enrichedHtml);
+        this.preview.srcdoc = enrichedHtml;
+      }
+    });
+    click(this.elem('html'), () => this.codeEditor.toggle());
   }
-  root.innerHTML = editorHtml;
-  click(root, stopPropagation);
 
-  const i18nFunction = i18n(options.i18n);
-  const $el = elementSearch(root, 'Editro');
-  const preview = $el('preview');
-  const getHtml = () => '<!doctype html>\n' + preview.contentDocument.documentElement.outerHTML;
-  const handlers = { change: [] };
-  const emitChange = html => handlers.change.forEach(handler => handler(html));
-  const findEdited = () => preview.contentDocument.body.querySelector(`[${EDITED_ATTR}]`);
-
-  const history = new History(preview, html => {
-    preview.srcdoc = html;
-    emitChange(html);
-  });
-  history.push(html);
-  click($el('backward'), () => history.backward());
-  click($el('forward'), () => history.forward());
-
-  let toolbox = null;
-  const createToolbox = (selected) => new Toolbox(selected, {
-    controllers: controllers.concat(options.controllers || []),
-    root: root.querySelector('[editro-toolbox]'),
-    i18n: i18nFunction
-  });
-
-  preview.addEventListener('load', () => {
-    const body = preview.contentDocument.body;
-    if (toolbox) {
-      toolbox.destroy();
+  // Public API. SHould not be changed. Should be binded to this
+  destroy = () => {
+    this.root.removeEventListener('click', stopPropagation);
+    const e = root.querySelector('.Editro');
+    this.root.removeChild(e);
+    this.history.destroy();
+    this.codeEditor.destroy();
+  }
+  // end public API
+  
+  onPreviewLoad = () => {
+    const body = this.preview.contentDocument.body;
+    if (this.toolbox) {
+      this.toolbox.destroy();
     }
     const selected = body.querySelector(`[${EDITED_ATTR}]`);
     if (selected) {
-      toolbox = createToolbox(selected);
+      this.toolbox = this.createToolbox(selected);
     }
     // Create toolbox when element selected
     click(body, (e) => {
+      e.preventDefault();
       [].forEach.call(body.querySelectorAll(`[${EDITED_ATTR}]`), el => el.removeAttribute(EDITED_ATTR));
       e.target.setAttribute(EDITED_ATTR, EDITED_ATTR);
-      if (toolbox) {
-        toolbox.destroy();
-      }
-      toolbox = createToolbox(e.target);
+      this.setTarget(e.target)
     });
 
-    observeMutation(body, () => {
-      const html = getHtml();
-      history.push(html);
-      emitChange(html);
-      if (!findEdited()) {
-        toolbox.destroy();
-        toolbox = null;
-      }
+    observeMutation(body, this.onPreviewMutated);
+  }
+
+  onPreviewMutated = () => {
+    const html = this.getHtml();
+    this.history.push(html);
+    this.emit('change', this.sanitize(html));
+    if (!this.preview.contentDocument.body.querySelector(`[${EDITED_ATTR}]`)) {
+      toolbox.destroy();
+      toolbox = null;
+    }
+  }
+
+  // return raw html string from preview, string contains additional data,
+  // should be sanitized before output
+  getHtml = () => {
+    return '<!doctype html>\n' + this.preview.contentDocument.documentElement.outerHTML;
+  }
+
+  setTarget(target) {
+    if (this.toolbox) {
+      this.toolbox.destroy();
+    }
+    this.toolbox = this.createToolbox(target);
+  }
+
+  createToolbox(target) {
+    return new Toolbox(target, {
+      controllers: controllers.concat(this.options.controllers || []),
+      root: this.elem('toolbox'),
+      i18n: this.i18n
     });
-  });
+  }
 
-  preview.srcdoc = html;
-
-  // Code editor
-  const codeEditor = new Code($el('code'), {
-    getHtml,
-    keyMap: options.keyMap,
-    onChange(html) {
-      preview.srcdoc = html;
-      emitChange(html);
+  /**
+   * Add usefull data to html (styles, attributs, etc)
+   * @param {String} html clean html
+   * @returns {String} html with additional data
+   */
+  enrich = (html) => {
+    const re = /<head[^>]*>/gmi;
+    // if no head present
+    const headPos = html.search(re);
+    if (headPos === -1) {
+      html = html.substring(0, headPos) + '<head></head>' + html.substring(headPos);
     }
-  });
-  click($el('html'), () => codeEditor.toggle());
+    const additionalData = `
+      <head>
+      <!--EDITRO START-->
+      <style id="editro-style">
+        * {
+          cursor: pointer;
+        }
+        [${EDITED_ATTR}] {
+           outline: auto 5px -webkit-focus-ring-color;
+        }
+      </style>
+      <!--EDITRO END-->`;
 
+    return html.split(re).join(additionalData);
+  }
 
-  return {
-    getHtml,
-    // TODO А мы не хотим нормальный EventEmitter?
-    on(name, handler) {
-      handlers[name] = handlers[name] || [];
-      handlers[name].push(handler);
-    },
-    destroy() {
-      root.removeEventListener(stopPropagation);
-      const e = root.querySelector('.Editro');
-      root.removeChild(e);
-      history.destroy();
-      codeEditor.destroy();
-    }
-  };
+  /**
+   * Clean html from work data (styles, attrs, etc)
+   * @param {String} html html with data
+   * @returns {String} html clean html
+   */
+  sanitize(html) {
+    return html
+      .replace(/editro-body/gmi, '')
+      .replace(/\s*<!--EDITRO START-->[^]*<!--EDITRO END-->\s*/gmi, '');
+  }
 }
+
+export default function(...params) {
+  return new Editro(...params);
+}
+
 
 
 /**
