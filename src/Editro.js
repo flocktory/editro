@@ -46,8 +46,8 @@ class Editro extends EventEmitter {
       this.preview.srcdoc = html;
       this.emit('change', this.sanitize(html));
     });
-    click(this.elem('backward'), () => history.backward());
-    click(this.elem('forward'), () => history.forward());
+    click(this.elem('backward'), () => this.history.backward());
+    click(this.elem('forward'), () => this.history.forward());
 
     this.preview.addEventListener('load', this.onPreviewLoad);
 
@@ -105,8 +105,8 @@ class Editro extends EventEmitter {
     this.history.push(html);
     this.emit('change', this.sanitize(html));
     if (!this.preview.contentDocument.body.querySelector(`[${EDITED_ATTR}]`)) {
-      toolbox.destroy();
-      toolbox = null;
+      this.toolbox.destroy();
+      this.toolbox = null;
     }
   }
 
