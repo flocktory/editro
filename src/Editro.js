@@ -11,9 +11,8 @@ import i18n from './i18n';
 import EventEmitter from 'events';
 
 const EDITED_ATTR = 'current-edited-element';
-const bodyClass = 'editro-body';
-
 const stopPropagation = (e) => e.stopPropagation();
+
 
 // чистые
 // - снаружи
@@ -73,13 +72,13 @@ class Editro extends EventEmitter {
   // Public API. SHould not be changed. Should be binded to this
   destroy = () => {
     this.root.removeEventListener('click', stopPropagation);
-    const e = root.querySelector('.Editro');
-    this.root.removeChild(e);
+    const editroElement = this.root.querySelector('.Editro');
+    this.root.removeChild(editroElement);
     this.history.destroy();
     this.codeEditor.destroy();
   }
   // end public API
-  
+
   onPreviewLoad = () => {
     const { contentDocument } = this.preview;
     const body = contentDocument.body;
