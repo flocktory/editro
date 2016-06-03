@@ -81,11 +81,12 @@ class Editro extends EventEmitter {
   // end public API
   
   onPreviewLoad = () => {
-    const body = this.preview.contentDocument.body;
+    const { contentDocument } = this.preview;
+    const body = contentDocument.body;
     if (this.toolbox) {
       this.toolbox.destroy();
     }
-    const selected = body.querySelector(`[${EDITED_ATTR}]`);
+    const selected = contentDocument.querySelector(`[${EDITED_ATTR}]`);
     if (selected) {
       this.toolbox = this.createToolbox(selected);
     }
