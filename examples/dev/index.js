@@ -137,13 +137,9 @@ if (module.hot) {
 function htmlNav(editro) {
   const node = window.document.createElement('button');
   node.classList.add('EditroButton');
-  node.classList.add('Editro-html');
+  node.classList.add('Editro-navBtn');
 
-  node.innerHTML = `
-    <span class="EditroButton-wrapper">
-      <span class="EditroIcon EditroIcon--html"></span>
-    </span>
-  `;
+  node.innerHTML = 'HTML';
 
   // Code editor
   const codeEditor = new Code(document.getElementById('code'), {
@@ -163,19 +159,3 @@ function htmlNav(editro) {
   };
 }
 
-function alertNav({ i18n }) {
-  const node = window.document.createElement('button');
-  node.classList.add('EditroButton');
-  node.style.height = '22px';
-  node.innerHTML = `
-    <span class="EditroButton-wrapper">
-      ALERT()
-    </span>
-  `;
-  node.addEventListener('click', () => alert('What did you expect?'));
-
-  return {
-    node,
-    destroy() {}
-  };
-}

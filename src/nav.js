@@ -1,8 +1,8 @@
 export function forward(history) {
-  return makeHistoryNav('&#x25b6;', history.forward);
+  return makeHistoryNav('&#x25BA;', history.forward);
 }
 export function backward(history) {
-  return makeHistoryNav('&#9664;', history.backward);
+  return makeHistoryNav('&#x25C4;', history.backward);
 }
 
 /**
@@ -14,6 +14,7 @@ export function backward(history) {
 function makeHistoryNav(text, onClick) {
   return () => {
     const node = window.document.createElement('button');
+    node.classList.add('Editro-navBtn');
     node.classList.add('EditroButton');
 
     node.innerHTML = text;

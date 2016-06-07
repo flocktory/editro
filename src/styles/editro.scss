@@ -22,6 +22,7 @@ $control-border-radius: 2px;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
   }
 
   &-wrapper {
@@ -61,10 +62,16 @@ $control-border-radius: 2px;
     font-size: 16px;
     font-weight: bold;
 
-    .EditroButton + .EditroButton {
-      margin-left: -1px;
-    }
   }
+  &-navBtn {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 2px 6px;
+  }
+  &-navBtn + &-navBtn {
+    margin-left: -1px;
+  }
+
   &-reset {
     display: none;
   }
@@ -87,7 +94,6 @@ $control-border-radius: 2px;
   border: $control-border;
   cursor: pointer;
   outline: none;
-  padding: 2px 6px;
 
   &-wrapper {
     display: block;
