@@ -102,7 +102,6 @@ const i18nTestCtrl = {
 
 
 const options = {
-  keyMap: process.env.KEY_MAP || 'default',
   controllers: [customController, makeFlCloseControlle, i18nTestCtrl],
   nav: [htmlNav],
   i18n: espanolI18n
