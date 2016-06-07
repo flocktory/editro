@@ -21,7 +21,8 @@ export default class Toolbox extends EventEmitter {
     this.i18n = i18n;
     this.root = root;
     this.controllers = this.getControllers(el, controllers);
-    this.controllers.forEach(controller => controller.on && controller.on('select-element', el => this.emit('select-element', el)));
+    this.controllers.forEach(controller => controller.on &&
+      controller.on('select-element', e => this.emit('select-element', e)));
     this.render();
   }
 
@@ -44,10 +45,12 @@ export default class Toolbox extends EventEmitter {
           return;
         }
 
-        const form = createDocumentFragment(groupName === actionsGroup ? `<span editoro-controls></span>` : `<article class="EditroForm">
-          <div class="EditroForm-title">${controller.title}</div>
-          <div class="EditroForm-controls" editoro-controls></div>
-        </article>`);
+        const form = createDocumentFragment(groupName === actionsGroup ?
+          `<span editoro-controls></span>` :
+          `<article class="EditroForm">
+            <div class="EditroForm-title">${controller.title}</div>
+            <div class="EditroForm-controls" editoro-controls></div>
+          </article>`);
 
         form.querySelector('[editoro-controls]').appendChild(controller.node);
         group.firstChild.appendChild(form);
@@ -66,7 +69,7 @@ export default class Toolbox extends EventEmitter {
       const group = controller.group || basicGroup;
 
       controllerGroups[group] = controllerGroups[group] || [];
-      controllerGroups[group].push(controller)
+      controllerGroups[group].push(controller);
     });
 
     // Basic group at the end of list

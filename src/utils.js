@@ -44,7 +44,6 @@ export function click(el, handler) {
 }
 
 
-
 /**
  * Toggle Attribute
  * @param {Element} el
@@ -59,13 +58,13 @@ export function toggleAttr(el, attrName) {
 }
 
 
-export function num(valueStr, defaultValue=null) {
+export function num(valueStr, defaultValue = null) {
   return valueStr === '' ? defaultValue : parseInt(valueStr, 10);
 }
 
 
-export function px(value, defaultValue='auto') {
-  return value || value === 0  ? value + 'px' : defaultValue;
+export function px(value, defaultValue = 'auto') {
+  return value || value === 0 ? value + 'px' : defaultValue;
 }
 
 
