@@ -1,7 +1,10 @@
-export default class History {
-  constructor($iframe, onChange, size = 100) {
+import EventEmitter from 'events';
+
+export default class History extends EventEmitter {
+  constructor($iframe, size = 100) {
+    super();
+
     this._$iframe = $iframe;
-    this._onChange = onChange;
     this._size = size;
     this._history = [];
     this._pointer = -1;
@@ -14,11 +17,14 @@ export default class History {
     window.document.addEventListener('keydown', this._handler);
   }
 
-  destroy() {
+  destroy = () => {
     this._$iframe.contentDocument &&
-      this._$iframe.contentDocument.removeEventListener('keydown', this._handler);
+    this._$iframe.contentDocument.removeEventListener('keydown', this._handler);
     window.document.removeEventListener('keydown', this._handler);
   }
+
+  current = () => this._pointer;
+  total = () => this._history.length;
 
   push = (data) => {
     this._pointer++;
@@ -34,14 +40,14 @@ export default class History {
   forward = () => {
     if (this._pointer < this._history.length - 1) {
       this._pointer++;
-      this._onChange.call(null, this._history[this._pointer]);
+      this.emit('change', this._history[this._pointer]);
     }
   }
 
   backward = () => {
     if (this._pointer > 0) {
       this._pointer--;
-      this._onChange.call(null, this._history[this._pointer]);
+      this.emit('change', this._history[this._pointer]);
     }
   }
 

@@ -32,7 +32,8 @@ class Editro extends EventEmitter {
     this.preview = this.elem('preview');
 
     // Create history
-    this.history = new History(this.preview, html => {
+    this.history = new History(this.preview)
+    this.history.on('change', html => {
       this.preview.srcdoc = html;
       this.emit('change', this.sanitize(html));
     });
@@ -40,8 +41,8 @@ class Editro extends EventEmitter {
 
     // Build navigation elements
     const navigation = options.nav ? options.nav.map(a => a) : []; // copy
-    navigation.unshift(nav.forward(this.history));
-    navigation.unshift(nav.backward(this.history));
+    navigation.unshift(nav.forward(this, this.history));
+    navigation.unshift(nav.backward(this, this.history));
     this.nav = navigation.map(n => {
       const o = n(this);
       this.elem('nav').appendChild(o.node);

@@ -1,17 +1,14 @@
-export function forward(history) {
-  return makeHistoryNav('&#x25BA;', history.forward);
-}
-export function backward(history) {
-  return makeHistoryNav('&#x25C4;', history.backward);
+export function forward(editro, history) {
+  return createNav(editro, history, '&#x25BA;',
+      history.backward, (h) => h.total() > history.current() + 1);
 }
 
-/**
- * Create history element (backward or forward)
- * @param {String} text
- * @param {Function} onClick click handler
- * @returns {Object} {node}
- */
-function makeHistoryNav(text, onClick) {
+export function backward(editro, history) {
+  return createNav(editro, history, '&#x25C4;', history.backward, (h) => h.current() > 0);
+}
+
+
+function createNav(editro, history, text, handler, isEnabled) {
   return () => {
     const node = window.document.createElement('button');
     node.classList.add('Editro-navBtn');
@@ -19,7 +16,19 @@ function makeHistoryNav(text, onClick) {
 
     node.innerHTML = text;
 
-    node.addEventListener('click', onClick);
+    const updateAttribute = () => {
+      if (!isEnabled(history)) {
+        node.setAttribute('disabled', 'disabled');
+      } else {
+        node.removeAttribute('disabled');
+      }
+    };
+    updateAttribute();
+
+    node.addEventListener('click', handler);
+
+    history.on('change', updateAttribute);
+    editro.on('change', updateAttribute);
 
     return {
       node
