@@ -19,15 +19,6 @@
     background-image: url(../images/play.svg);
     transform: rotate(180deg);
   }
-  &--html {
-    width: auto;
-
-    &:before {
-      content: 'HTML';
-      font-size: 11px;
-      font-weight: bold;
-    }
-  }
   &--tal {
     background-image: url(../images/tal.svg);
   }

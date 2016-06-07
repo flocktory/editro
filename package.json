@@ -16,6 +16,7 @@
     "babel-preset-stage-0": "6.5.0",
     "babel-register": "6.9.0",
     "chai": "3.5.0",
+    "codemirror": "5.15.2",
     "css-loader": "0.23.1",
     "eslint": "2.10.2",
     "eslint-config-airbnb": "9.0.1",
@@ -35,7 +36,6 @@
     "webpack-dev-server": "1.14.1"
   },
   "dependencies": {
-    "codemirror": "5.15.2"
   },
   "publishConfig": {
     "registry" : "http://artifacts.dev.flocktory.com:8081/nexus/content/repositories/npm-private/"

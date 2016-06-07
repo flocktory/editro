@@ -9,20 +9,27 @@ const entry = isProd ?
   [
     'webpack-dev-server/client?http://localhost:4001',
     'webpack/hot/only-dev-server',
-    './src/index'
+    './examples/dev/index'
   ];
 
+  console.log(isProd)
 const output = {
-  path: path.join(__dirname, isProd ? 'lib' : 'dist'),
+  path: path.join(__dirname, 'dist'),
   filename: 'bundle.js',
   publicPath: '/static/'
 };
 
 if (isProd) {
+  output.path = path.join(__dirname, 'lib');
   output.library = 'editro';
   output.libraryTarget = 'umd';
   output.filename = 'editro.js';
 }
+
+const include = [
+  path.join(__dirname, 'src'),
+  path.join(__dirname, 'examples')
+];
 
 module.exports = {
   devtool: isProd ? null : 'eval',
@@ -33,12 +40,12 @@ module.exports = {
       {
         test: /\.js$/,
         loaders: ['babel'],
-        include: path.join(__dirname, 'src')
+        include: include
       },
       {
         test: /\.scss$/,
         loaders: ['style-loader', 'css-loader', 'sass-loader'],
-        include: path.join(__dirname, 'src')
+        include: include
       },
       {
         test: /\.css$/,
@@ -48,11 +55,12 @@ module.exports = {
       {
         test: /\.html/,
         loaders: ['html-loader'],
-        include: path.join(__dirname, 'src')
+        include: include
       },
       {
         test: /\.(svg|png|jpg)$/,
-        loader: 'url-loader?limit=8192'
+        loader: 'url-loader?limit=8192',
+        include: include
       }
     ]
   },

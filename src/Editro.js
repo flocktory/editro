@@ -5,23 +5,14 @@ import History from './History';
 import editorHtml from './templates/editro.html';
 import defaultHtml from './templates/default.html';
 import { controllers } from './library';
-import Code from './Code';
 import { elementSearch, click } from './utils';
 import i18n from './i18n';
 import EventEmitter from 'events';
+import * as nav from './nav';
 
 const EDITED_ATTR = 'current-edited-element';
 const stopPropagation = (e) => e.stopPropagation();
 
-
-// чистые
-// - снаружи
-// - на выход
-// - в кодредакторе
-// грязные
-// - в истории
-// - в ифрейме
-//
 
 class Editro extends EventEmitter {
   constructor(root, html = defaultHtml, options = {}) {
@@ -37,7 +28,6 @@ class Editro extends EventEmitter {
       this.root.style.position = 'relative';
     }
     this.root.innerHTML = editorHtml;
-    click(this.root, stopPropagation);
 
     this.preview = this.elem('preview');
 
@@ -46,8 +36,17 @@ class Editro extends EventEmitter {
       this.preview.srcdoc = html;
       this.emit('change', this.sanitize(html));
     });
-    click(this.elem('backward'), () => this.history.backward());
-    click(this.elem('forward'), () => this.history.forward());
+
+
+    // Build navigation elements
+    const navigation = options.nav ? options.nav.map(a => a) : []; // copy
+    navigation.unshift(nav.forward(this.history));
+    navigation.unshift(nav.backward(this.history));
+    this.nav = navigation.map(n => {
+      const o = n(this);
+      this.elem('nav').appendChild(o.node);
+      return o;
+    });
 
     this.preview.addEventListener('load', this.onPreviewLoad);
 
@@ -55,27 +54,33 @@ class Editro extends EventEmitter {
     this.history.push(enrichedHtml);
     this.preview.srcdoc = enrichedHtml;
 
-    // Code editor
-    this.codeEditor = new Code(this.elem('code'), {
-      getHtml: () => this.sanitize(this.getHtml()),
-      keyMap: this.options.keyMap,
-      onChange: (html) => {
-        this.emit('change', html);
-        const enrichedHtml = this.enrich(html);
-        this.history.push(enrichedHtml);
-        this.preview.srcdoc = enrichedHtml;
-      }
-    });
-    click(this.elem('html'), () => this.codeEditor.toggle());
   }
 
   // Public API. SHould not be changed. Should be binded to this
   destroy = () => {
-    this.root.removeEventListener('click', stopPropagation);
+    this.elem('preview')
+      .removeEventListener('click', stopPropagation);
     const editroElement = this.root.querySelector('.Editro');
     this.root.removeChild(editroElement);
     this.history.destroy();
-    this.codeEditor.destroy();
+    this.nav.forEach(n => n.destroy && n.destroy());
+  }
+
+  // return raw html string from preview, string contains additional data,
+  // should be sanitized before output
+  getHtml = () => {
+    return this.preview.contentDocument.documentElement ?
+      '<!doctype html>\n' + this.preview.contentDocument.documentElement.outerHTML :
+      '';
+  }
+
+  setHtml = (html) => {
+    if (this.sanitize(this.getHtml()) !== html) {
+      this.emit('change', html);
+      const enrichedHtml = this.enrich(html);
+      this.history.push(enrichedHtml);
+      this.preview.srcdoc = enrichedHtml;
+    }
   }
   // end public API
 
@@ -98,6 +103,7 @@ class Editro extends EventEmitter {
     });
 
     observeMutation(body, this.onPreviewMutated);
+    click(this.elem('preview'), stopPropagation);
   }
 
   onPreviewMutated = () => {
@@ -110,11 +116,6 @@ class Editro extends EventEmitter {
     }
   }
 
-  // return raw html string from preview, string contains additional data,
-  // should be sanitized before output
-  getHtml = () => {
-    return '<!doctype html>\n' + this.preview.contentDocument.documentElement.outerHTML;
-  }
 
   setTarget(target) {
     if (this.toolbox) {

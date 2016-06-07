@@ -20,7 +20,7 @@ export default class History {
     window.document.removeEventListener('keydown', this._handler);
   }
 
-  push(data) {
+  push = (data) => {
     this._pointer++;
     this._history.length = this._pointer + 1; // Remove tail if we move back and push
     this._history[this._pointer] = data;
@@ -31,14 +31,14 @@ export default class History {
     }
   }
 
-  forward() {
+  forward = () => {
     if (this._pointer < this._history.length - 1) {
       this._pointer++;
       this._onChange.call(null, this._history[this._pointer]);
     }
   }
 
-  backward() {
+  backward = () => {
     if (this._pointer > 0) {
       this._pointer--;
       this._onChange.call(null, this._history[this._pointer]);

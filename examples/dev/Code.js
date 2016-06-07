@@ -14,10 +14,25 @@ import 'codemirror/addon/fold/comment-fold';
 import 'codemirror/addon/comment/continuecomment';
 import 'codemirror/addon/display/fullscreen.css';
 import 'codemirror/addon/display/fullscreen';
-import html from './templates/code.html';
 import CodeMirror from 'codemirror';
-import {elementSearch, click, toggleAttr} from './utils';
+import {elementSearch, click, toggleAttr} from '../../src/utils';
 
+const html = `
+  <div class="EditroCode-codeMirror"></div>
+  <div class="EditroCode-actions">
+    <button class="EditroButton EditroCode-fullScreen">
+      <span class="EditroButton-wrapper">
+        <div class="EditroIcon EditroIcon--fullScreen"></div>
+        <div class="EditroIcon EditroIcon--fullScreenOut"></div>
+      </span>
+    </button>
+    <button class="EditroButton EditroCode-close">
+      <span class="EditroButton-wrapper">
+        <div class="EditroIcon EditroIcon--close"></div>
+      </span>
+    </button>
+  </div>
+`;
 
 
 const codeMirrorDefaultOptions = {
@@ -37,6 +52,7 @@ const codeMirrorDefaultOptions = {
 export default class Code {
   constructor(el, { onChange, getHtml, keyMap }) {
     el.innerHTML = html;
+    el.classList.add('EditroCode');
 
     this.codeMirrorInstance = null;
     this._el = el;
@@ -75,12 +91,18 @@ export default class Code {
     }
   }
 
+  setHtml(html) {
+    if (this.codeMirrorInstance && html !== this.codeMirrorInstance.getValue()) {
+      this.codeMirrorInstance.setValue(html);
+    }
+  }
+
   toggleFullscreen() {
     if (!this.codeMirrorInstance) {
       return;
     }
 
     this.codeMirrorInstance.setOption('fullScreen', !this.codeMirrorInstance.getOption('fullScreen'));
-    toggleAttr(this._el.firstChild, 'is-fullScreen');
+    toggleAttr(this._el, 'is-fullScreen');
   }
 }

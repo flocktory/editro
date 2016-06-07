@@ -1,5 +1,7 @@
 /* eslint-disable max-len, no-console, new-cap */
-import Editro from './Editro';
+import './index.scss';
+import Editro from '../../src/Editro';
+import Code from './Code';
 
 const root = document.getElementById('root');
 const initHtml = `
@@ -98,9 +100,11 @@ const i18nTestCtrl = {
   }
 };
 
+
 const options = {
   keyMap: process.env.KEY_MAP || 'default',
   controllers: [customController, makeFlCloseControlle, i18nTestCtrl],
+  nav: [htmlNav],
   i18n: espanolI18n
 };
 
@@ -125,7 +129,53 @@ if (module.hot) {
   module.hot.accept(() => {
     init();
   });
-  module.hot.accept('./Editro', () => {
+  module.hot.accept('../../src/Editro', () => {
     init();
   });
+}
+
+function htmlNav(editro) {
+  const node = window.document.createElement('button');
+  node.classList.add('EditroButton');
+  node.classList.add('Editro-html');
+
+  node.innerHTML = `
+    <span class="EditroButton-wrapper">
+      <span class="EditroIcon EditroIcon--html"></span>
+    </span>
+  `;
+
+  // Code editor
+  const codeEditor = new Code(document.getElementById('code'), {
+    getHtml: () => editro.sanitize(editro.getHtml()),
+    onChange: (html) => {
+      editro.setHtml(html);
+    }
+  });
+  node.addEventListener('click', () => codeEditor.toggle());
+  editro.on('change', (h) => codeEditor.setHtml(h))
+
+  return {
+    node,
+    destroy() {
+      codeEditor.destroy();
+    }
+  };
+}
+
+function alertNav({ i18n }) {
+  const node = window.document.createElement('button');
+  node.classList.add('EditroButton');
+  node.style.height = '22px';
+  node.innerHTML = `
+    <span class="EditroButton-wrapper">
+      ALERT()
+    </span>
+  `;
+  node.addEventListener('click', () => alert('What did you expect?'));
+
+  return {
+    node,
+    destroy() {}
+  };
 }
