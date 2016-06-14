@@ -32,7 +32,7 @@ class Editro extends EventEmitter {
     this.preview = this.elem('preview');
 
     // Create history
-    this.history = new History(this.preview)
+    this.history = new History(this.preview, this.root)
     this.history.on('change', html => {
       this.preview.srcdoc = html;
       this.emit('change', this.sanitize(html));

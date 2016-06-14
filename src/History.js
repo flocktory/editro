@@ -1,10 +1,11 @@
 import EventEmitter from 'events';
 
 export default class History extends EventEmitter {
-  constructor($iframe, size = 100) {
+  constructor($iframe, root, size = 100) {
     super();
 
     this._$iframe = $iframe;
+    this._root = root;
     this._size = size;
     this._history = [];
     this._pointer = -1;
@@ -53,10 +54,20 @@ export default class History extends EventEmitter {
 
   _onKeyDown(e) {
     if (e.keyCode === 90 && e.metaKey) {
-      if (e.shiftKey) {
-        this.forward();
-      } else {
-        this.backward();
+      // Check event from editro
+      let t = e.target;
+      while(t.parentNode) {
+        if (t === document.body || t === this._$iframe || t === this._root) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.shiftKey) {
+            this.forward();
+          } else {
+            this.backward();
+          }
+          return;
+        }
+        t = t.parentNode;
       }
     }
   }
