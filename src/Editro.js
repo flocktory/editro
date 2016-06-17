@@ -70,9 +70,11 @@ class Editro extends EventEmitter {
   // return raw html string from preview, string contains additional data,
   // should be sanitized before output
   getHtml = () => {
-    return this.preview.contentDocument.documentElement ?
+    const encoded =  this.preview.contentDocument.documentElement ?
       '<!doctype html>\n' + this.preview.contentDocument.documentElement.outerHTML :
       '';
+
+    return encoded.replace(/&amp;/gmi, '&');
   }
 
   setHtml = (html) => {
