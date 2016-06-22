@@ -158,6 +158,9 @@ class Editro extends EventEmitter {
            outline: auto 5px -webkit-focus-ring-color;
         }
       </style>
+      <script>
+        window.___editro = true;
+      </script>
       <!--EDITRO END-->`;
 
     return html.split(re).join(additionalData);
