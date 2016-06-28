@@ -12,6 +12,7 @@ const initHtml = `
         function helloWorld(a) {
           console.log(1)
         }
+        console.log('script works')
       </script>
     </head>
     <body>

@@ -141,6 +141,13 @@ class Editro extends EventEmitter {
    * @returns {String} html with additional data
    */
   enrich = (html) => {
+
+    const sre = /<script[^>]*>/gmi;
+
+    html = html.replace(sre, (str) => str.indexOf('text/javascript') > -1 ?
+      str.replace('text/javascript', 'fake/javascript') :
+      str.replace(/<script/i, '<script type="fake/javascript" '));
+
     const re = /<head[^>]*>/gmi;
     // if no head present
     const headPos = html.search(re);
@@ -163,7 +170,8 @@ class Editro extends EventEmitter {
       </script>
       <!--EDITRO END-->`;
 
-    return html.split(re).join(additionalData);
+    return html
+      .split(re).join(additionalData);
   }
 
   /**
@@ -174,7 +182,8 @@ class Editro extends EventEmitter {
   sanitize(html) {
     return html
       .replace(/editro-body/gmi, '')
-      .replace(/\s*<!--EDITRO START-->[^]*<!--EDITRO END-->\s*/gmi, '');
+      .replace(/\s*<!--EDITRO START-->[^]*<!--EDITRO END-->\s*/gmi, '')
+      .replace(/type="fake\/javascript"/gmi, 'type="text/javascript"');
   }
 }
 
