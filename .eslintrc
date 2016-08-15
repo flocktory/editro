@@ -5,6 +5,9 @@
      "browser": true,
      "node": true
   },
+  "plugins": [
+    "class-property"
+  ],
   "rules": {
     "max-len": [2, 120, 2],
     "no-trailing-spaces": [1],

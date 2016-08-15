@@ -57,7 +57,7 @@ export default class History extends EventEmitter {
       // Check event from editro
       let t = e.target;
       while(t.parentNode) {
-        if (t === document.body || t === this._$iframe || t === this._root) {
+        if (t === this._$iframe.contentDocument.body || t === this._$iframe || t === this._root) {
           e.preventDefault();
           e.stopPropagation();
           if (e.shiftKey) {
