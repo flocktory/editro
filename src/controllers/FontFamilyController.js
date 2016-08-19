@@ -87,7 +87,7 @@ export default class FontFamilyController extends Controller {
   }
 
   get() {
-    return window.getComputedStyle(this.el).fontFamily;
+    return this.el.computedStyle.fontFamily;
   }
 
   set(value) {

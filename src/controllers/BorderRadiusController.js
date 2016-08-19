@@ -28,7 +28,7 @@ export default class BorderRadiusController extends Controller {
   }
 
   get() {
-    const computedStyle = window.getComputedStyle(this.el);
+    const computedStyle = this.el.computedStyle;
     const components = ['TopRight', 'BottomRight', 'BottomLeft', 'TopLeft'].map(position =>
       num(computedStyle[`border${position}Radius`]));
     const showComponents = components.reduce(

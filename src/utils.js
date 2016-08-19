@@ -73,3 +73,4 @@ export function emitDomEvent(elements, eventName) {
   eventInstance.initEvent(eventName, true, true);
   toArray(elements).forEach(element => element.dispatchEvent(eventInstance));
 }
+
