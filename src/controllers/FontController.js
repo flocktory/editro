@@ -29,7 +29,7 @@ export default class FontController extends Controller {
   }
 
   get() {
-    const computedStyle = window.getComputedStyle(this.el);
+    const computedStyle = this.el.computedStyle;
 
     return {
       color: computedStyle.color,

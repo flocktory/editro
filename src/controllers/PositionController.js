@@ -10,7 +10,7 @@ export default class PositionController extends BaseTBLRController {
   }
 
   get() {
-    const computedStyle = window.getComputedStyle(this.el);
+    const computedStyle = this.el.computedStyle;
     const value = super.get();
 
     value.position = computedStyle.position;

@@ -27,7 +27,7 @@ export default class BackgroundController extends Controller {
   }
 
   get() {
-    const computedStyle = window.getComputedStyle(this.el);
+    const computedStyle = this.el.computedStyle;
 
     let color1 = computedStyle.backgroundColor;
     let hasGradient = false;

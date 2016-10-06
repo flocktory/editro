@@ -42,7 +42,7 @@ export default class BaseTBLRController extends Controller {
   }
 
   get() {
-    const computedStyle = window.getComputedStyle(this.el);
+    const computedStyle = this.el.computedStyle;
     const value = {};
 
     directions.forEach(direction => {

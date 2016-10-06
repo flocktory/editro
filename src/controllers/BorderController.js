@@ -28,7 +28,7 @@ export default class BorderController extends Controller {
   }
 
   get() {
-    const computedStyle = window.getComputedStyle(this.el);
+    const computedStyle = this.el.computedStyle;
     const components = ['Top', 'Right', 'Bottom', 'Left'].map(position =>
       ['Width', 'Color'].map((prop, i) =>
         i ? computedStyle[`border${position}${prop}`] : num(computedStyle[`border${position}${prop}`])));
