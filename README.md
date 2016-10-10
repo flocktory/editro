@@ -1,6 +1,8 @@
 # Editro
 Visual editor written in Javascript. Think about MS Front Page or Dreamweaver that can be injected into you web app.
 
+Require node 4
+
 *Warning! Package is tested only in chrome.*
 
 ## How to use

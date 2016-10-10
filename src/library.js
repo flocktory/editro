@@ -9,6 +9,7 @@ import ContentController from './controllers/ContentController';
 import BorderController from './controllers/BorderController';
 import BorderRadiusController from './controllers/BorderRadiusController';
 import HrefController from './controllers/HrefController';
+import PlaceholderController from './controllers/PlaceholderController';
 import FontFamilyController from './controllers/FontFamilyController';
 import DeleteController from './controllers/DeleteController';
 
@@ -18,6 +19,7 @@ export const controllers = [
   ContentController,
   SrcController,
   HrefController,
+  PlaceholderController,
   FontController,
   FontFamilyController,
   BackgroundController,

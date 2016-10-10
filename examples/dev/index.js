@@ -61,6 +61,7 @@ const customController = {
     };
   }
 };
+
 const makeFlCloseControlle = {
   test: () => true,
   create: (el) => {
@@ -101,9 +102,23 @@ const i18nTestCtrl = {
   }
 };
 
+const selectedElement = {
+  test: () => true,
+  create: (el) => {
+    const node = window.document.createElement('div');
+    node.innerHTML = el.tagName.toLowerCase() + ' ' + el.className;
+    node.style.fontSize = '12px'
+    return {
+      node,
+      title: 'Node tag',
+      destroy() {}
+    }
+  }
+}
+
 
 const options = {
-  controllers: [customController, makeFlCloseControlle, i18nTestCtrl],
+  controllers: [selectedElement, customController, makeFlCloseControlle, i18nTestCtrl],
   nav: [htmlNav],
   i18n: espanolI18n
 };
