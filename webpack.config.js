@@ -12,7 +12,6 @@ const entry = isProd ?
     './examples/dev/index'
   ];
 
-  console.log(isProd)
 const output = {
   path: path.join(__dirname, 'dist'),
   filename: 'bundle.js',
