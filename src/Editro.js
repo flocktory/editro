@@ -163,7 +163,6 @@ class Editro extends EventEmitter {
                 const allCssText = [].reduce.call(st.rules, (t, r) => t + '\n\n' + r.cssText,'');
                 st.ownerNode.innerHTML = formatCss(allCssText);
                 const html = editro.getHtml();
-                console.log(html)
                 editro.history.push(html);
                 editro.emit('change', editro.sanitize(html));
                 return true;
@@ -172,7 +171,6 @@ class Editro extends EventEmitter {
           }
           return styleProxy;
         }
-        console.log(`Чтение ${prop}`);
         const val = target[prop]
         return typeof val === 'function' ? val.bind(target) : val
       },
@@ -248,7 +246,7 @@ class Editro extends EventEmitter {
 
   getStyleTag() {
     const st = this.preview.contentDocument.getElementById('editro-perm-style');
-    return [].find.call(editro.preview.contentDocument.styleSheets, s => s.ownerNode === st);
+    return [].find.call(this.preview.contentDocument.styleSheets, s => s.ownerNode === st);
   }
 }
 

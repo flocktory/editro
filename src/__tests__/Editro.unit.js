@@ -38,7 +38,6 @@ describe('Editro', () => {
     `;
     const root = document.createElement('div');
     const editro = Editro(root, html);
-    console.log(editro.enrich(html))
     editro.sanitize(editro.enrich(html)).replace(/\s+/gmi, '')
       .should.be.eql(html.replace(/\s+/gmi, ''));
   });
