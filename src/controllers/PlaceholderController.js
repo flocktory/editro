@@ -3,7 +3,7 @@ import InputComponent from '../components/InputComponent';
 
 export default class PlaceholderController extends Controller {
   static test(el) {
-    return ((el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'textarea') && (el.placeholder && el.placeholder !== ""));
+    return (el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'textarea') && (el.placeholder && el.placeholder !== "");
   }
 
   createComponent(value) {
