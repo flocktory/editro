@@ -174,7 +174,3 @@ function htmlNav(editro) {
   };
 }
 
-// fetch('http://editro.local.dev.flocktory.com/_FLOCKTORY_APP_HOST_/html/widgets/precheckout_general/social/popup/social-with-background.ru.html')
-// .then(r => r.text())
-// .then(t => editro.setHtml(t))
-
