@@ -74,3 +74,7 @@ export function emitDomEvent(elements, eventName) {
   toArray(elements).forEach(element => element.dispatchEvent(eventInstance));
 }
 
+
+export function toKebabCase(str) {
+  return str.replace(/([A-Z])/g, a => '-' + a.toLowerCase());
+}

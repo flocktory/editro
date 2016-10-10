@@ -5,7 +5,7 @@ import History from './History';
 import editorHtml from './templates/editro.html';
 import defaultHtml from './templates/default.html';
 import { controllers } from './library';
-import { elementSearch, click } from './utils';
+import { elementSearch, click, toKebabCase } from './utils';
 import i18n from './i18n';
 import EventEmitter from 'events';
 import * as nav from './nav';
@@ -155,7 +155,7 @@ class Editro extends EventEmitter {
                 const rule = [].find.call(st.rules, a => a.selectorText === selectorText);
 
                 if (rule) {
-                  rule.style.setProperty(prop, value, 'important');
+                  rule.style.setProperty(toKebabCase(prop), value, 'important');
                 } else {
                   const cssValue = value.endsWith('!important') ? value : (value + ' !important');
                   const cssProp = prop.replace(/[A-Z]/, a => '-' + a.toLowerCase());
@@ -269,3 +269,5 @@ function observeMutation(element, onMutate) {
   const config = { attributes: true, childList: true, characterData: true, subtree: true };
   observer.observe(element, config);
 }
+
+
