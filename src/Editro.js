@@ -155,10 +155,11 @@ class Editro extends EventEmitter {
                 const rule = [].find.call(st.rules, a => a.selectorText === selectorText);
 
                 if (rule) {
-                  rule.style[prop] = value;
+                  rule.style.setProperty(prop, value, 'important');
                 } else {
+                  const cssValue = value.endsWith('!important') ? value : (value + ' !important');
                   const cssProp = prop.replace(/[A-Z]/, a => '-' + a.toLowerCase());
-                  st.insertRule(`${selectorText} { ${cssProp}: ${value};}`, st.rules.length)
+                  st.insertRule(`${selectorText} { ${cssProp}: ${cssValue};}`, st.rules.length)
                 }
                 const allCssText = [].reduce.call(st.rules, (t, r) => t + '\n\n' + r.cssText,'');
                 st.ownerNode.innerHTML = formatCss(allCssText);
