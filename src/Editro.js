@@ -222,8 +222,6 @@ class Editro extends EventEmitter {
         outline: auto 5px -webkit-focus-ring-color;
       }
       </style>\n
-      <style id="editro-perm-style">
-      </style>\n
       <script>
         window.___editro = true;
       </script>
