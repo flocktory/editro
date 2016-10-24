@@ -1,143 +1,88 @@
-const defaultTransforms = [
-  {
-    match: true,
-    type: 'number',
-    label: 'Margin top',
-    target: {
-      type: 'style',
-      field: 'marginTop'
-    }
-  },
-  {
-    match: 'img',
-    type: 'image',
-    label: 'Source image',
-    target: {
-      type: 'attr',
-      field: 'src'
-    }
-  }
-];
+import EventEmitter from 'events';
+import {createDocumentFragment} from './utils';
 
-/**
- * Create toolbox
- *
- * @param root DOM element to render tollbox
- * @param e DOM element to edit
- * @param options
- * @param options.transforms list of transforms
- * @returns {undefined}
- */
-export default function Toolbox(root, el, { transforms = [] } = {}) {
-  transforms = defaultTransforms.concat(transforms);
-  const fragment = window.document.createDocumentFragment();
-  const filter = isElMatchTransform.bind(null, el);
-  transforms
-    .filter(filter)
-    .map(t => renderTransform(t, el)) // can use Proxy
-    .forEach(t => fragment.appendChild(t));
 
-  root.innerHTML = '';
-  root.appendChild(fragment);
+const basicGroup = 'basic';
+const actionsGroup = 'actions';
 
-  const insertBtn = window.document.createElement('button');
-  insertBtn.innerText = 'Insert inside'; // TODO inside outside befre after
-  insertBtn.addEventListener('click', () => {
-    const ins = window.document.createElement('div');
-    ins.style.background = '#fca';
-    ins.style.padding = '10px'
-    ins.style.margin = '10px'
-    ins.innerHTML = 'WARGHHHHHH!!!!';
-    el.appendChild(ins);
-  });
-  root.appendChild(insertBtn);
 
-  const removeBtn = window.document.createElement('button');
-  removeBtn.innerText = 'Remove el';
-  removeBtn.addEventListener('click', () => {
-    el.parentNode.removeChild(el);
-    root.innerHTML = 'Click on element to select';
-  });
-  root.appendChild(removeBtn);
-
-  return {
-    destroy: () => {
-      // Clear handlers
-    }
-  };
-}
-
-/**
- * Check if element match
- *
- * @param e dom node
- * @param t transform object
- * @returns {Boolean}
- */
-function isElMatchTransform(e, t) {
-  const { match } = t;
-  if (t.match === true) {
-    return true;
+export default class Toolbox extends EventEmitter {
+  /**
+   * Toolbox constructor
+   * @param {Element} el current edited DOM node
+   * @param {Object} options
+   * @param {Array} optionsi.controllers list of controllers to use
+   * @param {Element} options.root element to render toobox in
+   * @param {Function} options.i18n translation function, return localized string by key
+   * @returns {undefined}
+   */
+  constructor(el, { controllers, root, i18n }) {
+    super();
+    this.i18n = i18n;
+    this.root = root;
+    this.controllers = this.getControllers(el, controllers);
+    this.controllers.forEach(controller => controller.on &&
+      controller.on('select-element', e => this.emit('select-element', e)));
+    this.render();
   }
 
-  // check is string, also add function matcher, attribute matcher
-  if (t.match) {
-    return e.tagName.toLowerCase() === match;
+  getControllers(el, controllers) {
+    return controllers
+      .filter(Controller => Controller.test(el))
+      .map(Controller => Controller.create(el, { i18n: this.i18n }));
   }
 
-  throw new Error(`Wrong transform match: ${match}`);
-}
+  render() {
+    const panel = createDocumentFragment('<section class="EditroPanel"></section>');
 
-let id = 0;
-// Get transform render DOM node for it
-function renderTransform(t, el) {
-  id++;
-  const { type, label, target } = t;
-  const value = getTargetValue(el, target);
-  const tel = window.document.createElement('div');
-  tel.className = 'Toolbox-field';
+    // Render groups
+    this.getControllerGroups(this.controllers).forEach(([groupName, controllers]) => {
+      const group = createDocumentFragment(`<div class="EditroPanel-section"></div>`);
 
-  // TODO should choose dinamycaly from list of renderers by "type"
-  if (type === 'number') {
-    tel.innerHTML = `
-      <label for="${id}">${label}</label>
-      <input type="text" value="${value}">
-    `;
-    tel.querySelector('input').addEventListener('change', (e) => {
-      setTargetValue(el, target, e.target.value);
+      // Render components in group
+      controllers.forEach(controller => {
+        if (!controller.node) {
+          return;
+        }
+
+        const form = createDocumentFragment(groupName === actionsGroup ?
+          `<span editoro-controls></span>` :
+          `<article class="EditroForm">
+            <div class="EditroForm-title">${controller.title}</div>
+            <div class="EditroForm-controls" editoro-controls></div>
+          </article>`);
+
+        form.querySelector('[editoro-controls]').appendChild(controller.node);
+        group.firstChild.appendChild(form);
+      });
+
+      panel.firstChild.appendChild(group);
     });
-  } else if (type === 'image') {
-    tel.innerHTML = `
-      <label for="${id}">Best image selector</label>
-      <label for="${id}">${label}</label>
-      <input type="text" value="${value}">
-    `;
-    tel.querySelector('input').addEventListener('change', (e) => {
-      setTargetValue(el, target, e.target.value);
+
+    this.root.appendChild(panel);
+  }
+
+  getControllerGroups(controllers) {
+    const controllerGroups = {};
+
+    controllers.forEach(controller => {
+      const group = controller.group || basicGroup;
+
+      controllerGroups[group] = controllerGroups[group] || [];
+      controllerGroups[group].push(controller);
     });
+
+    // Basic group at the end of list
+    return Object
+      .getOwnPropertyNames(controllerGroups)
+      .map(key => [key, controllerGroups[key]])
+      .sort((itemLeft, itemRight) =>
+        itemLeft[0] === actionsGroup && itemRight[0] !== actionsGroup ? 0 :
+        (itemLeft[0] === basicGroup && itemRight[0] !== basicGroup ? 1 : 0));
   }
 
-  return tel;
-}
-
-
-function getTargetValue(e, { type, field }) {
-  if (type === 'style') {
-    return e.style[field];
-  }
-  if (type === 'attr') {
-    return e.getAttribute(field);
-  }
-  throw new Error(`Wrong target type ${type}`);
-}
-
-function setTargetValue(e, { type, field }, value) {
-  if (type === 'style') {
-    e.style[field] = value;
-  } else if (type === 'attr') {
-    e.setAttribute(field, value);
-  } else {
-    throw new Error(`Wrong target type ${type}`);
+  destroy() {
+    this.controllers.forEach(controller => controller.destroy());
+    this.root.innerHTML = '';
   }
 }
-

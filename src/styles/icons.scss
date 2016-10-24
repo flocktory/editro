@@ -1,0 +1,328 @@
+// Icons
+
+.EditroIcon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 15px;
+  height: 15px;
+  line-height: 14px;
+  text-align: center;
+  background: 50% 50% / contain no-repeat;
+
+  &--reset {
+    background-image: url(../images/reset.svg);
+  }
+  &--f {
+    background-image: url(../images/play.svg);
+  }
+  &--b {
+    background-image: url(../images/play.svg);
+    transform: rotate(180deg);
+  }
+  &--tal {
+    background-image: url(../images/tal.svg);
+  }
+  &--tac {
+    background-image: url(../images/tac.svg);
+  }
+  &--tar {
+    background-image: url(../images/tar.svg);
+  }
+  &--fln {
+    background-image: url(../images/fln.png);
+    background-size: 20px;
+  }
+  &--fll {
+    background-image: url(../images/fll.png);
+    background-size: 20px;
+  }
+  &--flr {
+    background-image: url(../images/flr.png);
+    background-size: 20px;
+  }
+  &--lh {
+    margin-right: 2px;
+  }
+  &--lh:before {
+    content: '↕';
+    line-height: 27px;
+    font-size: 16px;
+  }
+  &--fz {
+    line-height: 27px;
+    margin-right: 5px;
+
+    &:before {
+      content: 'T';
+      font-size: 9px;
+    }
+    &:after {
+      content: 'T';
+      font-size: 15px;
+    }
+  }
+  &--fwn,
+  &--fwb,
+  &--fsi,
+  &--fwbfsi {
+    &:before {
+      content: 'T';
+      font-size: 9px;
+    }
+    &:after {
+      content: 'T';
+      font-size: 15px;
+    }
+  }
+  &--fwn {
+    font-size: 14px;
+    font-weight: lighter;
+  }
+  &--fwb {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &--fsi {
+    font-size: 14px;
+    font-weight: lighter;
+    font-style: italic;
+  }
+  &--fwbfsi {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+  }
+  &--vab,
+  &--vasub,
+  &--vasup {
+    font-size: 15px;
+
+    &:before {
+      content: 'T';
+    }
+    &:after {
+      content: '1';
+    }
+  }
+  &--vasub {
+    &:after {
+      font-size: 10px;
+      vertical-align: sub;
+    }
+  }
+  &--vasup {
+    position: relative;
+    top: -2px;
+
+    &:after {
+      font-size: 10px;
+      vertical-align: super;
+    }
+  }
+  &--bd,
+  &--bdn,
+  &--bdcustom,
+  &--bdt,
+  &--bdr,
+  &--bdb,
+  &--bdl {
+    border: 1px dotted #999;
+    border-radius: 1px;
+  }
+  &--bd {
+    border: 2px solid #999;
+  }
+  &--bdcustom {
+    &:before {
+      content: '?';
+      font-size: 12px;
+      color: #999;
+    }
+  }
+  &--bdt {
+    margin-top: 6px;
+    border-top: 2px solid #999;
+  }
+  &--bdr {
+    margin-top: 6px;
+    border-right: 2px solid #999;
+  }
+  &--bdb {
+    margin-top: 6px;
+    border-bottom: 2px solid #999;
+  }
+  &--bdl {
+    margin-top: 6px;
+    border-left: 2px solid #999;
+  }
+  &--solid,
+  &--dashed,
+  &--dotted {
+    width: 20px;
+    height: 8px;
+    margin-top: 7px;
+    border-top: 2px #999;
+  }
+  &--solid {
+    border-top-style: solid;
+  }
+  &--dashed {
+    border-top-style: dashed;
+  }
+  &--dotted {
+    border-top-style: dotted;
+  }
+  &--ib,
+  &--ia,
+  &--ab,
+  &--aa {
+    width: 20px;
+    height: 20px;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      display: block;
+      width: 10px;
+      height: 10px;
+      background: url(../images/plus.svg) 50% 50% / 100% no-repeat;
+    }
+    &:after {
+      content: '';
+      display: block;
+      border: 2px solid;
+      border-radius: 2px;
+    }
+  }
+  &--ib {
+    &:before {
+      top: 0px;
+    }
+    &:after {
+      height: 10px;
+      margin-top: 10px;
+      border-bottom: none;
+    }
+  }
+  &--ia {
+    &:before {
+      bottom: 0;
+    }
+    &:after {
+      height: 10px;
+      margin-bottom: 10px;
+      border-top: none;
+    }
+  }
+  &--ab {
+    &:before {
+      top: 2px;
+    }
+    &:after {
+      height: 20px;
+    }
+  }
+  &--aa {
+    &:before {
+      bottom: 2px;
+    }
+    &:after {
+      height: 20px;
+    }
+  }
+  &--expand {
+    &:before {
+      content: '↧';
+      font-size: 18px;
+    }
+  }
+  &--collapse {
+    &:before {
+      content: '↥';
+      font-size: 18px;
+    }
+  }
+  &--resize {
+    &:before {
+      content: '↔';
+      font-size: 18px;
+    }
+  }
+  &--close {
+    &:before {
+      content: '×';
+      font-size: 24px;
+      line-height: 13px;
+    }
+  }
+  &--fullScreen {
+    &:before {
+      content: '⇱';
+      font-size: 18px;
+    }
+  }
+  &--fullScreenOut {
+    &:before {
+      content: '⇲';
+      font-size: 18px;
+    }
+  }
+  &--upload {
+    background: url(../images/upload.svg) 50% 50% / cover no-repeat;
+  }
+  &--bgsn,
+  &--bgscov,
+  &--bgscon,
+  &--bgptl,
+  &--bgptr,
+  &--bgpbl,
+  &--bgpbr,
+  &--bgpc {
+    box-shadow: inset 0 0 4px #888;
+  }
+  &--bgsn {
+    background: url(../images/liza.jpg) 50% 50% / 8px no-repeat;
+  }
+  &--bgscov {
+    background: url(../images/liza.jpg) 50% 50% / cover no-repeat;
+  }
+  &--bgscon {
+    background: url(../images/liza.jpg) 50% 50% / contain no-repeat;
+  }
+  &--bgptl {
+    background: url(../images/liza.jpg) 0 0 / 8px no-repeat;
+  }
+  &--bgptr {
+    background: url(../images/liza.jpg) 100% 0 / 8px no-repeat;
+  }
+  &--bgpbl {
+    background: url(../images/liza.jpg) 0 100% / 8px no-repeat;
+  }
+  &--bgpbr {
+    background: url(../images/liza.jpg) 100% 100% / 8px no-repeat;
+  }
+  &--bgpc {
+    background: url(../images/liza.jpg) 50% 50% / 8px no-repeat;
+  }
+  &--gradr,
+  &--gradbr,
+  &--gradb,
+  &--gradbl {
+    box-shadow: inset 0 0 3px #888;
+  }
+  &--gradr {
+    background: linear-gradient(to right, transparent 20%, rgba(black, 0.6) 100%);
+  }
+  &--gradbr {
+    background: linear-gradient(to bottom right, transparent 20%, rgba(black, 0.6) 100%);
+  }
+  &--gradb {
+    background: linear-gradient(to bottom, transparent 20%, rgba(black, 0.6) 100%);
+  }
+  &--gradbl {
+    background: linear-gradient(to bottom left, transparent 20%, rgba(black, 0.6) 100%);
+  }
+}
+
