@@ -211,8 +211,6 @@ class Editro extends EventEmitter {
     }
     const additionalData = `\n
       <head>
-      <style id="editro-perm-style">
-      </style>
       <!--EDITRO START-->
       <style id="editro-style">
       * {
@@ -244,7 +242,13 @@ class Editro extends EventEmitter {
   }
 
   getStyleTag() {
-    const st = this.preview.contentDocument.getElementById('editro-perm-style');
+    const cd = this.preview.contentDocument;
+    let st = cd.getElementById('editro-perm-style');
+    if (!st) {
+      st = cd.createElement('style');
+      st.id = 'editro-perm-style';
+      cd.head.appendChild(st);
+    }
     return [].find.call(this.preview.contentDocument.styleSheets, s => s.ownerNode === st);
   }
 }
