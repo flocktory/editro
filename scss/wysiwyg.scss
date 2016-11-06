@@ -1,0 +1,5 @@
+@import 'mixins';
+
+.Editro-Controller-Wysiwyg {
+  @include controller();
+}

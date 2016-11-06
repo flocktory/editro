@@ -1,0 +1,7 @@
+.Editro-Controller-Background {
+  display: none;
+  
+  &[data-enabled="yes"] {
+    display: block;
+  }
+}

@@ -1,14 +1,31 @@
+const toArray = module.exports.toArray = function(list) {
+  return Array.prototype.slice.call(list);
+};
+
+module.exports.elem = function(instance, n) {
+  return instance.getNode()
+    .querySelector('.' + instance.getPrefix() + '-' + n);
+};
+module.exports.elems = function(instance, n) {
+  return toArray(instance.getNode()
+    .querySelectorAll('.' + instance.getPrefix() + '-' + n));
+};
+module.exports.is = function(instance, mod) {
+  return instance.getNode().classList.contains(instance.getPrefix() + '--' + mod);
+};
+
 /**
- * Module with general helper functions
+ * html create element from html
+ *
+ * @returns {Element}
  */
+module.exports.html = function(html) {
+  const template = document.createElement('template');
+  template.innerHTML = html.trim();
+  return template.content;
+};
 
-
-export function toArray(pseudoArray) {
-  return Array.prototype.slice.call(pseudoArray || []);
-}
-
-
-export function createDocumentFragment(html) {
+module.exports.createDocumentFragment = function (html) {
   try {
     return document.createRange().createContextualFragment(html);
   } catch (e) {
@@ -20,61 +37,47 @@ export function createDocumentFragment(html) {
 
     return fragment;
   }
-}
+};
 
+module.exports.toKebabCase = function (str) {
+  return str.replace(/([A-Z])/g, a => '-' + a.toLowerCase());
+};
+module.exports.toCamelCase = function (str) {
+  return str.replace(/(-.)/g, a => a.slice(1).toUpperCase());
+};
 
-/**
- * Create an element search function
- * @param {Element} root block node
- * @param {String} blockName
- * @returns {Function} search function `search(elementName)`
- */
-export function elementSearch(root, blockName) {
-  return name => root.querySelector(`.${blockName}-${name}`);
-}
-
-
-/**
- * Add click handler to element
- * @param {Element} el
- * @param {Function} handler
- */
-export function click(el, handler) {
-  el.addEventListener('click', handler);
-}
-
-
-/**
- * Toggle Attribute
- * @param {Element} el
- * @param {String} attrName
- */
-export function toggleAttr(el, attrName) {
-  if (el.hasAttribute(attrName)) {
-    el.removeAttribute(attrName);
-  } else {
-    el.setAttribute(attrName, '');
-  }
-}
-
-
-export function num(valueStr, defaultValue = null) {
-  return valueStr === '' ? defaultValue : parseInt(valueStr, 10);
-}
-
-
-export function px(value, defaultValue = 'auto') {
+module.exports.capitalize = function(str) {
+  return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
+};
+module.exports.px = function px(value, defaultValue = 'auto') {
   return value || value === 0 ? value + 'px' : defaultValue;
-}
+};
 
+const combination = module.exports.combination = function(...colls) {
+  if (colls.length === 1) {
+    return colls[0].map(c => [c]);
+  }
 
-export function emitDomEvent(elements, eventName) {
+  return colls[0].reduce((acc, c0) => {
+    // maybe better to calc once and then clone?
+    const rest = combination(...colls.slice(1));
+
+    rest.forEach(cr => {
+      cr.unshift(c0);
+      acc.push(cr);
+    });
+
+    return acc;
+  }, []);
+  
+};
+
+module.exports.num = function num(valueStr, defaultValue = null) {
+  return valueStr === '' ? defaultValue : parseInt(valueStr, 10);
+};
+
+module.exports.emitDomEvent = function emitDomEvent(elements, eventName) {
   const eventInstance = document.createEvent('Event');
   eventInstance.initEvent(eventName, true, true);
   toArray(elements).forEach(element => element.dispatchEvent(eventInstance));
-}
-
-
-export function toKebabCase(str) {
-  return str.replace(/([A-Z])/g, a => '-' + a.toLowerCase());
-}
+};

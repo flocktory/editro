@@ -1,0 +1,22 @@
+.Editro-Notification {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform:translateX(-50%);
+  min-width: 300px;
+  border-radius: 2px;
+  background: #323232;
+  color: #fff;
+  padding: 14px 24px;
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+
+  &-Title {
+    font-size: 16px;
+    margin: 0 0 4px 0;
+  }
+
+  &--hidden {
+    opacity: 0;
+  }
+}

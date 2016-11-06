@@ -1,24 +1,18 @@
-bin = ./node_modules/.bin
+FIND_SCSS_SOURCES=find scss -name \*.scss
 
-.PHONY: build
-build:
-	NODE_ENV=production $(bin)/webpack -p
+dist/style.css: $(shell $(FIND_SCSS_SOURCES))
+	sassc scss/index.scss dist/style.css
 
-.PHONY: install
-install:
-	npm install
+FIND_SOURCES=find src -name \*.js
 
-.PHONY: lint
-lint:
-	$(bin)/eslint src
-
-.PHONY: test
-test:
-	$(bin)/mocha -r setupUnits.js --compilers js:babel-register --recursive src/**/*.unit.js
-
-
-.PHONY: test-w
-test-w:
-	@make test || true
-	@fswatch -r0 ./src | xargs -0 -n1 -I{} make test
-
+locales.po: $(shell $(FIND_SOURCES))
+	@echo Collect keys
+	@$(FIND_SOURCES) | \
+		xgettext --from-code=UTF-8 --language=JavaScript \
+		-kt:1,2t -kt:1c,2,3t \
+		-ktp:1,2,4t -ktp:1c,2,3,5t \
+		--default-domain english \
+		--output-dir=./ \
+		--add-comments \
+		-o en-US.po \
+		-f -;

@@ -1,16 +1,36 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Sample App</title>
-    <style>
-    </style>
-  </head>
-  <body>
-    <div class="Wrapper">
-      <div class="Root" id="root"></div>
-      <div id="code"></div>
-    </div>
-    <pre class="Result" id="html"></pre>
-    <script src="/static/bundle.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title></title>
+  <style>
+    body {
+      //background: #eee; 
+    }
+    #editro {
+      width: 80%;
+      margin: 42px auto;
+      height: 450px;
+    }
+    #mocha {
+      margin: 0!important; 
+    }
+    #testframe {
+      display: block;
+      border: none; 
+      margin: 10px auto!important;
+      width: 80%!important;
+    }
+  </style>
+			<link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="editro"></div>
+  <div id="mocha"></div>
+
+  <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+  <script type="text/javascript" src="/static/bundle.js"></script>
+</body>
 </html>

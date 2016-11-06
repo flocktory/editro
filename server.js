@@ -12,3 +12,4 @@ new WebpackDevServer(webpack(config), {
 }).listen(port, 'localhost', function (err, result) {
   console.log(err || `Listening at http://localhost:${port}/`);
 });
+

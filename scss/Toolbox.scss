@@ -1,0 +1,58 @@
+@import 'mixins';
+
+.Editro-Toolbox {
+  @include depth(2);
+
+  display: flex;
+  flex-direction: column;
+  width: 550px;
+  transition: all 300ms;
+
+
+  &-Toolbar {
+    @include toolbar(2);
+  }
+
+  &-Header {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-Title {
+    flex: 1;
+    text-align: center;
+    line-height: $toolbar-height;
+  }
+
+  &-Open {
+    display: none;
+    padding-right: 8px;
+  }
+  &-Collapse {
+    padding-left: 8px;
+  }
+  &-Collapse, &-Open {
+    width: $toolbar-height;
+    line-height: $toolbar-height;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &--collapsed {
+    width: $toolbar-height;
+    background: $primary-color;
+  }
+  &--collapsed &-Open {
+    display: block;
+  }
+  &--collapsed &-Collapse {
+    display: none;
+  }
+  &--collapsed &-Toolbar {
+    box-shadow: none;
+  }
+  &--collapsed &-Tabs, &--collapsed &-Panes, &--collapsed &-Title {
+    display: none;
+  }
+}
