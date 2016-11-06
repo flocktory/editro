@@ -1,0 +1,9 @@
+@import "mixins";
+
+.EditroTabs {
+  @include tabs();
+
+  &-tab {
+    @include tab();
+  }
+}

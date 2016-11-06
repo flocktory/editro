@@ -1,16 +1,48 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Sample App</title>
-    <style>
-    </style>
-  </head>
-  <body>
-    <div class="Wrapper">
-      <div class="Root" id="root"></div>
-      <div id="code"></div>
-    </div>
-    <pre class="Result" id="html"></pre>
-    <script src="/static/bundle.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title></title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/addon/display/fullscreen.css" />
+  <style>
+    body {
+      //background: #eee; 
+    }
+    #editro {
+      width: 80%;
+      margin: 42px auto;
+      height: 750px;
+    }
+    #mocha {
+      margin: 0!important; 
+    }
+    #testframe {
+      display: block;
+      border: none; 
+      margin: 10px auto!important;
+      width: 80%!important;
+    }
+    .CodeMirror {
+      font-size: 12px!important;
+      height: 100%!important;
+    }
+  </style>
+</head>
+<body>
+  <div id="editro"></div>
+  <div id="mocha"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/codemirror.min.js"></script></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/addon/display/fullscreen.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/mode/css/css.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+  <script type="text/javascript" src="/static/bundle.js"></script>
+</body>
 </html>

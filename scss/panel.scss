@@ -1,0 +1,84 @@
+@import './mixins';
+
+$border-color: #b2b2b2;
+$pick-size: 5px;
+
+.EditroPanel {
+  background: #fff;
+  display: flex;
+
+  &-pick {
+    display: flex;
+    height: $pick-size;
+    background: #fff;
+  }
+
+  &-collapse {
+    width: 30px;
+  }
+  &-move {
+    flex: 1;
+    color: #fff;
+    text-align: center;
+    line-height: 0;
+    user-select: none;
+    cursor: ns-resize; 
+  }
+
+  &-content {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  &[data-position=top] {
+    flex-direction: column-reverse;
+    border-bottom: 1px solid $border-color;
+  }
+  &[data-position=right] {
+    flex-direction: row;
+    border-left: 1px solid $border-color;
+
+    .EditroPanel-pick {
+      flex-direction: column;
+      height: auto;
+      width: $pick-size;
+    }
+
+    .EditroPanel-collapse {
+      height: 30px;
+    }
+    .EditroPanel-move {
+      flex: 1;
+      color: #fff;
+      text-align: center;
+      line-height: 0;
+      user-select: none;
+      cursor: ew-resize; 
+    }
+  }
+  &[data-position=bottom] {
+    flex-direction: column;
+    border-top: 1px solid $border-color;
+  }
+  &[data-position=left] {
+    flex-direction: row-reverse;
+    border-right: 1px solid $border-color;
+
+    .EditroPanel-pick {
+      height: auto;
+      width: $pick-size;
+    }
+  }
+
+  &[data-fixed=yes] {
+    .EditroPanel-pick {
+      display: none;
+    }
+  }
+
+  &[data-collapsed=yes] {
+    .EditroPanel-content {
+      display: none;
+    }
+  }
+}

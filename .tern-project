@@ -1,17 +1,7 @@
 {
   "libs": [
-    "browser",
-    "ecma6",
-    "chai"
+    "ecma5",
+    "ecma6"
   ],
-  "loadEagerly": [
-    "./src/**/*.js"
-  ],
-  "dontLoad": [
-    "./node_modules"
-  ]
-  "plugins": {
-    "es_modules": {},
-    "webpack": {}
-  }
+  "ecmaVersion": 6
 }

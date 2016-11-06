@@ -1,7 +1,7 @@
 /* eslint-disable */
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const config = require('./webpack.config');
+const config = require('./webpack.dev.config');
 
 const port = 4001;
 
@@ -12,3 +12,4 @@ new WebpackDevServer(webpack(config), {
 }).listen(port, 'localhost', function (err, result) {
   console.log(err || `Listening at http://localhost:${port}/`);
 });
+

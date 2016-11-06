@@ -1,0 +1,41 @@
+$height: 40px;
+
+.EditroInstruments {
+  height: $height;
+  padding: $height * 0.2;
+  background: linear-gradient(to bottom, #edebed 0%, #e0dee0 100%);
+
+  text-align: center;
+
+  &-group {
+    display: inline;
+    margin: 0 10px;
+  }
+
+  &-item {
+    margin-right: $height * 0.2;
+    margin-left: $height * 0.2;
+    display: inline;
+    opacity: 0.8;
+    cursor: pointer;
+    vertical-align: sub;
+    transition: opacity ease-in 200ms;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &-icon {
+    display: inline;
+    max-height: $height * 0.35;
+    vertical-align: middle;
+    margin-right: 2px;
+    margin-top: -2px;
+  }
+
+  &-title {
+    display: inline;
+    font-size: $height * 0.3;
+  }
+}

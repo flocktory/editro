@@ -1,0 +1,83 @@
+@import 'mixins';
+
+$toolbar-size: 20px;
+
+.EditroToolbox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  transition: all 300ms;
+  position: relative;
+
+  &-placeholder {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 1;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    line-height: 2;
+    font-weight: 100;
+    color: #ccc;
+  }
+
+  &-Toolbar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $toolbar-size;
+    border-top: 1px solid #b2b2b2;
+    background: #e7e7e7;
+  }
+
+  &-Header {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-Title {
+    flex: 1;
+    text-align: center;
+    line-height: $toolbar-height;
+  }
+
+  &-Open {
+    display: none;
+    padding-right: 8px;
+  }
+  &-Collapse {
+    padding-left: 8px;
+  }
+  &-Collapse, &-Open {
+    width: $toolbar-size;
+    line-height: $toolbar-size;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &--collapsed {
+    width: $toolbar-size;
+    background: #e7e7e7;
+
+    .EditroPanes {
+      display: none;
+    }
+  }
+  &--collapsed &-Open {
+    display: block;
+  }
+  &--collapsed &-Collapse {
+    display: none;
+  }
+  &--collapsed &-Toolbar {
+    box-shadow: none;
+  }
+  &--collapsed &-Tabs, &--collapsed &-Panes, &--collapsed &-Title {
+    display: none;
+  }
+}
