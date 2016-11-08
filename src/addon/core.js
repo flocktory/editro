@@ -19,6 +19,39 @@ module.exports = function(Editro) {
   });
   Editro.defineExtension('i18n', a => a);
 
+  // add instruments
+  Editro.defineInitHook(e => {
+    const currentSelected = document.createElement('div');
+    currentSelected.className = 'EditroInstruments-item';
+    e.addInstrument({
+      getNode: () => currentSelected
+    });
+    e.on('selected', el => currentSelected.innerHTML = `
+      <div class="EditroInstruments-icon">${el.getTag()}</div>
+      <div class="EditroInstruments-title">Current</div>
+    `);
+
+    const I = Editro.type.Instrument;
+    e.addInstrument(new I(e, {
+      icon: require('../../images/backward.svg'),
+      title: 'Backward',
+      onClick: () => e.backward()
+    }));
+    e.addInstrument(new I(e, {
+      icon: require('../../images/forward.svg'),
+      title: 'Forward',
+      onClick: () => e.forward()
+    }));
+
+    let currentEl = null;
+    e.on('selected', el => currentEl = el);
+    e.addInstrument(new I(e, {
+      icon: require('../../images/remove.svg'),
+      title: 'Remove',
+      onClick: () => currentEl && currentEl.remove()
+    }));
+  });
+
   const req = require.context('./components', true, /\.js$/);
   req.keys().forEach(c => {
     const name = c.slice(2, -3);

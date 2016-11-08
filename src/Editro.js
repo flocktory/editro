@@ -6,7 +6,7 @@
  */
 
 const EventEmmiter = require('events');
-import Frame from './Frame';
+const Frame = require('./Frame');
 const Toolbox = require('./Toolbox');
 
 const tabs = require('./addon/toolbox/tabs');
@@ -33,15 +33,35 @@ class Editro extends EventEmmiter {
       prefix: this.options.prefix + 'Frame',
       code: prepared
     });
-    this.node.appendChild(this.frame.getNode());
     this.frame.on('selected', this._onElementSelected.bind(this));
     this.frame.on('change', this._onFrameChanged.bind(this));
 
     this.toolbox = new Toolbox({
       prefix: this.options.prefix + 'Toolbox'
     });
-    this.node.appendChild(this.toolbox.getNode());
 
+
+    // Build DOM
+    // top
+    const instruments = new Editro.type.Instruments(this);
+    const topPanel = new Editro.type.Panel({
+      position: 'top',
+      tag: 'instruments',
+      child: instruments.getNode()
+    });
+    this.node.appendChild(topPanel.getNode());
+    // center
+    const center = document.createElement('div');
+    center.className = 'Editro-center';
+    center.appendChild(this.frame.getNode());
+    // right
+    const rightPanel = new Editro.type.Panel({
+      position: 'right',
+      tag: 'toolbox',
+      child: this.toolbox.getNode()
+    });
+    center.appendChild(rightPanel.getNode());
+    this.node.appendChild(center);
     root.appendChild(this.node);
 
     initHooks.forEach(h => h(this));
@@ -129,6 +149,8 @@ module.exports = Editro;
 const tags = require('./tags');
 Object.keys(tags).forEach(g => Editro.defineHelper('tags', g, tags[g]));
 
+require('./addon/panel')(Editro);
+require('./addon/instruments')(Editro);
 tabs(Editro);
 panes(Editro);
 require('./addon/core')(Editro);

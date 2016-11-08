@@ -13,7 +13,6 @@ class Toolbox {
     this.node.innerHTML = `
       <div class="${this.prefix}-Toolbar">
         <div class="${this.prefix}-Header">
-          <div class="${this.prefix}-Title"></div>
           <div class="${this.prefix}-Collapse">&#x232A;</div>
           <div class="${this.prefix}-Open">&#x2329;</div>
         </div>
@@ -37,7 +36,6 @@ class Toolbox {
   }
 
   setElement(element) {
-    elem(this, 'Title').innerText = element.getTag();
     if (is(this, 'collapsed')) {
       this._toggle();
     }

@@ -1,0 +1,9 @@
+@import './mixins';
+
+.EditroPanel {
+  background: #fff;
+
+  &--right {
+    @include depth(1);
+  }
+}

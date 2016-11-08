@@ -117,30 +117,6 @@ $control-border-radius: 2px;
 }
 
 
-// Panel (Toolbox)
-
-.EditroPanel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  background: white;
-  font-size: 0;
-
-  &-section {
-    display: inline-block;
-    width: 100%;
-    padding: 20px;
-
-    & + & {
-      border-top: 1px solid #ddd;
-    }
-  }
-}
-
-
 // Form
 
 .EditroControl {}

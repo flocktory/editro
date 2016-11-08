@@ -31,6 +31,10 @@ class Element {
   getTag() {
     return this.node.tagName.toLowerCase();
   }
+
+  remove() {
+    this.node.parentNode.removeChild(this.node);
+  }
 }
 
 module.exports = Element;

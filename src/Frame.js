@@ -1,7 +1,7 @@
 const Element = require('./Element');
 const EventEmmiter = require('events');
 
-export default class Frame extends EventEmmiter {
+class Frame extends EventEmmiter {
   constructor(options) {
     super();
     this.prefix = options.prefix;
@@ -52,3 +52,5 @@ export default class Frame extends EventEmmiter {
   }
 }
 
+
+module.exports = Frame;

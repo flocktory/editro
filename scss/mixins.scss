@@ -11,6 +11,8 @@ $control-background: linear-gradient(to bottom, #f8f8f8 0%, #f0f0f0 100%);
 $control-border: 1px solid #ccc;
 $control-border-radius: 2px;
 
+$tab-size: 24px;
+
 @mixin depth($level) {
   @if $level == 1 {
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -42,12 +44,13 @@ $control-border-radius: 2px;
 	position: relative;
 	overflow-x: auto;
 	overflow-y: hidden;
-	height: $toolbar-height;
-	background-color: $primary-color;
+	height: $tab-size;
+	background-color: #e7e7e7;
 	margin: 0 auto;
   padding: 0;
 	width: 100%;
 	white-space: nowrap;
+  border-bottom: 1px solid #b2b2b2;
 }
 
 @mixin tab() {
@@ -59,15 +62,14 @@ $control-border-radius: 2px;
 	display: block;
 	float: left;
 
-	height: $toolbar-height;
+	height: $tab-size;
 	padding: 0 24px;
 	margin: 0;
 	width: 15%;
 	min-width: 80px;
 
 	text-align: center;
-	line-height: $toolbar-height;
-	text-transform: uppercase;
+	line-height: $tab-size;
 	text-overflow: ellipsis;
   font-size: 13px;
 	overflow: hidden;
@@ -77,14 +79,15 @@ $control-border-radius: 2px;
   outline: none;
   background: none;
 
-  color: rgba($text-color, 0.7);
+  & + & {
+    border-left: 1px solid #b2b2b2;
+  }
 
   &:hover {
-    color: $text-color;
+    background-color: #f3f3f3;
   }
   &[data-active="yes"] {
-    color: $text-color;
-    border-bottom: 3px solid $accent-color;
+    background-color: #f3f3f3;
   }
 }
 

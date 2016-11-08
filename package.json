@@ -11,6 +11,7 @@
   "devDependencies": {
     "css-loader": "^0.25.0",
     "eslint": "^3.8.1",
+    "file-loader": "^0.9.0",
     "jest": "^16.0.2",
     "mocha": "^3.1.2",
     "mocha-loader": "^1.0.0",
@@ -21,5 +22,8 @@
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.9"
+  },
+  "dependencies": {
+    "quill": "^1.1.5"
   }
 }
