@@ -9,10 +9,9 @@ class Tabs {
     this.editro = editro;
     this.toolbox = editro.getToolbox();
     const tNode = this.toolbox.getNode();
-    this.prefix = this.toolbox.getPrefix() + '-Tabs';
 
     this.node = document.createElement('div');
-    this.node.className = this.prefix;
+    this.node.className = 'EditroTabs';
 
     const tabs = editro.getOption('tabs') || defaultTabs;
     this.tabs = tabs.map(c => this._createTab(c));
@@ -27,7 +26,7 @@ class Tabs {
 
     tNode.appendChild(this.node);
 
-    let current = localStorage.getItem(this.prefix + '-current');
+    let current = localStorage.getItem('EditroTabs-current');
     if (!tabs.find(t => t.name === current)) {
       current = tabs[0].name;
     }
@@ -38,7 +37,7 @@ class Tabs {
     const paneName = config.name;
     const title = config.title;
     const tab = document.createElement('button');
-    tab.className = this.prefix + '-Tab';
+    tab.className = 'EditroTabs-tab';
     tab.dataset.pane = config.name;
     tab.setAttribute('data-pane', paneName);
     tab.innerHTML = title || paneName;
@@ -51,7 +50,7 @@ class Tabs {
     });
     this.editro.setOption('pane', paneName);
     try {
-      localStorage.setItem(this.prefix + '-current', paneName);
+      localStorage.setItem('EditroTabs-current', paneName);
     } catch(e) {
       // do nothing
     }

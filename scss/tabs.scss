@@ -1,9 +1,9 @@
 @import "mixins";
 
-.Editro-Toolbox-Tabs {
+.EditroTabs {
   @include tabs();
 
-  &-Tab {
+  &-tab {
     @include tab();
   }
 }

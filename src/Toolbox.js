@@ -5,18 +5,17 @@ const { elem, elems, is } = require('./utils');
  */
 class Toolbox {
   constructor(options) {
-    this.prefix = options.prefix;
     this.element = null;
 
     this.node = document.createElement('div');
-    this.node.className = this.prefix;
+    this.node.className = 'EditroToolbox';
+    this.node.innerHTML = `
+      <div class="EditroToolbox-placeholder"></div>
+    `;
   }
 
   getNode() {
     return this.node;
-  }
-  getPrefix() {
-    return this.prefix;
   }
 
   addControl(paneName, node) {
