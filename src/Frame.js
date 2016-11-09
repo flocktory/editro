@@ -44,6 +44,13 @@ class Frame extends EventEmmiter {
 
     this._addServiceNodes();
 
+    // remove if few selected, select first
+    const current = body.querySelectorAll('[editro-current]');
+    if (current.length) {
+      [].slice.call(current, 1).forEach(n => n.removeAttribute('editro-current'));
+      this._select(current[0]);
+    }
+
     body.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
