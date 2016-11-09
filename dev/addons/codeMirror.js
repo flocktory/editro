@@ -39,6 +39,15 @@ module.exports = function(Editro) {
         });
       }
     }, 200));
+
+
+    const I = Editro.type.Instrument;
+    editro.addInstrument(new I(editro, {
+      icon: require('../../images/code.svg'),
+      title: 'Html',
+      onClick: () => editro.emit('toggle-bottom-panel'),
+      group: 'panels'
+    }));
   });
 };
 

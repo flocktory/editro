@@ -2,7 +2,8 @@ const key = Symbol('instruments');
 
 module.exports = function(Editro) {
   class Instrument {
-    constructor(editro, { icon, title, onClick }) {
+    constructor(editro, { icon, title, onClick, group }) {
+      this.group = group || 'none';
       const i = document.createElement('div');
       i.className = 'EditroInstruments-item';
       i.innerHTML = `
@@ -14,6 +15,9 @@ module.exports = function(Editro) {
     }
     getNode() {
       return this.node;
+    }
+    getGroup() {
+      return this.group;
     }
   }
 
@@ -38,7 +42,16 @@ module.exports = function(Editro) {
      * @param Object opts options
      */
     addInstrument(instrument) {
-      this.node.appendChild(instrument.getNode());
+      const group = instrument.getGroup();
+
+      let gEl = this.node.querySelector(`[data-group="${group}"]`);
+      if (!gEl) {
+        gEl = document.createElement('div');
+        gEl.className = 'EditroInstruments-group';
+        gEl.dataset.group = group;
+        this.node.appendChild(gEl);
+      }
+      gEl.appendChild(instrument.getNode());
     }
 
 

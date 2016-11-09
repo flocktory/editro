@@ -23,32 +23,43 @@ module.exports = function(Editro) {
   Editro.defineInitHook(e => {
     const currentSelected = document.createElement('div');
     currentSelected.className = 'EditroInstruments-item';
-    e.addInstrument({
-      getNode: () => currentSelected
-    });
-    e.on('selected', el => currentSelected.innerHTML = `
-      <div class="EditroInstruments-icon">${el.getTag()}</div>
-      <div class="EditroInstruments-title">Current</div>
-    `);
-
     const I = Editro.type.Instrument;
-    e.addInstrument(new I(e, {
-      icon: require('../../images/backward.svg'),
-      title: 'Backward',
-      onClick: () => e.backward()
-    }));
-    e.addInstrument(new I(e, {
-      icon: require('../../images/forward.svg'),
-      title: 'Forward',
-      onClick: () => e.forward()
-    }));
-
     let currentEl = null;
     e.on('selected', el => currentEl = el);
+
+    e.addInstrument({
+      getNode: () => currentSelected,
+      getGroup: () => 'element'
+    });
+    e.on('selected', el => currentSelected.innerHTML = `
+      <div class="EditroInstruments-icon" style="text-transform: uppercase;">${el.getTag()}</div>
+    `);
+
     e.addInstrument(new I(e, {
-      icon: require('../../images/remove.svg'),
+      icon: require('../../images/undo.svg'),
+      title: 'Backward',
+      onClick: () => e.backward(),
+      group: 'history'
+    }));
+    e.addInstrument(new I(e, {
+      icon: require('../../images/repeat.svg'),
+      title: 'Forward',
+      onClick: () => e.forward(),
+      group: 'history'
+    }));
+
+
+    e.addInstrument(new I(e, {
+      icon: require('../../images/ban.svg'),
       title: 'Remove',
-      onClick: () => currentEl && currentEl.remove()
+      onClick: () => currentEl && currentEl.remove(),
+      group: 'element'
+    }));
+    e.addInstrument(new I(e, {
+      icon: require('../../images/sliders.svg'),
+      title: 'Toolbox',
+      onClick: () => e.emit('toggle-right-panel'),
+      group: 'panels'
     }));
   });
 

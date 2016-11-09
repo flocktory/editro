@@ -69,8 +69,15 @@ $pick-size: 10px;
       width: $pick-size;
     }
   }
+
   &[data-fixed=yes] {
     .EditroPanel-pick {
+      display: none;
+    }
+  }
+
+  &[data-collapsed=yes] {
+    .EditroPanel-content {
       display: none;
     }
   }

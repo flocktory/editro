@@ -39,10 +39,17 @@ class Panel {
     this.node.lastChild.appendChild(opts.child);
     this.node.querySelector('.EditroPanel-move')
       .addEventListener('mousedown', this._startResize.bind(this));
+
+    editro.on(`toggle-${this.position}-panel`, () => this._toggle());
   }
 
   getNode() {
     return this.node;
+  }
+
+  _toggle() {
+    this.node.dataset.collapsed = this.node.dataset.collapsed !== 'yes' ?
+      'yes' : 'no';
   }
 
   _startResize(e) {
