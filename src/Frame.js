@@ -5,6 +5,7 @@ class Frame extends EventEmmiter {
   constructor(options) {
     super();
     this.prefix = options.prefix;
+    this.current = null;
     this.node = document.createElement('iframe');
     this.node.className = this.prefix;
 
@@ -34,14 +35,29 @@ class Frame extends EventEmmiter {
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
-      this.emit('selected', new Element(e.target));
+      this._select(e.target);
     }, true);
 
     this.emit('load');
+  }
 
-    const observer = new window.MutationObserver(e => this._onMutate(e));
-    const config = { attributes: true, childList: true, characterData: true, subtree: true };
-    observer.observe(body, config);
+  _select(node) {
+    if (this.current) {
+      this.current.emit('deattached');
+      this.current.removeAllListeners('change');
+    }
+
+    const el = new Element(node);
+    this.current = el;
+
+    el.on('change', () => {
+      this.emit('change', {
+        element: el,
+        html: this.getHtml()
+      });
+    });
+
+    this.emit('selected', el);
   }
 
   _onMutate(e) {

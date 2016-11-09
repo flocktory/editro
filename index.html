@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <title></title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/codemirror.min.css" />
   <style>
     body {
       //background: #eee; 
@@ -21,13 +23,18 @@
       margin: 10px auto!important;
       width: 80%!important;
     }
+    .CodeMirror {
+      font-size: 12px!important;
+      height: 100%!important;
+    }
   </style>
-			<link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
 </head>
 <body>
   <div id="editro"></div>
   <div id="mocha"></div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/codemirror.min.js"></script></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.20.2/mode/htmlmixed/htmlmixed.min.js"></script></script>
   <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
   <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
   <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>

@@ -93,21 +93,21 @@ module.exports = function(Editro) {
     _onChange(fontFamily) {
       this.el.setStyle('fontFamily', fontFamily);
 
-      // TODO avoid el.getNode
-      const node = this.el.getNode();
-      const source = Editro.font[fontFamily].source;
-      const linkToSource = node.querySelector('link[role=font-family]');
+      this.el.withNode(node => {
+        const source = Editro.font[fontFamily].source;
+        const linkToSource = node.querySelector('link[role=font-family]');
 
-      if (source) {
-        if (linkToSource) {
-          linkToSource.setAttribute('href', source);
-        } else {
-          const link = createDocumentFragment(`<link rel="stylesheet" href="${source}" role="font-family" />`);
-          node.appendChild(link);
+        if (source) {
+          if (linkToSource) {
+            linkToSource.setAttribute('href', source);
+          } else {
+            const link = createDocumentFragment(`<link rel="stylesheet" href="${source}" role="font-family" />`);
+            node.appendChild(link);
+          }
+        } else if (linkToSource) {
+          node.removeChild(linkToSource);
         }
-      } else if (linkToSource) {
-        node.removeChild(linkToSource);
-      }
+      });
     }
   }
 

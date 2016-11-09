@@ -10,17 +10,6 @@ class Toolbox {
 
     this.node = document.createElement('div');
     this.node.className = this.prefix;
-    this.node.innerHTML = `
-      <div class="${this.prefix}-Toolbar">
-        <div class="${this.prefix}-Header">
-          <div class="${this.prefix}-Collapse">&#x232A;</div>
-          <div class="${this.prefix}-Open">&#x2329;</div>
-        </div>
-      </div>
-    `;
-
-    elem(this, 'Collapse').addEventListener('click', this._toggle.bind(this));
-    elem(this, 'Open').addEventListener('click', this._toggle.bind(this));
   }
 
   getNode() {
@@ -36,9 +25,9 @@ class Toolbox {
   }
 
   setElement(element) {
-    if (is(this, 'collapsed')) {
-      this._toggle();
-    }
+    //if (is(this, 'collapsed')) {
+      //this._toggle();
+    //}
   }
 
   _toggle() {

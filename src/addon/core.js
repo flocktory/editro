@@ -52,6 +52,9 @@ module.exports = function(Editro) {
     }));
   });
 
+  // frame return &amp;
+  Editro.defineHelper('codePostprocessor', 'amp', str => str.replace(/&amp;/g, '&'));
+
   const req = require.context('./components', true, /\.js$/);
   req.keys().forEach(c => {
     const name = c.slice(2, -3);

@@ -40,11 +40,11 @@ class Editro extends EventEmmiter {
       prefix: this.options.prefix + 'Toolbox'
     });
 
-
     // Build DOM
     // top
     const instruments = new Editro.type.Instruments(this);
-    const topPanel = new Editro.type.Panel({
+    const topPanel = new Editro.type.Panel(this, {
+      fixed: true,
       position: 'top',
       tag: 'instruments',
       child: instruments.getNode()
@@ -55,7 +55,8 @@ class Editro extends EventEmmiter {
     center.className = 'Editro-center';
     center.appendChild(this.frame.getNode());
     // right
-    const rightPanel = new Editro.type.Panel({
+    const rightPanel = new Editro.type.Panel(this, {
+      size: '400px',
       position: 'right',
       tag: 'toolbox',
       child: this.toolbox.getNode()
@@ -91,10 +92,7 @@ class Editro extends EventEmmiter {
   getHtml() {
     const raw = this.frame.getHtml();
 
-    const cp = Object.values(Editro.codePostprocessor);
-    return cp.length ?
-      cp.reduce((c, p) => p(c), raw) :
-      raw;
+    return this._postprocess(raw);
   }
 
   setHtml(code) {
@@ -114,10 +112,17 @@ class Editro extends EventEmmiter {
 
   _onFrameChanged(e) {
     this.emit('change', {
-      html: e.html,
+      html: this._postprocess(e.html),
       sourceType: 'frame',
       source: this.frame
     });
+  }
+
+  _postprocess(raw) {
+    const cp = Object.values(Editro.codePostprocessor);
+    return cp.length ?
+      cp.reduce((c, p) => p(c), raw) :
+      raw;
   }
 }
 

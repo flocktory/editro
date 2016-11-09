@@ -2,4 +2,9 @@
 
 .Editro-Controller-Wysiwyg {
   @include controller();
+
+  .ql-editor {
+    padding: 12px 15px;
+  }
 }
+

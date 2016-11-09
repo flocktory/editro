@@ -3,6 +3,10 @@ const toArray = module.exports.toArray = function(list) {
 };
 
 module.exports.elem = function(instance, n) {
+  if (!n) {
+    return n => module.exports.elem(instance, n);
+  }
+
   return instance.getNode()
     .querySelector('.' + instance.getPrefix() + '-' + n);
 };

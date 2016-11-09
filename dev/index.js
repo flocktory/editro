@@ -37,6 +37,7 @@ function init() {
 
   require('./addons/upload')(Editro);
   require('./addons/cutomFont')(Editro);
+  require('./addons/codeMirror')(Editro);
 
   const html = `
     <!doctype html>

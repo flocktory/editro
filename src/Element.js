@@ -1,16 +1,25 @@
-class Element {
+const EventEmitter = require('events');
+
+class Element extends EventEmitter {
   constructor(node) {
+    super();
+
     this.node = node;
   }
 
-  getNode() {
-    return this.node;
-  }
   getAttribute(name) {
     return this.node.getAttribute(name);
   }
   setAttribute(name, value) {
-    return this.node.setAttribute(name, value);
+    const v = this.node.setAttribute(name, value);
+
+    this.emit('change', {
+      type: 'attribute',
+      name: name,
+      value: value
+    });
+
+    return v;
   }
 
   getStyle(name) {
@@ -24,9 +33,23 @@ class Element {
   }
   setStyle(name, value) {
     this.node.style[name] = value;
+
+    this.emit('change', {
+      type: 'style',
+      name: name,
+      value: value
+    });
   }
   setHtml(html) {
     this.node.innerHTML = html;
+
+    this.emit('change', {
+      type: 'html',
+      value: html
+    });
+  }
+  getHtml() {
+    return this.node.innerHTML;
   }
   getTag() {
     return this.node.tagName.toLowerCase();
@@ -34,6 +57,18 @@ class Element {
 
   remove() {
     this.node.parentNode.removeChild(this.node);
+
+    this.emit('change', {
+      type: 'remove'
+    });
+  }
+
+  // call to work with real node
+  withNode(fn) {
+    fn(this.node);
+    this.emit('change', {
+      type: 'custom'
+    });
   }
 }
 
