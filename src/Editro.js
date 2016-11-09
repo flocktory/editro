@@ -65,7 +65,7 @@ class Editro extends EventEmmiter {
     this.node.appendChild(center);
     root.appendChild(this.node);
 
-    initHooks.forEach(h => h(this));
+    initHooks.forEach(h => h(this, ...arguments));
   }
 
   setOption(name, val) {
@@ -96,12 +96,23 @@ class Editro extends EventEmmiter {
   }
 
   setHtml(code) {
+    if (code === this.getHtml()) {
+      return;
+    }
+
     // pass code through preprocessors
     const cp = Object.values(Editro.codePreprocessor);
     const prepared = cp.length ?
       cp.reduce((c, p) => p(c), code) :
       code;
 
+    this.frame.once('load', ({ html }) => {
+      this.emit('change', {
+        html: this._postprocess(html),
+        sourceType: 'frame',
+        source: this.frame
+      });
+    });
     this.frame.setHtml(prepared);
   }
 

@@ -69,8 +69,9 @@ module.exports = function(Editro) {
   Editro.defineOption('historySize', 100);
   Editro.defineHelper('type', 'History', History);
 
-  Editro.defineInitHook(editro => {
+  Editro.defineInitHook((editro, root, code) => {
     editro[key] = new Editro.type.History(editro.getOption('historySize'));
+    editro[key].push(code);
     editro.on('change', e => {
       editro[key].push(e.html);
     });

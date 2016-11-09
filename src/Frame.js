@@ -5,7 +5,7 @@ class Frame extends EventEmmiter {
   constructor(options) {
     super();
     this.prefix = options.prefix;
-    this.current = null;
+    this.current = {};
     this.node = document.createElement('iframe');
     this.node.className = this.prefix;
 
@@ -18,9 +18,20 @@ class Frame extends EventEmmiter {
   }
 
   getHtml() {
-    return this.node.contentDocument.documentElement ?
-      '<!doctype html>\n' + this.node.contentDocument.documentElement.outerHTML :
-      '';
+    const doc = this.node.contentDocument;
+    if (!doc) {
+      return '';
+    }
+    const root = doc.documentElement;
+
+    const st = doc.getElementById('editro-frame-style');
+    if (st) {
+      st.parentNode.removeChild(st);
+    }
+    const html = root.outerHTML; 
+    this._addServiceNodes();
+
+    return '<!doctype html>\n' + html;
   }
 
   setHtml(code) {
@@ -31,6 +42,8 @@ class Frame extends EventEmmiter {
     const { contentDocument } = this.node;
     const body = contentDocument.body;
 
+    this._addServiceNodes();
+
     body.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -38,17 +51,22 @@ class Frame extends EventEmmiter {
       this._select(e.target);
     }, true);
 
-    this.emit('load');
+    this.emit('load', {
+      html: this.getHtml()
+    });
   }
 
   _select(node) {
-    if (this.current) {
-      this.current.emit('deattached');
-      this.current.removeAllListeners('change');
+    if (this.current.el) {
+      this.current.node.removeAttribute('editro-current');
+      this.current.el.emit('deattached');
+      this.current.el.removeAllListeners('change');
     }
 
+    this.current.node = node;
+    node.setAttribute('editro-current', '');
     const el = new Element(node);
-    this.current = el;
+    this.current.el = el;
 
     el.on('change', () => {
       this.emit('change', {
@@ -58,13 +76,36 @@ class Frame extends EventEmmiter {
     });
 
     this.emit('selected', el);
+    this.emit('change', {
+      html: this.getHtml()
+    });
   }
 
   _onMutate(e) {
     this.emit('change', {
-      mutations: e,
       html: this.getHtml()
     });
+  }
+
+  _addServiceNodes() {
+    const doc = this.node.contentDocument;
+    let st = doc.getElementById('editro-frame-style');
+    if (!st) {
+      st = doc.createElement('style');
+      st.id = 'editro-frame-style';
+      st.innerHTML = `
+        * {
+          cursor: pointer;
+        }
+        [editro-current] {
+          outline-color: #5020e2;
+          outline-offset: 4px;
+          outline-style: dashed;
+          outline-width: 4px;
+        }
+      `;
+      doc.head.appendChild(st);
+    }
   }
 }
 

@@ -49,8 +49,8 @@ class Panel {
     const isRow = this._isRow();
     const dim = isRow ? 'width' : 'height';
     const editro = this.editro;
-    const old = editro.frame.getNode().style.pointerEvents;
-    editro.frame.getNode().style.pointerEvents = 'none';
+    const old = editro.getNode().style.pointerEvents;
+    editro.getNode().style.pointerEvents = 'none';
 
     const content = this.node.querySelector('.EditroPanel-content');
     const initialSize = parseInt(getComputedStyle(content)[dim]);
@@ -63,7 +63,7 @@ class Panel {
     const onUp = () => {
       document.removeEventListener('mousemove', dragging);
       document.removeEventListener('mouseup', onUp);
-      editro.frame.getNode().style.pointerEvents = old;
+      editro.getNode().style.pointerEvents = old;
     };
     document.addEventListener('mouseup', onUp, false);
   }
