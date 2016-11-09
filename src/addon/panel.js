@@ -32,6 +32,7 @@ class Panel {
       this.node
         .querySelector('.EditroPanel-content')
         .style[this._isRow() ? 'width' : 'height'] = opts.size || '300px';
+      this._restoreSize();
     }
 
     this.elem = elem(this);
@@ -48,8 +49,14 @@ class Panel {
   }
 
   _toggle() {
-    this.node.dataset.collapsed = this.node.dataset.collapsed !== 'yes' ?
-      'yes' : 'no';
+    const size = this._getContentSize();
+
+    if (size) {
+      this._saveSize();
+      this._setContentSize(0);
+    } else {
+      this._restoreSize();
+    }
   }
 
   _startResize(e) {
@@ -60,11 +67,12 @@ class Panel {
     editro.getNode().style.pointerEvents = 'none';
 
     const content = this.node.querySelector('.EditroPanel-content');
-    const initialSize = parseInt(getComputedStyle(content)[dim]);
+    const initialSize = this._getContentSize();
     const updated = (isRow ? e.clientX : e.clientY) + initialSize;
     const dragging = ({ clientY, clientX }) => {
       const size = updated - (isRow ? clientX : clientY);
       content.style[dim] = size + 'px';
+      this._saveSize();
     };
     document.addEventListener('mousemove', dragging, false);
     const onUp = () => {
@@ -77,6 +85,27 @@ class Panel {
 
   _isRow() {
     return ['left', 'right'].includes(this.position);
+  }
+
+  _getContentSize() {
+    const isRow = this._isRow();
+    const dim = isRow ? 'width' : 'height';
+    const content = this.node.querySelector('.EditroPanel-content');
+    return parseInt(getComputedStyle(content)[dim]);
+  }
+  _setContentSize(size) {
+    const isRow = this._isRow();
+    const dim = isRow ? 'width' : 'height';
+    const content = this.node.querySelector('.EditroPanel-content');
+    return content.style[dim] = size + 'px';
+  }
+  _restoreSize() {
+    const key = `panel:${this.position}:size`;
+    this._setContentSize(this.editro.getStorageItem(key) || 300);
+  }
+  _saveSize() {
+    const key = `panel:${this.position}:size`;
+    this.editro.setStorageItem(key, this._getContentSize());
   }
 }
 

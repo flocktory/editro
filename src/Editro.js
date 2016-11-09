@@ -165,6 +165,7 @@ module.exports = Editro;
 const tags = require('./tags');
 Object.keys(tags).forEach(g => Editro.defineHelper('tags', g, tags[g]));
 
+require('./addon/storage')(Editro);
 require('./addon/panel')(Editro);
 require('./addon/instruments')(Editro);
 tabs(Editro);
