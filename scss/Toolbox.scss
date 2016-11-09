@@ -11,6 +11,21 @@ $toolbar-size: 20px;
   position: relative;
   padding-bottom: $toolbar-size;
 
+  &-placeholder {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 1;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    line-height: 2;
+    font-weight: 100;
+    color: #ccc;
+  }
+
   &-Toolbar {
     position: absolute;
     bottom: 0;

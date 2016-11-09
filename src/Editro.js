@@ -34,11 +34,10 @@ class Editro extends EventEmmiter {
       code: prepared
     });
     this.frame.on('selected', this._onElementSelected.bind(this));
+    this.frame.on('deselected', () => this.emit('deselected'));
     this.frame.on('change', this._onFrameChanged.bind(this));
 
-    this.toolbox = new Toolbox({
-      prefix: this.options.prefix + 'Toolbox'
-    });
+    this.toolbox = new Toolbox(this);
 
     // Build DOM
     // top
@@ -106,7 +105,7 @@ class Editro extends EventEmmiter {
       cp.reduce((c, p) => p(c), code) :
       code;
 
-    this.frame.once('load', ({ html }) => {
+    this.frame.once('load', () => {
       this.emit('change', {
         html: code,
         sourceType: o.sourceType || 'setHtml',
@@ -118,7 +117,6 @@ class Editro extends EventEmmiter {
 
   _onElementSelected(element) {
     this.emit('selected', element);
-    this.toolbox.setElement(element);
   }
 
   _onFrameChanged(e) {

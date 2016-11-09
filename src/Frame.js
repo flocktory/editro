@@ -52,6 +52,8 @@ class Frame extends EventEmmiter {
     if (current.length) {
       [].slice.call(current, 1).forEach(n => n.removeAttribute('editro-current'));
       this._select(current[0], true);
+    } else {
+      this.emit('deselected');
     }
 
     body.addEventListener('click', (e) => {
