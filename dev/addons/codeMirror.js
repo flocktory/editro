@@ -26,14 +26,29 @@ module.exports = function(Editro) {
     });
 
     editro.on('change', e => {
-      cm.setValue(e.html);
-    });
-
-    cm.on('changes', () => {
-      const v = cm.getValue();
-      if (v !== editro.getHtml()) {
-        editro.setHtml(v);
+      if (e.sourceType !== 'code') {
+        cm.setValue(e.html);
       }
     });
+
+    cm.on('changes', debounce(() => {
+      const v = cm.getValue();
+      if (v !== editro.getHtml()) {
+        editro.setHtml(v, {
+          sourceType: 'code'
+        });
+      }
+    }, 200));
   });
 };
+
+function debounce(fn, delay) {
+  let timeoutId = null;
+  return () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(fn, delay);
+  };
+}

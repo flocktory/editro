@@ -95,7 +95,7 @@ class Editro extends EventEmmiter {
     return this._postprocess(raw);
   }
 
-  setHtml(code) {
+  setHtml(code, o={}) {
     if (code === this.getHtml()) {
       return;
     }
@@ -108,9 +108,9 @@ class Editro extends EventEmmiter {
 
     this.frame.once('load', ({ html }) => {
       this.emit('change', {
-        html: this._postprocess(html),
-        sourceType: 'frame',
-        source: this.frame
+        html: code,
+        sourceType: o.sourceType || 'setHtml',
+        source: o.source
       });
     });
     this.frame.setHtml(prepared);

@@ -23,6 +23,9 @@ class Frame extends EventEmmiter {
       return '';
     }
     const root = doc.documentElement;
+    if (!root) {
+      return '';
+    }
 
     const st = doc.getElementById('editro-frame-style');
     if (st) {
@@ -48,7 +51,7 @@ class Frame extends EventEmmiter {
     const current = body.querySelectorAll('[editro-current]');
     if (current.length) {
       [].slice.call(current, 1).forEach(n => n.removeAttribute('editro-current'));
-      this._select(current[0]);
+      this._select(current[0], true);
     }
 
     body.addEventListener('click', (e) => {
@@ -63,7 +66,7 @@ class Frame extends EventEmmiter {
     });
   }
 
-  _select(node) {
+  _select(node, silenced) {
     if (this.current.el) {
       this.current.node.removeAttribute('editro-current');
       this.current.el.emit('deattached');
@@ -83,9 +86,11 @@ class Frame extends EventEmmiter {
     });
 
     this.emit('selected', el);
-    this.emit('change', {
-      html: this.getHtml()
-    });
+    if (!silenced) {
+      this.emit('change', {
+        html: this.getHtml()
+      });
+    }
   }
 
   _onMutate(e) {
