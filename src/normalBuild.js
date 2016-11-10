@@ -1,4 +1,37 @@
-module.exports = function(Editro) {
+
+const tabs = require('./addon/toolbox/tabs');
+const panes = require('./addon/toolbox/panes');
+const wysiwyg = require('./addon/controllers/wysiwyg');
+const tags = require('./tags');
+const factory = require('./Editro');
+
+module.exports = function() {
+  const Editro = factory();
+  // add tags
+  Object.keys(tags).forEach(g => Editro.defineHelper('tags', g, tags[g]));
+
+  require('./addon/storage')(Editro);
+  require('./addon/panel')(Editro);
+  require('./addon/instruments')(Editro);
+  tabs(Editro);
+  panes(Editro);
+  require('./addon/fullScreen')(Editro);
+  require('./addon/core')(Editro);
+  require('./addon/history')(Editro);
+  require('./addon/clearScripts')(Editro);
+  require('./addon/upload')(Editro);
+  wysiwyg(Editro);
+  require('./addon/controllers/background')(Editro);
+  require('./addon/controllers/src')(Editro);
+  require('./addon/controllers/href')(Editro);
+  require('./addon/controllers/border')(Editro);
+  require('./addon/controllers/borderRadius')(Editro);
+  require('./addon/controllers/placeholder')(Editro);
+  require('./addon/controllers/size')(Editro);
+  require('./addon/controllers/position')(Editro);
+  require('./addon/controllers/fontFamily')(Editro);
+  require('./addon/controllers/font')(Editro);
+
   Editro.defineOption('notificationTimeout', 3000);
   Editro.defineExtension('showNotification', function({ type, title, text, timeout }) {
     const t = type || 'Info';
@@ -80,4 +113,6 @@ module.exports = function(Editro) {
     const cls = req(c);
     Editro.defineHelper('type', name, cls);
   });
+
+  return Editro;
 };
