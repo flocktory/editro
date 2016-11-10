@@ -61,6 +61,12 @@ module.exports = function(Editro) {
       onClick: () => e.emit('toggle-right-panel'),
       group: 'panels'
     }));
+    e.addInstrument(new I(e, {
+      icon: require('../../images/arrows-alt.svg'),
+      title: 'Fullscreen',
+      onClick: () => e.setOption('fullScreen', !e.getOption('fullScreen')),
+      group: 'panels'
+    }));
   });
 
   // frame return &amp;

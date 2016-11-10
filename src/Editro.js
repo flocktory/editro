@@ -12,6 +12,7 @@ const Toolbox = require('./Toolbox');
 const tabs = require('./addon/toolbox/tabs');
 const panes = require('./addon/toolbox/panes');
 const wysiwyg = require('./addon/controllers/wysiwyg');
+const assert = require('assert');
 
 const initHooks = [];
 
@@ -75,6 +76,10 @@ class Editro extends EventEmmiter {
     if (old !== val) {
       this.options[name] = val;
       this.emit(`optionChanged:${name}`, val, old);
+
+      if (this.optionsHandlers[name]) {
+        this.optionsHandlers[name].call(null, this, val, old);
+      }
     } else {
       return false;
     }
@@ -141,9 +146,14 @@ class Editro extends EventEmmiter {
 Editro.prototype.options = {
   prefix: 'Editro-'
 };
+Editro.prototype.optionsHandlers = {};
 
-Editro.defineOption = (name, d) => {
+Editro.defineOption = (name, d, f) => {
   Editro.prototype.options[name] = d;
+  if (f) {
+    assert(typeof f === 'function', 'Option handler should be falsy or function');
+    Editro.prototype.optionsHandlers[name] = f;
+  }
 };
 
 Editro.defineInitHook = (f) => {
@@ -171,6 +181,7 @@ require('./addon/panel')(Editro);
 require('./addon/instruments')(Editro);
 tabs(Editro);
 panes(Editro);
+require('./addon/fullScreen')(Editro);
 require('./addon/core')(Editro);
 require('./addon/history')(Editro);
 require('./addon/clearScripts')(Editro);
