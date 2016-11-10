@@ -5,7 +5,18 @@ const getStyleName = (prefix, direction) =>
   prefix ? prefix + direction[0].toUpperCase() + direction.slice(1) : direction;
 
 module.exports = function(Editro) {
-  const { type: { Controller, TBLRComponent, PositionComponent } } = Editro;
+  const { tags, type: { Controller, TBLRComponent, PositionComponent } } = Editro;
+
+  const enabledTags = [
+    ...tags.input,
+    ...tags.list,
+    ...tags.definition,
+    ...tags.block,
+    ...tags.headers,
+    ...tags.content,
+    ...tags.form,
+    ...tags.embedded
+  ];
 
   class BaseTBLRController extends Controller {
     constructor(editro) {
@@ -15,6 +26,12 @@ module.exports = function(Editro) {
     }
 
     onElementSelected(el) {
+      const enabled = enabledTags.includes(el.getTag());
+      this.toggle(enabled);
+      if (!enabled) {
+        return;
+      }
+
       this.el = el;
 
       if (this.component) {
