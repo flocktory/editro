@@ -1,19 +1,31 @@
 const { combination, num, px } = require('../../utils');
 
 module.exports = function(Editro) {
-  const { types: { Controller, BorderComponent } } = Editro;
+  const { tags, type: { Controller, BorderComponent } } = Editro;
+
+  const enabledTags = [
+    ...tags.input,
+    ...tags.list,
+    ...tags.definition,
+    ...tags.block,
+    ...tags.headers,
+    ...tags.content,
+    ...tags.form
+  ];
 
   class Border extends Controller {
     constructor(editro) {
       super(editro);
       this.editro = editro;
-
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
     }
 
     onElementSelected(el) {
-      this.el = el;
+      const enabled = enabledTags.includes(el.getTag());
+      this.toggle(enabled);
+
+      if (!enabled) {
+        return;
+      }
 
       if (this.component) {
         this.component.removeAllListeners('change');

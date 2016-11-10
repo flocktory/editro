@@ -1,15 +1,12 @@
 const { combination, num, px } = require('../../utils');
 
 module.exports = function(Editro) {
-  const { types: { Controller, SizeComponent } } = Editro;
+  const { type: { Controller, SizeComponent } } = Editro;
 
   class Size extends Controller {
     constructor(editro) {
       super(editro);
       this.editro = editro;
-
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
     }
 
     onElementSelected(el) {

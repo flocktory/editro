@@ -5,15 +5,13 @@ const getStyleName = (prefix, direction) =>
   prefix ? prefix + direction[0].toUpperCase() + direction.slice(1) : direction;
 
 module.exports = function(Editro) {
-  const { types: { Controller, TBLRComponent, PositionComponent } } = Editro;
+  const { type: { Controller, TBLRComponent, PositionComponent } } = Editro;
 
   class BaseTBLRController extends Controller {
     constructor(editro) {
       super(editro);
 
       this.i18n = a => a;
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
     }
 
     onElementSelected(el) {

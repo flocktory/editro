@@ -3,19 +3,27 @@ const { combination, num, px } = require('../../utils');
 const sides = ['TopRight', 'BottomRight', 'BottomLeft', 'TopLeft'];
 
 module.exports = function(Editro) {
-  const { types: { Controller, BorderRadiusComponent } } = Editro;
+  const { tags, type: { Controller, BorderRadiusComponent } } = Editro;
+
+  const enabledTags = [
+    ...tags.input,
+    ...tags.list,
+    ...tags.definition,
+    ...tags.block,
+    ...tags.headers,
+    ...tags.content,
+    ...tags.form
+  ];
 
   class BorderRadius extends Controller {
-    constructor(editro) {
-      super(editro);
-      this.editro = editro;
-
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
-    }
-
     onElementSelected(el) {
-      this.el = el;
+      const enabled = enabledTags.includes(el.getTag());
+      this.toggle(enabled);
+
+      if (!enabled) {
+        return;
+      }
+
 
       if (this.component) {
         this.component.removeAllListeners('change');

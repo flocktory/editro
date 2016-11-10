@@ -41,6 +41,16 @@ class Frame extends EventEmmiter {
     this.node.srcdoc = code;
   }
 
+  selectByQuery(query) {
+    const doc = this.node.contentDocument;
+    if (doc) {
+      const el = doc.querySelector(query);
+      if (el) {
+        this._select(el);
+      }
+    }
+  }
+
   _onLoad() {
     const { contentDocument } = this.node;
     const body = contentDocument.body;

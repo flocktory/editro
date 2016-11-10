@@ -98,3 +98,7 @@ $tab-size: 24px;
     display: block;
   }
 }
+
+.EditroController {
+  @include controller();
+}

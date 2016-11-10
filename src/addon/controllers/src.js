@@ -1,17 +1,18 @@
 module.exports = function(Editro) {
-  const { types: { Controller, ImageComponent } } = Editro;
+  const { type: { Controller, ImageComponent } } = Editro;
 
   class Src extends Controller {
     constructor(editro) {
       super(editro);
       this.editro = editro;
-
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
     }
 
     onElementSelected(el) {
-      this.el = el;
+      const enabled = el.getTag() === 'img';
+      this.toggle(enabled);
+      if (!enabled) {
+        return;
+      }
 
       if (this.component) {
         this.component.removeAllListeners('change');

@@ -7,19 +7,15 @@ const toolbarOptions = [
 ];
 
 module.exports = function(Editro) {
-  const { types: { Controller }, tags } = Editro;
+  const { type: { Controller }, tags } = Editro;
 
   class Wysiwyg extends Controller {
     constructor(editro) {
       super(editro);
 
-      this.node = document.createElement('div');
-      this.node.className = editro.getOption('prefix') + 'Controller-Wysiwyg';
+      this.getNode().classList.add('EditroWysiwyg');
     }
 
-    getNode() {
-      return this.node;
-    }
 
     getPane() {
       return 'content';
@@ -35,9 +31,7 @@ module.exports = function(Editro) {
       this.node.innerHTML = '';
       this.temp = document.createElement('div');
       this.node.appendChild(this.temp);
-      // TODO remove scripts
       this.temp.innerHTML = el.getHtml();
-
 
       this.quill = new Quill(this.temp, {
         modules: {
@@ -59,7 +53,6 @@ module.exports = function(Editro) {
         ...tags.form,
         ...tags.embedded
       ];
-      // TODO remove scripts
       const fake = document.createElement('div');
       fake.innerHTML = el.getHtml();
       return !banned.includes(el.getTag()) && !fake.querySelector(banned.join(' '));

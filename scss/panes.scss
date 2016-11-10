@@ -19,3 +19,9 @@
     }
   }
 }
+
+.EditroController {
+  &[data-enabled="no"] {
+    display: none;
+  }
+}

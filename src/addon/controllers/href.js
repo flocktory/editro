@@ -1,17 +1,13 @@
 module.exports = function(Editro) {
-  const { types: { Controller, InputComponent } } = Editro;
+  const { type: { Controller, InputComponent, SelectComponent } } = Editro;
 
   class Href extends Controller {
-    constructor(editro) {
-      super(editro);
-      this.editro = editro;
-
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
-    }
-
     onElementSelected(el) {
-      this.el = el;
+      const enabled = el.getTag() === 'a';
+      this.toggle(enabled);
+      if (!enabled) {
+        return;
+      }
 
       if (this.component) {
         this.component.removeAllListeners('change');
@@ -24,6 +20,16 @@ module.exports = function(Editro) {
 
       this.component.on('change', v => this._onChange(el, v));
       this.node.appendChild(this.component.el);
+
+      this.targetComponent = new SelectComponent(el.getAttribute('target'), {
+        choices: [
+          ['_top', 'Same tab'],
+          ['_blank', 'New tab']
+        ],
+        label: 'Open in'
+      });
+      this.targetComponent.on('change', v => el.setAttribute('target', v) || '_top');
+      this.getNode().appendChild(this.targetComponent.el);
     }
 
     getNode() {

@@ -51,19 +51,30 @@ const defaultFonts = [
 ];
 
 module.exports = function(Editro) {
-  const { Controller, SelectComponent } = Editro.types;
+  const { tags } = Editro;
+  const { Controller, SelectComponent } = Editro.type;
+
+  const enabledTags = [
+    ...tags.input,
+    ...tags.list,
+    ...tags.definition,
+    ...tags.block,
+    ...tags.headers,
+    ...tags.content,
+    ...tags.form
+  ];
 
   defaultFonts.map(f => Editro.defineHelper('font', f.fontFamily, f));
 
   class FontFamilyController extends Controller {
-    constructor(editro) {
-      super(editro);
-
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
-    }
-
     onElementSelected(el) {
+      const enabled = enabledTags.includes(el.getTag());
+      this.toggle(enabled);
+
+      if (!enabled) {
+        return;
+      }
+
       this.el = el;
       if (this.select) {
         this.select.removeAllListeners('change');

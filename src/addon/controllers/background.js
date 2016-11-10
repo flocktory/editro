@@ -1,5 +1,5 @@
 module.exports = function(Editro) {
-  const { tags, types: { Controller, BackgroundComponent } } = Editro;
+  const { tags, type: { Controller, BackgroundComponent } } = Editro;
   const enabledTags = [];
 
   enabledTags.push(
@@ -16,13 +16,15 @@ module.exports = function(Editro) {
     constructor(editro) {
       super(editro);
       this.editro = editro;
-
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
     }
 
     onElementSelected(el) {
-      this.el = el;
+      const enabled = enabledTags.includes(el.getTag());
+      this.toggle(enabled);
+
+      if (!enabled) {
+        return;
+      }
 
       if (this.component) {
         this.component.removeAllListeners('change');
@@ -38,10 +40,6 @@ module.exports = function(Editro) {
 
       this.component.on('change', v => this._onChange(el, v));
       this.node.appendChild(this.component.el);
-    }
-
-    getNode() {
-      return this.node;
     }
 
     getPane() {

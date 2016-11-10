@@ -123,6 +123,10 @@ class Editro extends EventEmmiter {
     this.frame.setHtml(prepared);
   }
 
+  selectByQuery(q) {
+    this.frame.selectByQuery(q);
+  }
+
   _onElementSelected(element) {
     this.emit('selected', element);
   }

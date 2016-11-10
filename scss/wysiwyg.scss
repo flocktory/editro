@@ -1,8 +1,6 @@
 @import 'mixins';
 
-.Editro-Controller-Wysiwyg {
-  @include controller();
-
+.EditroWysiwyg {
   .ql-editor {
     padding: 12px 15px;
   }

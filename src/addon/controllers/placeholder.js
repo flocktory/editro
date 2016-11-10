@@ -1,17 +1,13 @@
 module.exports = function(Editro) {
-  const { types: { Controller, InputComponent } } = Editro;
+  const { type: { Controller, InputComponent } } = Editro;
 
   class Placeholder extends Controller {
-    constructor(editro) {
-      super(editro);
-      this.editro = editro;
-
-      this.node = document.createElement('div');
-      this.node.classList.add('EditroController');
-    }
-
     onElementSelected(el) {
-      this.el = el;
+      const enabled = ['input', 'textarea'].includes(el.getTag());
+      this.toggle(enabled);
+      if (!enabled) {
+        return;
+      }
 
       if (this.component) {
         this.component.removeAllListeners('change');
@@ -24,10 +20,6 @@ module.exports = function(Editro) {
 
       this.component.on('change', v => this._onChange(el, v));
       this.node.appendChild(this.component.el);
-    }
-
-    getNode() {
-      return this.node;
     }
 
     getPane() {

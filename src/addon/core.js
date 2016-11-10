@@ -23,6 +23,8 @@ module.exports = function(Editro) {
   Editro.defineInitHook(e => {
     const currentSelected = document.createElement('div');
     currentSelected.className = 'EditroInstruments-item';
+    currentSelected.style.minWidth = '50px';
+    currentSelected.style.display = 'inline-block';
     const I = Editro.type.Instrument;
     let currentEl = null;
     e.on('selected', el => currentEl = el);
@@ -76,6 +78,6 @@ module.exports = function(Editro) {
   req.keys().forEach(c => {
     const name = c.slice(2, -3);
     const cls = req(c);
-    Editro.defineHelper('types', name, cls);
+    Editro.defineHelper('type', name, cls);
   });
 };

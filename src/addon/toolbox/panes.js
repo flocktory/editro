@@ -1,3 +1,5 @@
+const assert = require('assert');
+
 const defaultTabs = [
   { name: 'content' },
   { name: 'style' },
@@ -73,13 +75,21 @@ module.exports = function(Editro) {
   }
 
   class Controller {
-    constructor(editro) {
+    constructor(editro, node) {
       if (!editro) {
         throw new Error('class Controler: constructor expect first param - editro. ' +
           'You probably forgot super(editro)');
       }
 
+      assert(node ? node instanceof Element : true, 'Node should be Element or nul');
+
       this.editro = editro;
+      if (node) {
+        this.node = node;
+      } else {
+        this.node = document.createElement('div');
+        this.node.classList.add('EditroController');
+      }
 
       editro.on('selected', e => this.onElementSelected(e));
     }
@@ -88,10 +98,14 @@ module.exports = function(Editro) {
       throw new Error('controller.onElementSelected should be overriden');
     }
 
-    getNode() {
-      throw new Error('controller.getNode should return node ' +
-        'you probably forgot to override method');
+    toggle(toggle) {
+      this.getNode().dataset.enabled = toggle ? 'yes' : 'no';
     }
+
+    getNode() {
+      return this.node;
+    }
+
     getPane() {
       throw new Error('controller.getPane should return pane name ' +
         'you probably forgot to override method');
@@ -99,7 +113,7 @@ module.exports = function(Editro) {
   }
 
 
-  Editro.defineHelper('types', 'Controller', Controller);
+  Editro.defineHelper('type', 'Controller', Controller);
 
   Editro.defineOption('defaultPanes', ['settings', 'content', 'style']);
 

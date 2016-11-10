@@ -1,16 +1,29 @@
 const { px } = require('../../utils');
 
 module.exports = function(Editro) {
-  const { Controller, FontComponent } = Editro.types;
+  const { tags } = Editro;
+  const { Controller, FontComponent } = Editro.type;
+
+  const enabledTags = [
+    ...tags.input,
+    ...tags.inline,
+    ...tags.list,
+    ...tags.definition,
+    ...tags.block,
+    ...tags.headers,
+    ...tags.content,
+    ...tags.form
+  ];
 
   class FontController extends Controller {
-    constructor(editro) {
-      super(editro);
-
-      this.node = document.createElement('div');
-    }
-
     onElementSelected(el) {
+      const enabled = enabledTags.includes(el.getTag());
+      this.toggle(enabled);
+
+      if (!enabled) {
+        return;
+      }
+
       this.el = el;
       if (this.select) {
         this.select.removeAllListeners('change');
