@@ -1,15 +1,21 @@
-.EditroPanes {
-  flex: 1;
-  overflow: scroll;
-}
 .EditroPane {
-  display: none;
   padding: 10px;
-  &[data-active="yes"] {
-    display: block;
-  }
 
   &-section {
     margin-bottom: 20px;
+  }
+}
+
+.EditroPanes {
+  flex: 1;
+  overflow: scroll;
+
+  &--tabbed {
+    .EditroPane {
+      display: none;
+      &[data-active="yes"] {
+        display: block;
+      }
+    }
   }
 }

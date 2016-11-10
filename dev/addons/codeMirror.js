@@ -1,5 +1,5 @@
 module.exports = function(Editro) {
-  Editro.defineInitHook(editro => {
+  Editro.defineInitHook((editro, _, { code }) => {
     const wrapper = document.createElement('div');
     wrapper.style.height = '100%';
 
@@ -12,7 +12,7 @@ module.exports = function(Editro) {
     editro.getNode().appendChild(bottomPanel.getNode());
 
     const cm = window.CodeMirror(wrapper, {
-      value: editro.getHtml(),
+      value: code,
       mode: 'htmlmixed',
       lineNumbers: true,
       autoCloseBrackets: true,

@@ -9,6 +9,7 @@ module.exports = function(Editro) {
     constructor(editro) {
       this.editro = editro;
       this.toolbox = editro.getToolbox();
+      this.defaultPanes = editro.getOption('defaultPanes');
       const tNode = this.toolbox.getNode();
 
       this.node = document.createElement('div');
@@ -27,14 +28,25 @@ module.exports = function(Editro) {
       editro.on('option-pane-changed', p => this._switchPane(p));
 
       tNode.appendChild(this.node);
+
+      this.defaultPanes.forEach(name => this._createPane({ name }));
+
+      this._toggleTabbed(editro.getOption('toolboxTabsEnabled'));
+      editro.on('optionChanged:toolboxTabsEnabled', v => this._toggleTabbed(v));
     }
 
     getNode() {
       return this.node;
     }
 
+
+    // setting false value makes panes flat with scroll
+    // setting true makes them work with tabs
+    _toggleTabbed(toggle) {
+      this.node.classList.toggle('EditroPanes--tabbed', toggle);
+    }
+
     _createPane(config) {
-      const paneName = config.name;
       const pane = document.createElement('div');
       pane.classList.add('EditroPane');
       pane.dataset.pane = config.name;
@@ -63,7 +75,7 @@ module.exports = function(Editro) {
   class Controller {
     constructor(editro) {
       if (!editro) {
-        throw new Error('class Controler: constructor expect first param - editro. ' + 
+        throw new Error('class Controler: constructor expect first param - editro. ' +
           'You probably forgot super(editro)');
       }
 
@@ -88,6 +100,8 @@ module.exports = function(Editro) {
 
 
   Editro.defineHelper('types', 'Controller', Controller);
+
+  Editro.defineOption('defaultPanes', ['settings', 'content', 'style']);
 
   Editro.defineInitHook(editro => {
     new Panes(editro);

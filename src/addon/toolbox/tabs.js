@@ -31,6 +31,14 @@ class Tabs {
       current = tabs[0].name;
     }
     this._switchTab(current);
+
+    this._toggle(editro.getOption('toolboxTabsEnabled'));
+    editro.on('optionChanged:toolboxTabsEnabled', v => this._toggle(v));
+  }
+
+
+  _toggle(toggle) {
+    this.node.style.display = toggle ? 'flex' : 'none';
   }
 
   _createTab(config) {
@@ -58,6 +66,8 @@ class Tabs {
 }
 
 module.exports = function(Editro) {
+  Editro.defineOption('toolboxTabsEnabled', true);
+
   Editro.defineInitHook(editro => {
     new Tabs(editro);
   });

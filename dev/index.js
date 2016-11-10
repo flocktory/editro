@@ -69,5 +69,8 @@ function init() {
     </html>
   `;
 
-  window.EDITRO = new Editro(el, html);
+  window.EDITRO = new Editro(el, {
+    code: html,
+    toolboxTabsEnabled: false
+  });
 }

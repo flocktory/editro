@@ -16,8 +16,11 @@ const wysiwyg = require('./addon/controllers/wysiwyg');
 const initHooks = [];
 
 class Editro extends EventEmmiter {
-  constructor(root, code) {
+  constructor(root, options) {
     super();
+
+    Object.assign(this.options, options);
+    const code = options.code;
 
     this.setMaxListeners(1000);
 
@@ -64,14 +67,14 @@ class Editro extends EventEmmiter {
     this.node.appendChild(center);
     root.appendChild(this.node);
 
-    initHooks.forEach(h => h(this, ...arguments));
+    initHooks.forEach(h => h(this, root, options));
   }
 
   setOption(name, val) {
     const old = this.options[name];
     if (old !== val) {
       this.options[name] = val;
-      this.emit(`option-${name}-changed`, val, old);
+      this.emit(`optionChanged:${name}`, val, old);
     } else {
       return false;
     }
