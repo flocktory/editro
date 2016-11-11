@@ -148,6 +148,9 @@ Replace `editro.upload` method. Allow uploding to server.
 Specify address via **uploadUrl** option.
 Max size via **uploadMaxSize** option.
 
+## addon/codeMirror
+CodeMirror instegration
+
 # Examples
 TBD
 
