@@ -1,6 +1,6 @@
 {
   "name": "editro",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "HTML WYSIWYG editor in HTML",
   "keywords": [
     "editor",
@@ -10,7 +10,7 @@
     "url": "https://github.com/flocktory/editro/issues"
   },
   "license": "MIT",
-  "main": "./lib/editro.js",
+  "main": "./index.js",
   "repository": {
     "url": "flocktory/editro"
   },
