@@ -1,6 +1,9 @@
 # Editro
 Customizable html editor written in plain JS. You can think about MS FrontPage in web.
 This package contains two build.
+
+**Note: not production ready**
+
 * Core build – provide only minimum for building your own editor. This build is useless without addons.
 * Normal build. It contains all usefull addons that can be disabled by setting options. Typicaly you want to use it.
 
