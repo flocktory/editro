@@ -48,13 +48,13 @@ function init() {
       </head>
       <body>
         <h1>Hello</h1>
-        <p>
+        <span>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           At enim, qua in vita est aliquid mali, ea beata esse non potest.
           Parvi enim primo ortu sic iacent, tamquam omnino sine animo sint.
           Et quidem, inquit, vehementer errat; Servari enim iustitia nisi a forti viro, nisi a sapiente non potest.
           Illa argumenta propria videamus, cur omnia sint paria peccata.
-        </p>
+        </span>
         <img alt="bat" height="220" src="https://assets.flocktory.com/uploads/clients/1791/55e5a0ef-9ea7-45cb-bf81-7683bc44d87c_readImage.jpg"/>
 
         <form action="">

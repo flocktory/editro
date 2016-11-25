@@ -1,11 +1,3 @@
-const Quill = require('quill');
-
-const toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],
-  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-  ['clean']
-];
-
 module.exports = function(Editro) {
   const { type: { Controller }, tags } = Editro;
 
@@ -29,19 +21,18 @@ module.exports = function(Editro) {
 
       this.node.dataset.enabled = 'yes';
       this.node.innerHTML = '';
+      this.node.innerHTML = '<h3 class="EditroController-title">Content</h3>';
       this.temp = document.createElement('div');
-      this.node.appendChild(this.temp);
+      this.temp.className = 'EditroWysiwyg-content';
+      this.temp.setAttribute('contenteditable', true);
+      this.temp.style.display = 'inline-block';
       this.temp.innerHTML = el.getHtml();
+      this.node.appendChild(this.temp);
 
-      this.quill = new Quill(this.temp, {
-        modules: {
-          toolbar: toolbarOptions
-        },
-        theme: 'snow'
-      });
-      this.quill.on('text-change', () => {
-        el.setHtml(this.node.querySelector('.ql-editor').innerHTML);
-      });
+      const onUpdate = () => el.setHtml(this.temp.innerHTML);
+
+      this.temp.addEventListener('keyup', onUpdate);
+      this.temp.addEventListener('change', onUpdate);
     }
 
     _canEdit(el) {
