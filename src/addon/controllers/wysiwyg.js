@@ -1,3 +1,15 @@
+const hasOnlyTags = (html, tags) => {
+  const search = /<(\w+)\/?>|<(\w+)\s/gim;
+
+  for (let match = search.exec(html); match; match = search.exec(html)) {
+    if (tags.indexOf(match[1] || match[2]) === -1) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 module.exports = function(Editro) {
   const { type: { Controller }, tags } = Editro;
 
@@ -26,6 +38,7 @@ module.exports = function(Editro) {
       this.temp.className = 'EditroWysiwyg-content';
       this.temp.setAttribute('contenteditable', true);
       this.temp.style.display = 'inline-block';
+      this.temp.style.width = '100%';
       this.temp.innerHTML = el.getHtml();
       this.node.appendChild(this.temp);
 
@@ -36,16 +49,18 @@ module.exports = function(Editro) {
     }
 
     _canEdit(el) {
+      const fake = document.createElement('div');
+      fake.innerHTML = el.getHtml();
+      if (!hasOnlyTags(fake.innerHTML, [...tags.inline, ...tags.headers, ...tags.list, ...tags.content])) {
+        return false;
+      }
       // allow: list header content inline
       const banned = [
         ...tags.input,
         ...tags.definition,
-        ...tags.block,
         ...tags.form,
-        ...tags.embedded
+        ...tags.embedded,
       ];
-      const fake = document.createElement('div');
-      fake.innerHTML = el.getHtml();
       return !banned.includes(el.getTag()) && !fake.querySelector(banned.join(' '));
     }
   }
