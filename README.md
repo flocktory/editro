@@ -2,7 +2,7 @@
 Customizable html editor written in plain JS. You can think about MS FrontPage in web.
 This package contains two build.
 
-[Screenshot](screen.png?raw=true "Editro screenshot")
+![Screenshot](screen.png?raw=true "Editro screenshot")
 
 **Note: not production ready**
 
