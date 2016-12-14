@@ -105,7 +105,7 @@ class Frame extends EventEmmiter {
     }
   }
 
-  _onMutate(e) {
+  _onMutate() {
     this.emit('change', {
       html: this.getHtml()
     });
@@ -122,10 +122,10 @@ class Frame extends EventEmmiter {
           cursor: pointer;
         }
         [editro-current] {
-          outline-color: #5020e2;
-          outline-offset: 4px;
-          outline-style: dashed;
-          outline-width: 4px;
+          outline-color: #0022df;
+          outline-offset: 0px;
+          outline-style: dotted;
+          outline-width: 1px;
         }
       `;
       doc.head.appendChild(st);
