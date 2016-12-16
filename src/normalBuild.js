@@ -43,6 +43,7 @@ panes(Editro);
 require('./addon/fullScreen')(Editro);
 require('./addon/history')(Editro);
 require('./addon/clearScripts')(Editro);
+require('./addon/noAutofocus')(Editro);
 require('./addon/upload')(Editro);
 wysiwyg(Editro);
 require('./addon/controllers/background')(Editro);

@@ -8,6 +8,7 @@ class Frame extends EventEmmiter {
     this.current = {};
     this.node = document.createElement('iframe');
     this.node.className = 'EditroFrame';
+    this.node.setAttribute('sandbox', 'allow-same-origin allow-scripts');
 
     this.node.addEventListener('load', this._onLoad.bind(this));
     this.node.srcdoc = options.code;
@@ -31,7 +32,7 @@ class Frame extends EventEmmiter {
     if (st) {
       st.parentNode.removeChild(st);
     }
-    const html = root.outerHTML; 
+    const html = root.outerHTML;
     this._addServiceNodes();
 
     return '<!doctype html>\n' + html;
