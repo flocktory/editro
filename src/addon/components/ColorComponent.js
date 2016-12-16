@@ -1,3 +1,4 @@
+const debounce = require('../../utils').debounce;
 const Component = require('./Component');
 
 
@@ -118,7 +119,8 @@ module.exports = class ColorComponent extends Component {
     const opacity = this.el.querySelector('input[type=range]');
     const text = this.el.querySelector('input[type=text]');
 
-    const collectColor = () => {
+    const collectColor = debounce(() => {
+      console.log('color changed')
       const value = pairToColor({
         color: color.value,
         opacity: opacity.value
@@ -127,7 +129,7 @@ module.exports = class ColorComponent extends Component {
       color.style.opacity = opacity.value / 100;
       text.value = value;
       this.emit('change', value);
-    };
+    }, 100);
 
     this.addListener(color, 'change', collectColor);
     this.addListener(opacity, 'change', collectColor);

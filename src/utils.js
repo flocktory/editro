@@ -73,7 +73,6 @@ const combination = module.exports.combination = function(...colls) {
 
     return acc;
   }, []);
-  
 };
 
 module.exports.num = function num(valueStr, defaultValue = null) {
@@ -84,4 +83,24 @@ module.exports.emitDomEvent = function emitDomEvent(elements, eventName) {
   const eventInstance = document.createEvent('Event');
   eventInstance.initEvent(eventName, true, true);
   toArray(elements).forEach(element => element.dispatchEvent(eventInstance));
+};
+
+
+/**
+ * Creates a debounced function that delays invoking f until after wait milliseconds
+ * have elapsed since the last time the debounced function was invoked.
+ *
+ * @param {Function} f function to debounce
+ * @param {Number} wait the number of milliseconds to delay
+ * @returns {Function} new debounced function
+ */
+module.exports.debounce = function debounce(f, wait) {
+  let id = null;
+
+  return (...args) => {
+    if (id) {
+      clearTimeout(id);
+    }
+    id = setTimeout(() => f(...args), wait);
+  };
 };
