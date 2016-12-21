@@ -3,7 +3,6 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
     const wrapper = document.createElement('div');
     wrapper.style.height = '100%';
     wrapper.style.position = 'relative';
-    //wrapper.innerHTML = '<button class="EditroCode-fs" style="position:absolute;right:0;top:0;z-index:1;">Fullscreen</button>';
 
     const bottomPanel = new Editro.type.Panel(editro, {
       position: 'bottom',
@@ -27,11 +26,8 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
 
-    //wrapper.querySelector('.EditroCode-fs')
-      //.addEventListener('click', () => cm.setOption('fullScreen', !cm.getOption('fullScreen')));
-
     editro.on('change', e => {
-      if (e.sourceType !== 'code') {
+      if (e.sourceType !== 'code' && cm.getValue() !== e.html) {
         cm.setValue(e.html);
       }
     });
