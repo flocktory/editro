@@ -23,7 +23,8 @@ module.exports = function(Editro) {
 
       this.component = new ImageComponent(el.getAttribute('src'), {
         label: 'Upload new image',
-        upload: this.editro.upload.bind(this.editro)
+        upload: this.editro.upload.bind(this.editro),
+        current: el.getAttribute('src')
       });
 
       this.component.on('change', v => this._onChange(el, v));

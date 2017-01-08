@@ -35,7 +35,7 @@ function init() {
 
   window.Editro = Editro;
 
-  require('../src/addon/uploadToServer')(Editro);
+  //require('../src/addon/uploadToServer')(Editro);
   require('./addons/cutomFont')(Editro);
   require('../src/addon/codeMirror')(Editro);
   require('./addons/widgetSettings')(Editro);

@@ -73,7 +73,8 @@ class BackgroundImageComponent extends BaseCompositeComponent {
       {
         component: () => new ImageComponent(this.value.backgroundImage, {
           label: this.config.i18n('Background image'),
-          upload: this.config.upload
+          upload: this.config.upload,
+          current: this.value.backgroundImage
         }),
         onChange: image => {
           this.value.backgroundImage = image;

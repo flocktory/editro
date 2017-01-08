@@ -1,4 +1,5 @@
 module.exports = function(Editro) {
+  const GRADIENT_RX = /linear-gradient\(([\s\w]+),\s*(#[\d\w]{3,6}|rgba?\([\s\d,]+\))\s*0%\s*,\s*(#[\d\w]{3,6}|rgba?\([\s\d,]+\))\s*100%\s*\)/i;
   const { tags, type: { Controller, BackgroundComponent } } = Editro;
   const enabledTags = [];
 
@@ -88,7 +89,7 @@ module.exports = function(Editro) {
       let backgroundImage;
       let gradientDirection;
 
-      const gradientMatch = /linear-gradient\(([\s\w]+),\s*(#[\d\w]{3,6}|rgba?\([\s\d,]+\))\s*0%\s*,\s*(#[\d\w]{3,6}|rgba?\([\s\d,]+\))\s*100%\s*\)/i.exec(computedStyle.backgroundImage || '');
+      const gradientMatch = GRADIENT_RX.exec(computedStyle.backgroundImage || '');
       if (gradientMatch) {
         hasGradient = true;
         gradientDirection = gradientMatch[1].trim();
@@ -96,7 +97,7 @@ module.exports = function(Editro) {
         color2 = gradientMatch[3].trim();
       }
 
-      const urlMatch = /url\(([^\)]+)\)/i.exec(computedStyle.backgroundImage || '');
+      const urlMatch = /url\("?([^\)]+)"?\)/i.exec(computedStyle.backgroundImage || '');
       if (urlMatch) {
         backgroundImage = urlMatch[1];
       }
