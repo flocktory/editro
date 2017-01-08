@@ -1,6 +1,6 @@
-import BaseCompositeComponent from './BaseCompositeComponent';
-import SelectComponent from './SelectComponent';
-import TBLRComponent from './TBLRComponent';
+const BaseCompositeComponent = require('./BaseCompositeComponent');
+const SelectComponent = require('./SelectComponent');
+const TBLRComponent = require('./TBLRComponent');
 
 
 module.exports = class PositionComponent extends BaseCompositeComponent {

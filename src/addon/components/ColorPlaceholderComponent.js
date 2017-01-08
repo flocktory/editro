@@ -1,7 +1,7 @@
-import Component from './Component';
+const Component = require('./Component');
 
 
-export default class ColorPlaceholderComponent extends Component {
+module.exports = class ColorPlaceholderComponent extends Component {
   template() {
     return `<div class="EditroField">
               <div class="EditroField-label">

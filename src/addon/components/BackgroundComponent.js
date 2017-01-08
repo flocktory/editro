@@ -1,10 +1,10 @@
-import Component from './Component';
-import BaseCompositeComponent from './BaseCompositeComponent';
-import SelectComponent from './SelectComponent';
-import ColorComponent from './ColorComponent';
-import ColorPlaceholderComponent from './ColorPlaceholderComponent';
-import ImageComponent from './ImageComponent';
-import { createDocumentFragment } from '../../utils';
+const Component = require('./Component');
+const BaseCompositeComponent = require('./BaseCompositeComponent');
+const SelectComponent = require('./SelectComponent');
+const ColorComponent = require('./ColorComponent');
+const ColorPlaceholderComponent = require('./ColorPlaceholderComponent');
+const ImageComponent = require('./ImageComponent');
+const { createDocumentFragment } = require('../../utils');
 
 
 const visibleIf = isVisible => isVisible ? 'flex' : 'none';

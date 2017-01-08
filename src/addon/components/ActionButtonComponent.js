@@ -1,4 +1,4 @@
-import Component from './Component';
+const Component = require('./Component');
 
 
 /**

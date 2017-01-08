@@ -1,5 +1,5 @@
-import Component from './Component';
-import {toArray} from '../../utils';
+const Component = require('./Component');
+const {toArray} = require('../../utils');
 
 
 /**

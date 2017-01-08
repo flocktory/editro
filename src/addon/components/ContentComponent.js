@@ -1,4 +1,4 @@
-import Component from './Component';
+const Component = require('./Component');
 
 
 module.exports = class ContentComponent extends Component {

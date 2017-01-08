@@ -29,7 +29,7 @@ const include = [
 ];
 
 const config = {
-  devtool: isProd ? null : 'eval',
+  //devtool: isProd ? null : 'eval',
   entry,
   output: output,
   module: {

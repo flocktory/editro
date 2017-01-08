@@ -1,8 +1,8 @@
-import BaseCompositeComponent from './BaseCompositeComponent';
-import InputComponent from './InputComponent';
-import ColorComponent from './ColorComponent';
-import TogglerComponent from './TogglerComponent';
-import { createDocumentFragment, emitDomEvent } from '../../utils';
+const BaseCompositeComponent = require('./BaseCompositeComponent');
+const InputComponent = require('./InputComponent');
+const ColorComponent = require('./ColorComponent');
+const TogglerComponent = require('./TogglerComponent');
+const { createDocumentFragment, emitDomEvent } = require('../../utils');
 
 
 module.exports = class BorderComponent extends BaseCompositeComponent {

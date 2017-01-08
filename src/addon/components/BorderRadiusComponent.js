@@ -1,7 +1,7 @@
-import BaseCompositeComponent from './BaseCompositeComponent';
-import InputComponent from './InputComponent';
-import TogglerComponent from './TogglerComponent';
-import { createDocumentFragment, emitDomEvent } from '../../utils';
+const BaseCompositeComponent = require('./BaseCompositeComponent');
+const InputComponent = require('./InputComponent');
+const TogglerComponent = require('./TogglerComponent');
+const { createDocumentFragment, emitDomEvent } = require('../../utils');
 
 
 module.exports = class BorderRadiusComponent extends BaseCompositeComponent {

@@ -1,6 +1,5 @@
 const Component = require('./Component');
 
-
 /**
  * config = {choices: [[key, value]]}
  */

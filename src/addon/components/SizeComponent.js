@@ -1,6 +1,6 @@
-import BaseCompositeComponent from './BaseCompositeComponent';
-import SelectComponent from './SelectComponent';
-import WidthHeightComponent from './WidthHeightComponent';
+const BaseCompositeComponent = require('./BaseCompositeComponent');
+const SelectComponent = require('./SelectComponent');
+const WidthHeightComponent = require('./WidthHeightComponent');
 
 
 module.exports = class SizeComponent extends BaseCompositeComponent {
