@@ -76,7 +76,7 @@ $pick-size: 5px;
     }
   }
 
-  &[data-collapsed=yes] {
+  &[data-hidden=yes] {
     .EditroPanel-content {
       display: none;
     }

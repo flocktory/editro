@@ -1,20 +1,26 @@
-const assert = require('assert');
-const { elem } = require('../utils');
-
 /*
  * Visual pane.
- * Can be slided from left, right, up, bottom or floated
+ * Can be slided from left, right, up, bottom or floated.
+ * Save size. Listen to toggle-${position}-panel event
+ *
+ * Options:
+ * position - String, required, one of left|right|bottom|top
+ * fixed - Boolean, should have fixed size?
+ * size - String, size if fixed, ex: 200px
  */
+
+const assert = require('assert');
+
 const positions = ['left', 'right', 'top', 'bottom'];
 
 class Panel {
   constructor(editro, opts) {
     assert(positions.includes(opts.position),
       'Panel position should be in ' + positions.join(', '));
-    this.editro = editro;
 
+    this.editro = editro;
     this.position = opts.position;
-    this.tag = opts.tag;
+    this.getKey = k => `panel:${this.position}:${k}`;
 
     this.node = document.createElement('div');
     this.node.className = 'EditroPanel';
@@ -32,10 +38,8 @@ class Panel {
       this.node
         .querySelector('.EditroPanel-content')
         .style[this._isRow() ? 'width' : 'height'] = opts.size || '300px';
-      this._restoreSize();
+      this._restoreState();
     }
-
-    this.elem = elem(this);
 
     this.node.lastChild.appendChild(opts.child);
     this.node.querySelector('.EditroPanel-move')
@@ -49,14 +53,8 @@ class Panel {
   }
 
   _toggle() {
-    const size = this._getContentSize();
-
-    if (size) {
-      this._saveSize();
-      this._setContentSize(0);
-    } else {
-      this._restoreSize();
-    }
+    this._setHidden(!this._getHidden());
+    this._saveState();
   }
 
   _startResize(e) {
@@ -72,7 +70,7 @@ class Panel {
     const dragging = ({ clientY, clientX }) => {
       const size = updated - (isRow ? clientX : clientY);
       content.style[dim] = size + 'px';
-      this._saveSize();
+      this._saveState();
     };
     document.addEventListener('mousemove', dragging, false);
     const onUp = () => {
@@ -99,13 +97,19 @@ class Panel {
     const content = this.node.querySelector('.EditroPanel-content');
     return content.style[dim] = size + 'px';
   }
-  _restoreSize() {
-    const key = `panel:${this.position}:size`;
-    this._setContentSize(this.editro.getStorageItem(key) || 300);
+  _setHidden(hidden) {
+    this.node.dataset.hidden = hidden ? 'yes' : 'no';
   }
-  _saveSize() {
-    const key = `panel:${this.position}:size`;
-    this.editro.setStorageItem(key, this._getContentSize());
+  _getHidden(hidden) {
+    return this.node.dataset.hidden == 'yes';
+  }
+  _restoreState() {
+    this._setContentSize(this.editro.getStorageItem(this.getKey('size')) || 300);
+    this._setHidden(this.editro.getStorageItem(this.getKey('hidden') || false));
+  }
+  _saveState() {
+    this.editro.setStorageItem(this.getKey('size'), this._getContentSize());
+    this.editro.setStorageItem(this.getKey('hidden'), this._getHidden());
   }
 }
 
