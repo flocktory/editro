@@ -10,6 +10,7 @@
  */
 
 const EventEmitter = require('events');
+const { debounce } = require('../utils');
 
 class History extends EventEmitter {
   constructor(size) {
@@ -71,10 +72,9 @@ module.exports = function(Editro) {
 
   Editro.defineInitHook((editro, root, code) => {
     editro[key] = new Editro.type.History(editro.getOption('historySize'));
+    editro._h = editro[key]
     editro[key].push(code);
-    editro.on('change', e => {
-      editro[key].push(e.html);
-    });
+    editro.on('change', debounce(e => editro[key].push(e.html), 300));
   });
 
   Editro.defineExtension('forward', function() {

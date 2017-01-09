@@ -36,5 +36,6 @@ $height: 30px;
   &-title {
     display: inline;
     font-size: $height * 0.4;
+    user-select: none;
   }
 }
