@@ -1,5 +1,6 @@
 const Element = require('./Element');
 const EventEmmiter = require('events');
+const { debounce } = require('./utils');
 
 class Frame extends EventEmmiter {
   constructor(options) {
@@ -12,6 +13,13 @@ class Frame extends EventEmmiter {
 
     this.node.addEventListener('load', this._onLoad.bind(this));
     this.node.srcdoc = options.code;
+
+    this._emitChange = debounce(() =>
+      this.emit('change', {
+        html: this.getHtml()
+      }),
+      1
+    );
   }
 
   getNode() {
@@ -81,6 +89,10 @@ class Frame extends EventEmmiter {
 
   _select(node, silenced) {
     if (this.current.el) {
+      if (this.current.node === node) {
+        return;
+      }
+
       this.current.node.removeAttribute('editro-current');
       this.current.el.emit('deattached');
       this.current.el.removeAllListeners('change');
@@ -91,18 +103,11 @@ class Frame extends EventEmmiter {
     const el = new Element(node);
     this.current.el = el;
 
-    el.on('change', () => {
-      this.emit('change', {
-        element: el,
-        html: this.getHtml()
-      });
-    });
+    el.on('change', this._emitChange);
 
     this.emit('selected', el);
     if (!silenced) {
-      this.emit('change', {
-        html: this.getHtml()
-      });
+      this._emitChange();
     }
   }
 
