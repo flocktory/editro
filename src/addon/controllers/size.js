@@ -1,4 +1,4 @@
-const { combination, num, px } = require('../../utils');
+const { px } = require('../../utils');
 
 module.exports = function(Editro) {
   const { type: { Controller, SizeComponent } } = Editro;
@@ -11,6 +11,7 @@ module.exports = function(Editro) {
 
     onElementSelected(el) {
       this.el = el;
+      this.toggle(true);
 
       if (this.component) {
         this.component.removeAllListeners('change');
