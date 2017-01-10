@@ -1,3 +1,5 @@
+const { debounce } = require('../utils');
+
 module.exports = function(Editro, CodeMirror=window.CodeMirror) {
   Editro.defineInitHook((editro, _, { code }) => {
     const wrapper = document.createElement('div');
@@ -50,15 +52,15 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
       group: 'panels'
     }));
   });
+
+  Editro.defineHelper('codePreprocessor', 'codeMirror', pre);
 };
 
-function debounce(fn, delay) {
-  let timeoutId = null;
-  return () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
+// export for tests
+const pre = module.exports.pre = function pre(code) {
+  const sre = /(<html[^>]*>)([\s\S]*)(<head[\s>])/mi;
+  return code.replace(sre, (_, start, trash, end) => {
+    return start + end;
+  });
+};
 
-    timeoutId = setTimeout(fn, delay);
-  };
-}
