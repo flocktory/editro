@@ -4,6 +4,8 @@ const { pre } = require('../codeMirror');
 const noN = s => s.replace(/\n/gmi, '').replace(/>\s*</gmi, '><');
 
 describe('[addon] CodeMirror', () => {
+  let html, want;
+
   it('should remove symbols between', () => {
     let html = '<html>NO<head></head></html>';
     equal(pre(html), '<html><head></head></html>');
@@ -39,5 +41,22 @@ describe('[addon] CodeMirror', () => {
     `;
     equal(noN(pre(html)), noN(want));
   });
-  // test with header
+
+  it('should remove all text between tags inside head', () => {
+    html = '<html><head><meta test="a"/>WRONG</head><body><header>Test</header></body></html>';
+    want = '<html><head><meta test="a"/></head><body><header>Test</header></body></html>';
+    equal(noN(pre(html)), noN(want));
+  });
+  it('should remove all text between head and body', () => {
+    html = '<html><head><meta test="a"/></head>WRONG<body><header>Test</header></body></html>';
+    want = '<html><head><meta test="a"/></head><body><header>Test</header></body></html>';
+    equal(noN(pre(html)), noN(want));
+  });
+  it('should not remove text inside script or style', () => {
+    html = '<html><head><style>KEEP</style></head><body></body></html>';
+    equal(noN(pre(html)), html);
+
+    html = '<html><head><script>KEEP</script></head><body></body></html>';
+    equal(noN(pre(html)), html);
+  });
 });
