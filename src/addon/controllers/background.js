@@ -10,7 +10,8 @@ module.exports = function(Editro) {
     ...tags.block,
     ...tags.headers,
     ...tags.content,
-    ...tags.form
+    ...tags.form,
+    'a'
   );
 
   class Background extends Controller {
