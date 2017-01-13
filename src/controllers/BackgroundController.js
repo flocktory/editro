@@ -14,7 +14,8 @@ export default class BackgroundController extends Controller {
       ...blockTags,
       ...headersTags,
       ...contentTags,
-      ...formTags
+      ...formTags,
+      'a'
     );
 
     return tags.indexOf(el.tagName.toLowerCase()) !== -1;
