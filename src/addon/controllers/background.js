@@ -65,6 +65,8 @@ module.exports = function(Editro) {
 
       if (backgroundImages.length) {
         el.setStyle('backgroundImage', backgroundImages.join(', '));
+      } else {
+        el.setStyle('backgroundImage', 'none'); // Avoid conflicts with backgroundColor if an element is set backgroundImage
       }
 
       el.setStyle('backgroundSize', value.backgroundSize);
