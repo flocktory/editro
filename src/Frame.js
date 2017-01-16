@@ -127,11 +127,23 @@ class Frame extends EventEmmiter {
         * {
           cursor: pointer;
         }
+        @-webkit-keyframes pulsate {
+          50% {
+            outline-color: #0022df;
+          }
+          75% {
+            outline-color: transparent;
+          }
+          100% {
+            outline-color: #0022df;
+          }
+        }
         [editro-current] {
           outline-color: #0022df;
           outline-offset: 0px;
           outline-style: dotted;
           outline-width: 1px;
+          animation: pulsate 1s infinite;
         }
       `;
       doc.head.appendChild(st);
