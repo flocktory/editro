@@ -144,5 +144,11 @@ module.exports = class ColorComponent extends Component {
     };
     this.addListener(text, 'keyup', onTextChanged);
     this.addListener(text, 'change', onTextChanged);
+
+    // Setup opacity when color is pasted
+    this.addListener(text, 'paste', () => setTimeout(() => {
+      text.value = text.value.trim();
+      opacity.value = 100;
+    }));
   }
-}
+};

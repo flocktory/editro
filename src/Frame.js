@@ -132,7 +132,7 @@ class Frame extends EventEmmiter {
             outline-color: #0022df;
           }
           75% {
-            outline-color: transparent;
+            outline-color: rgba(0, 34, 223, 0.2);
           }
           100% {
             outline-color: #0022df;
