@@ -81,15 +81,28 @@ module.exports = class BorderComponent extends BaseCompositeComponent {
     this.toggler.setAttribute('collapsed', String(!this.value.showComponents));
 
     const el = i => this.toggler.children[i].querySelector('input') || document.createElement('input');
+    // update elements values from left to right
+    const updateValues = (sourceNum, ...nums) => {
+      const value = el(sourceNum).value;
 
-    if (this.value.showComponents) {
-      el(2).value = el(4).value = el(6).value = el(8).value = el(0).value;
-      el(3).value = el(5).value = el(7).value = el(9).value = el(1).value;
-    } else {
-      el(0).value = el(2).value;
-      el(1).value = el(3).value;
+      return nums.reduce((isChanged, currentNum) => {
+        const current = el(currentNum);
+        if (current.value !== value) {
+          current.value = value;
+          return true
+        }
+
+        return isChanged;
+      }, false)
     }
 
-    emitDomEvent(this.toggler.querySelectorAll('input'), 'change');
+    const isChanged = this.value.showComponents ?
+      updateValues(0, 8, 6, 4, 2) || updateValues(1, 9, 7, 5, 3) :
+      updateValues(2, 0) || updateValues(3, 1);
+
+
+    if (isChanged) {
+      emitDomEvent(this.toggler.querySelectorAll('input'), 'change');
+    }
   }
 };

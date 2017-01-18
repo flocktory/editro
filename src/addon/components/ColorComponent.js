@@ -128,7 +128,7 @@ module.exports = class ColorComponent extends Component {
       color.style.opacity = opacity.value / 100;
       text.value = value;
       this.emit('change', value);
-    }, 100);
+    }, 30);
 
     this.addListener(color, 'change', collectColor);
     this.addListener(opacity, 'change', collectColor);
