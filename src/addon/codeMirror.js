@@ -53,7 +53,7 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
     }));
   });
 
-  Editro.defineHelper('codePreprocessor', 'codeMirror', pre);
+  //Editro.defineHelper('codePreprocessor', 'codeMirror', pre);
 };
 
 
