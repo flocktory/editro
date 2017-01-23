@@ -120,7 +120,7 @@ class Editro extends EventEmmiter {
   }
 
   selectByQuery(q) {
-    this.frame.selectByQuery(q);
+    return this.frame.selectByQuery(q);
   }
 
   _onElementSelected(element) {

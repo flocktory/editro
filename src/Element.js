@@ -106,6 +106,14 @@ class Element extends EventEmitter {
     });
   }
 
+  addNode(node) {
+    this.node.appendChild(node);
+    this.emit('change', {
+      type: 'appendChild',
+      child: node
+    });
+  }
+
   // TODO move to frame
   _getStyleTag() {
     const cd = this.node.getRootNode();

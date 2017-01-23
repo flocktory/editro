@@ -3,7 +3,7 @@ module.exports = function(Editro) {
 
   class WidgetSettings extends Controller {
     onElementSelected(el) {
-      const enabled = el.getTag() === 'body';
+      const enabled = el.getTag() === 'meta';
       this.toggle(enabled);
       if (!enabled) {
         return;
@@ -35,7 +35,16 @@ module.exports = function(Editro) {
     editro.addInstrument(new Instrument(editro, {
       icon: require('../../images/cog.svg'),
       title: 'Setup widget',
-      onClick: () => editro.selectByQuery('body'),
+      onClick: () => {
+        const meta = editro.selectByQuery('meta[name="widget-config"]');
+        if (!meta) {
+          const head = editro.selectByQuery('head');
+          const node = document.createElement('meta');
+          node.setAttribute('name', 'widget-config');
+          head.addNode(node);
+          editro.selectByQuery('meta[name="widget-config"]');
+        }
+      },
       group: 'settings'
     }));
   });

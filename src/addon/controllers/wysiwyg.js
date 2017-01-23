@@ -60,6 +60,7 @@ module.exports = function(Editro) {
         ...tags.definition,
         ...tags.form,
         ...tags.embedded,
+        ...tags.system
       ];
       return !banned.includes(el.getTag()) && !fake.querySelector(banned.join(' '));
     }

@@ -50,12 +50,13 @@ class Frame extends EventEmmiter {
     this.node.srcdoc = code;
   }
 
+  // Find and select element, return undefined if no element
   selectByQuery(query) {
     const doc = this.node.contentDocument;
     if (doc) {
       const el = doc.querySelector(query);
       if (el) {
-        this._select(el);
+        return this._select(el);
       }
     }
   }
@@ -109,6 +110,7 @@ class Frame extends EventEmmiter {
     if (!silenced) {
       this._emitChange();
     }
+    return el;
   }
 
   _onMutate() {

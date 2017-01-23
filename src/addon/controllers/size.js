@@ -1,7 +1,7 @@
 const { px } = require('../../utils');
 
 module.exports = function(Editro) {
-  const { type: { Controller, SizeComponent } } = Editro;
+  const { tags, type: { Controller, SizeComponent } } = Editro;
 
   class Size extends Controller {
     constructor(editro) {
@@ -11,7 +11,11 @@ module.exports = function(Editro) {
 
     onElementSelected(el) {
       this.el = el;
-      this.toggle(true);
+      const enabled = !tags.system.includes(el.getTag());
+      this.toggle(enabled);
+      if (!enabled) {
+        return;
+      }
 
       if (this.component) {
         this.component.removeAllListeners('change');

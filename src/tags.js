@@ -9,3 +9,4 @@ module.exports.headers = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 module.exports.content = ['p', 'address', 'blockquote', 'cite', 'code', 'pre'];
 module.exports.form = ['form', 'caption', 'fieldset', 'legend', 'label', 'td', 'th'];
 module.exports.embedded = ['img', 'object'];
+module.exports.system = ['meta']
