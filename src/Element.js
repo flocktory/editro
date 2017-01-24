@@ -29,6 +29,10 @@ class Element extends EventEmitter {
     return v;
   }
   removeAttribute(name) {
+    this.emit('change', {
+      type: 'attribute',
+      name: name
+    });
     return this.node.removeAttribute(name);
   }
 
