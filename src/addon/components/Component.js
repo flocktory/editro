@@ -40,4 +40,4 @@ module.exports = class Component extends EventEmitter {
   destroy() {
     this._listeners.forEach(({ element, event, listener }) => element.removeEventListener(event, listener));
   }
-}
+};

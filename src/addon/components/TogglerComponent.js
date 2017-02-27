@@ -22,4 +22,4 @@ module.exports = class TogglerComponent extends Component {
       this.emit('change', !this.value);
     });
   }
-}
+};

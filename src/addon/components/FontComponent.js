@@ -1,14 +1,12 @@
 const BaseCompositeComponent = require('./BaseCompositeComponent');
-const InputComponent = require('./InputComponent');
-const ColorComponent = require('./ColorComponent');
-const SelectComponent = require('./SelectComponent');
+const Editro = require('../../Editro');
 
 
 class FontComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new ColorComponent(this.value.color, {
+        component: () => Editro.createComponent('ColorComponent', this.value.color, {
           label: this.config.i18n('Text color')
         }),
         onChange: color => {
@@ -16,7 +14,7 @@ class FontComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new InputComponent(this.value.fontSize, {
+        component: () => Editro.createComponent('InputComponent', this.value.fontSize, {
           type: 'number',
           unit: 'px',
           label: this.config.i18n('Font size')
@@ -26,7 +24,7 @@ class FontComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new InputComponent(this.value.lineHeight, {
+        component: () => Editro.createComponent('InputComponent', this.value.lineHeight, {
           type: 'number',
           unit: 'px',
           label: this.config.i18n('Line height')
@@ -36,7 +34,7 @@ class FontComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new SelectComponent(this.value.textAlign, {
+        component: () => Editro.createComponent('SelectComponent', this.value.textAlign, {
           choices: ['left', 'center', 'right'].map(ta => [ta, this.config.i18n(ta)]),
           label: this.config.i18n('Text align')
         }),
@@ -45,7 +43,7 @@ class FontComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new SelectComponent(this.value.fontWeight, {
+        component: () => Editro.createComponent('SelectComponent', this.value.fontWeight, {
           choices: ['normal', 'light', 'bold'].map(ta => [ta, this.config.i18n(ta)]),
           label: this.config.i18n('Font weight')
         }),
@@ -54,7 +52,7 @@ class FontComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new SelectComponent(this.value.fontStyle, {
+        component: () => Editro.createComponent('SelectComponent', this.value.fontStyle, {
           choices: ['normal', 'italic'].map(ta => [ta, this.config.i18n(ta)]),
           label: this.config.i18n('Font style')
         }),

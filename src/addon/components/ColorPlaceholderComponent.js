@@ -20,4 +20,4 @@ module.exports = class ColorPlaceholderComponent extends Component {
   watch() {
     this.addListener(this.el.querySelector('[color-placeholder]'), 'click', () => this.emit('change'));
   }
-}
+};

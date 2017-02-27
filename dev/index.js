@@ -11,11 +11,11 @@ if (window.top === window) {
       i.style.height = i.contentDocument.body.offsetHeight + 30 + 'px';
     }
     requestAnimationFrame(() => {
-      check()
+      check();
     });
   }
   check();
-  document.body.appendChild(i)
+  document.body.appendChild(i);
 
   module.hot.accept('../src/Editro.js', () => {
     init();

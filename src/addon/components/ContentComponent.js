@@ -25,4 +25,4 @@ module.exports = class ContentComponent extends Component {
     this.addListener(this.el.querySelector('[contenteditable]'), 'keyup', onChange);
     this.addListener(this.el.querySelector('[contenteditable]'), 'change', onChange);
   }
-}
+};

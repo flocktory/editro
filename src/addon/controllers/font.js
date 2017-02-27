@@ -39,7 +39,7 @@ module.exports = function(Editro) {
         fontWeight: this.el.getStyle('fontWeight'),
         fontStyle: this.el.getStyle('fontStyle'),
         lineHeight: this.el.getStyle('lineHeight')
-     };
+      };
 
       this.select = new FontComponent(value, {
         i18n: this.editro.i18n

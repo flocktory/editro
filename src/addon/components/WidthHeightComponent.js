@@ -39,4 +39,4 @@ module.exports = class WidthHeightComponent extends Component {
       this.addListener(input, 'keyup', onChange);
     });
   }
-}
+};

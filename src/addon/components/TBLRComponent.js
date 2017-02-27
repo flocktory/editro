@@ -46,4 +46,4 @@ module.exports = class TBLRComponent extends Component {
       this.addListener(input, 'change', onChange);
     });
   }
-}
+};

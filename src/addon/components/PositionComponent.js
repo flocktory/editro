@@ -1,13 +1,12 @@
 const BaseCompositeComponent = require('./BaseCompositeComponent');
-const SelectComponent = require('./SelectComponent');
-const TBLRComponent = require('./TBLRComponent');
+const Editro = require('../../Editro');
 
 
 module.exports = class PositionComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new SelectComponent(this.value.position, {
+        component: () => Editro.createComponent('SelectComponent', this.value.position, {
           choices: [
             ['static', 'static'],
             ['relative', 'relative'],
@@ -21,7 +20,7 @@ module.exports = class PositionComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new TBLRComponent(this.value, {
+        component: () => Editro.createComponent('TBLRComponent', this.value, {
           arrowDirection: 'in',
           shapes: {
             inner: 'real',

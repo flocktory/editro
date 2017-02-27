@@ -1,10 +1,6 @@
 const Component = require('./Component');
 const BaseCompositeComponent = require('./BaseCompositeComponent');
-const SelectComponent = require('./SelectComponent');
-const ColorComponent = require('./ColorComponent');
-const ColorPlaceholderComponent = require('./ColorPlaceholderComponent');
-const ImageComponent = require('./ImageComponent');
-const { createDocumentFragment } = require('../../utils');
+const Editro = require('../../Editro');
 
 
 const visibleIf = isVisible => isVisible ? 'flex' : 'none';
@@ -14,7 +10,7 @@ class BackgroundColorComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new ColorComponent(this.value.color1, {
+        component: () => Editro.createComponent('ColorComponent', this.value.color1, {
           label: this.config.i18n('Main background color')
         }),
         onChange: color => {
@@ -22,7 +18,7 @@ class BackgroundColorComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new ColorPlaceholderComponent(null, {
+        component: () => Editro.createComponent('ColorPlaceholderComponent', null, {
           label: this.config.i18n('Second background color')
         }),
         onChange: () => {
@@ -30,7 +26,7 @@ class BackgroundColorComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new ColorComponent(this.value.color2, {
+        component: () => Editro.createComponent('ColorComponent', this.value.color2, {
           label: this.config.i18n('Second background color')
         }),
         onChange: color => {
@@ -38,7 +34,7 @@ class BackgroundColorComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new SelectComponent(this.value.gradientDirection, {
+        component: () => Editro.createComponent('SelectComponent', this.value.gradientDirection, {
           choices: ['to right', 'to right bottom', 'to bottom', 'to left bottom'].map(grad => [grad, this.config.i18n(grad)]),
           label: this.config.i18n('Gradient direction')
         }),
@@ -71,7 +67,7 @@ class BackgroundImageComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new ImageComponent(this.value.backgroundImage, {
+        component: () => Editro.createComponent('ImageComponent', this.value.backgroundImage, {
           label: this.config.i18n('Background image'),
           upload: this.config.upload,
           current: this.value.backgroundImage
@@ -81,7 +77,7 @@ class BackgroundImageComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new SelectComponent(this.value.backgroundSize, {
+        component: () => Editro.createComponent('SelectComponent', this.value.backgroundSize, {
           choices: ['auto', 'cover', 'contain'].map(bgSize => [bgSize, this.config.i18n(bgSize)]),
           label: this.config.i18n('Background size')
         }),
@@ -90,7 +86,7 @@ class BackgroundImageComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new SelectComponent(this.value.backgroundPosition, {
+        component: () => Editro.createComponent('SelectComponent', this.value.backgroundPosition, {
           choices: [
             ['0 0', this.config.i18n('Top left corner')],
             ['100% 0', this.config.i18n('Top right corner')],

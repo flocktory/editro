@@ -1,13 +1,12 @@
 const BaseCompositeComponent = require('./BaseCompositeComponent');
-const SelectComponent = require('./SelectComponent');
-const WidthHeightComponent = require('./WidthHeightComponent');
+const Editro = require('../../Editro');
 
 
 module.exports = class SizeComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     return [
       {
-        component: () => new WidthHeightComponent(this.value, {
+        component: () => Editro.createComponent('WidthHeightComponent', this.value, {
           label: this.config.i18n('Dimensions')
         }),
         onChange: value => {
@@ -16,7 +15,7 @@ module.exports = class SizeComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new SelectComponent(this.value.float, {
+        component: () => Editro.createComponent('SelectComponent', this.value.float, {
           choices: ['none', 'left', 'right'].map(item => [item, this.config.i18n(item)]),
           label: this.config.i18n('Floating')
         }),
@@ -26,4 +25,4 @@ module.exports = class SizeComponent extends BaseCompositeComponent {
       }
     ];
   }
-}
+};
