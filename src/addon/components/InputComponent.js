@@ -14,7 +14,7 @@ module.exports = class InputComponent extends Component {
               </div>
               <div class="EditroField-control">
                 <div class="EditroInputWrapper EditroInputWrapper--full EditroControl"
-                  ${this.config.unit ? `unit="${this.config.unit}"` : ``}>
+                  ${this.config.unit ? `unit="${this.config.unit}"` : ''}>
                   <input type="${this.config.type || 'text'}" 
                          class="EditroInput" 
                          value="${this.value}"/>
@@ -32,4 +32,4 @@ module.exports = class InputComponent extends Component {
     this.addListener(input, 'change', onChanged);
     this.addListener(input, 'keyup', onChanged);
   }
-}
+};

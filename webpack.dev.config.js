@@ -73,4 +73,4 @@ const config = {
   ].filter(a => a)
 };
 
-module.exports = config
+module.exports = config;

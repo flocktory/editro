@@ -1,4 +1,4 @@
-const { combination, num, px } = require('../../utils');
+const { num, px } = require('../../utils');
 
 const sides = ['TopRight', 'BottomRight', 'BottomLeft', 'TopLeft'];
 

@@ -34,4 +34,4 @@ module.exports = class IconRadioGroupComponent extends Component {
       this.emit('change', e.target.value);
     });
   }
-}
+};

@@ -1,15 +1,13 @@
 const BaseCompositeComponent = require('./BaseCompositeComponent');
-const InputComponent = require('./InputComponent');
-const ColorComponent = require('./ColorComponent');
-const TogglerComponent = require('./TogglerComponent');
 const { createDocumentFragment, emitDomEvent } = require('../../utils');
+const Editro = require('../../Editro');
 
 
 module.exports = class BorderComponent extends BaseCompositeComponent {
   getSubComponentsFactories() {
     const subComponents = [
       {
-        component: () => new InputComponent(this.value.oneValue[0], {
+        component: () => Editro.createComponent('InputComponent', this.value.oneValue[0], {
           type: 'number',
           unit: 'px',
           label: this.config.i18n('Border width'),
@@ -20,7 +18,7 @@ module.exports = class BorderComponent extends BaseCompositeComponent {
         }
       },
       {
-        component: () => new ColorComponent(this.value.oneValue[1], {
+        component: () => Editro.createComponent('ColorComponent', this.value.oneValue[1], {
           label: this.config.i18n('Border color'),
           class: 'EditroToggler-less'
         }),
@@ -32,7 +30,7 @@ module.exports = class BorderComponent extends BaseCompositeComponent {
 
     ['Top', 'Right', 'Bottom', 'Left'].forEach((side, i) => {
       subComponents.push({
-        component: () => new InputComponent(this.value.components[i][0], {
+        component: () => Editro.createComponent('InputComponent', this.value.components[i][0], {
           type: 'number',
           unit: 'px',
           label: this.config.i18n(`${side} border width`),
@@ -43,7 +41,7 @@ module.exports = class BorderComponent extends BaseCompositeComponent {
         }
       });
       subComponents.push({
-        component: () => new ColorComponent(this.value.components[i][1], {
+        component: () => Editro.createComponent('ColorComponent', this.value.components[i][1], {
           label: this.config.i18n(`${side} border color`),
           class: 'EditroToggler-more'
         }),
@@ -54,7 +52,7 @@ module.exports = class BorderComponent extends BaseCompositeComponent {
     });
 
     subComponents.push({
-      component: () => new TogglerComponent(this.value.showComponents, {
+      component: () => Editro.createComponent('TogglerComponent', this.value.showComponents, {
         label: this.config.i18n('expand')
       }),
       onChange: value => {
@@ -89,12 +87,12 @@ module.exports = class BorderComponent extends BaseCompositeComponent {
         const current = el(currentNum);
         if (current.value !== value) {
           current.value = value;
-          return true
+          return true;
         }
 
         return isChanged;
-      }, false)
-    }
+      }, false);
+    };
 
     const isChanged = this.value.showComponents ?
       updateValues(0, 8, 6, 4, 2) || updateValues(1, 9, 7, 5, 3) :

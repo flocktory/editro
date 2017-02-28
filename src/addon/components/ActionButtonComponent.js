@@ -16,4 +16,4 @@ module.exports = class ActionButtonComponent extends Component {
   watch() {
     this.addListener(this.el.firstChild, 'click', () => this.emit('change'));
   }
-}
+};

@@ -146,8 +146,8 @@ class Editro extends EventEmmiter {
 Editro.prototype.options = { };
 Editro.prototype.optionsHandlers = {};
 
-Editro.defineOption = (name, d, f) => {
-  Editro.prototype.options[name] = d;
+Editro.defineOption = (name, value, f) => {
+  Editro.prototype.options[name] = value;
   if (f) {
     assert(typeof f === 'function', 'Option handler should be falsy or function');
     Editro.prototype.optionsHandlers[name] = f;
@@ -166,6 +166,11 @@ Editro.helpers = [];
 Editro.defineHelper = (type, name, value) => {
   Editro.helpers[type] = Editro[type] = Editro.helpers[type] || {};
   Editro.helpers[type][name] = value;
+};
+
+Editro.createComponent = (component, value, options) => {
+  assert(Editro.type[component], `Component type ${component} doesn't exist.`);
+  return new Editro.type[component](value, options);
 };
 
 module.exports = Editro;
