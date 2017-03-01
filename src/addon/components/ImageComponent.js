@@ -1,35 +1,38 @@
-const Component = require('./Component');
+module.exports = function(Editro) {
+  const { Component } = Editro.type;
 
-
-module.exports = class ImageComponent extends Component {
-  template() {
-    return `<div class="EditroField">
-              <div class="EditroField-label">
-                <div class="EditroField-labelWrapper">
-                  ${this.config.label}
+  class ImageComponent extends Component {
+    template() {
+      return `<div class="EditroField">
+                <div class="EditroField-label">
+                  <div class="EditroField-labelWrapper">
+                    ${this.config.label}
+                  </div>
                 </div>
-              </div>
-              <div class="EditroField-control EditroField-control--inline">
-                <div class="EditroFileInput">
-                  <div class="EditroIcon EditroIcon--upload"></div>
-                  <input class="EditroFileInput-control" type="file" />
+                <div class="EditroField-control EditroField-control--inline">
+                  <div class="EditroFileInput">
+                    <div class="EditroIcon EditroIcon--upload"></div>
+                    <input class="EditroFileInput-control" type="file" />
+                  </div>
+                  <img class="EditroSrcPreview" src="${this.config.current || ''}"/>
                 </div>
-                <img class="EditroSrcPreview" src="${this.config.current || ''}"/>
-              </div>
-            </div>`;
-  }
+              </div>`;
+    }
 
-  watch() {
-    const fileInput = this.el.querySelector('input');
-    const preview = this.el.querySelector('.EditroSrcPreview');
+    watch() {
+      const fileInput = this.el.querySelector('input');
+      const preview = this.el.querySelector('.EditroSrcPreview');
 
-    this.addListener(fileInput, 'change', () => {
-      const file = fileInput.files[0];
+      this.addListener(fileInput, 'change', () => {
+        const file = fileInput.files[0];
 
-      this.config.upload([file]).then(url => {
-        preview.setAttribute('src', url);
-        this.emit('change', url);
+        this.config.upload([file]).then(url => {
+          preview.setAttribute('src', url);
+          this.emit('change', url);
+        });
       });
-    });
+    }
   }
+
+  Editro.defineHelper('type', 'ImageComponent', ImageComponent);
 };

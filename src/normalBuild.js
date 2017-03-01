@@ -9,14 +9,14 @@ const Editro = require('./Editro');
 Object.keys(tags).forEach(g => Editro.defineHelper('tags', g, tags[g]));
 
 const components = [
+  'Component',
+  'BaseCompositeComponent',
   'ActionButtonComponent',
   'BackgroundComponent',
-  'BaseCompositeComponent',
   'BorderComponent',
   'BorderRadiusComponent',
   'ColorComponent',
   'ColorPlaceholderComponent',
-  'Component',
   'ContentComponent',
   'FontComponent',
   'IconRadioGroupComponent',
@@ -31,8 +31,7 @@ const components = [
 ];
 
 components.forEach(c => {
-  const C = require('./addon/components/' + c);
-  Editro.defineHelper('type', c, C);
+  require('./addon/components/' + c)(Editro);
 });
 
 require('./addon/storage')(Editro);
