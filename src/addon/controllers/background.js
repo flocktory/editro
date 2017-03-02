@@ -1,5 +1,5 @@
 module.exports = function(Editro) {
-  const GRADIENT_RX = /linear-gradient\(([\s\w]+),\s*(#[\d\w]{3,6}|rgba?\([\s\d,]+\))\s*0%\s*,\s*(#[\d\w]{3,6}|rgba?\([\s\d,]+\))\s*100%\s*\)/i;
+  const GRADIENT_RX = /linear-gradient\(([\s\w]+),\s*(#[\d\w]{3,6}|rgba?\([\s\d, \.?]+\))\s*0%\s*,\s*(#[\d\w]{3,6}|rgba?\([\s\d,\.?]+\))\s*100%\s*\)/i;
   const { tags, type: { Controller, BackgroundComponent } } = Editro;
   const enabledTags = [];
 

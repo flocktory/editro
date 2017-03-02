@@ -1,7 +1,7 @@
 const { px } = require('../../utils');
 
 module.exports = function(Editro) {
-  const { tags, type: { Controller, SizeComponent } } = Editro;
+  const { tags, type: { Controller } } = Editro;
 
   class Size extends Controller {
     constructor(editro) {
@@ -24,7 +24,7 @@ module.exports = function(Editro) {
 
       this.node.innerHTML = '<h3 class="EditroController-title">Size</h3>';
 
-      this.component = new SizeComponent(this._getValue(el), {
+      this.component = Editro.createComponent('SizeComponent', this._getValue(el), {
         i18n: a => a
       });
 

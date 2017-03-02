@@ -1,34 +1,35 @@
-const Component = require('./Component');
+module.exports = function(Editro) {
+  const { Component } = Editro.type;
 
+  class BaseCompositeComponent extends Component {
+    render() {
+      this.el = document.createDocumentFragment();
 
-class BaseCompositeComponent extends Component {
-  render() {
-    this.el = document.createDocumentFragment();
+      this.components = this.getSubComponentsFactories().map(({ component, onChange }) => {
+        const componentInstance = component();
 
-    this.components = this.getSubComponentsFactories().map(({ component, onChange }) => {
-      const componentInstance = component();
+        componentInstance.on('change', data => {
+          onChange(data);
+          this.emit('change', this.value);
+        });
 
-      componentInstance.on('change', data => {
-        onChange(data);
-        this.emit('change', this.value);
+        this.el.appendChild(componentInstance.el);
+
+        return componentInstance;
       });
+    }
 
-      this.el.appendChild(componentInstance.el);
+    /**
+     * @returns {Array} {component: () => new Component(...), onChange: () => {}}
+     */
+    getSubComponentsFactories() {
+      return [];
+    }
 
-      return componentInstance;
-    });
+    destroy() {
+      this.components.forEach(component => component.destroy());
+    }
   }
 
-  /**
-   * @returns {Array} {component: () => new Component(...), onChange: () => {}}
-   */
-  getSubComponentsFactories() {
-    return [];
-  }
-
-  destroy() {
-    this.components.forEach(component => component.destroy());
-  }
-}
-
-module.exports = BaseCompositeComponent;
+  Editro.defineHelper('type', 'BaseCompositeComponent', BaseCompositeComponent);
+};

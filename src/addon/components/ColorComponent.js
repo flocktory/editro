@@ -1,6 +1,4 @@
 const debounce = require('../../utils').debounce;
-const Component = require('./Component');
-
 
 function parseShortColor(color) {
   const match = /^#([0-9A-F])([0-9A-F])([0-9A-F])$/i.exec(color);
@@ -88,67 +86,73 @@ function pairToColor({ color, opacity }) {
 }
 
 
-module.exports = class ColorComponent extends Component {
-  template() {
-    const { color, opacity } = colorToPair(this.value);
+module.exports = function(Editro) {
+  const { Component } = Editro.type;
 
-    return `<div class="EditroField">
-              <div class="EditroField-label">
-                <div class="EditroField-labelWrapper">
-                  ${this.config.label}
-                </div>
-              </div>
-              <div class="EditroField-control EditroField-control--inline">
-                <div class="EditroColor EditroControl">
-                  <div class="EditroColor-colorWrapper">
-                    <input class="EditroColor-color" type="color" value="${color}" style="opacity: ${opacity / 100}" />
-                  </div>
-                  <div class="EditroColor-panel">
-                    <input class="EditroColor-opacity EditroRange" type="range" value="${opacity}" min="0" max="100">
+  class ColorComponent extends Component {
+    template() {
+      const { color, opacity } = colorToPair(this.value);
+
+      return `<div class="EditroField">
+                <div class="EditroField-label">
+                  <div class="EditroField-labelWrapper">
+                    ${this.config.label}
                   </div>
                 </div>
-                <div class="EditroInputWrapper EditroInputWrapper--full EditroControl">
-                  <input type="text" class="EditroInput" value="${color}" />
+                <div class="EditroField-control EditroField-control--inline">
+                  <div class="EditroColor EditroControl">
+                    <div class="EditroColor-colorWrapper">
+                      <input class="EditroColor-color" type="color" value="${color}" style="opacity: ${opacity / 100}" />
+                    </div>
+                    <div class="EditroColor-panel">
+                      <input class="EditroColor-opacity EditroRange" type="range" value="${opacity}" min="0" max="100">
+                    </div>
+                  </div>
+                  <div class="EditroInputWrapper EditroInputWrapper--full EditroControl">
+                    <input type="text" class="EditroInput" value="${color}" />
+                  </div>
                 </div>
-              </div>
-            </div>`;
+              </div>`;
+    }
+
+    watch() {
+      const color = this.el.querySelector('input[type=color]');
+      const opacity = this.el.querySelector('input[type=range]');
+      const text = this.el.querySelector('input[type=text]');
+
+      const collectColor = debounce(() => {
+        const value = pairToColor({
+          color: color.value,
+          opacity: opacity.value
+        });
+
+        color.style.opacity = opacity.value / 100;
+        text.value = value;
+        this.emit('change', value);
+      }, 30);
+
+      this.addListener(color, 'change', collectColor);
+      this.addListener(opacity, 'change', collectColor);
+
+      const onTextChanged = () => {
+        const newValues = colorToPair(text.value);
+
+        color.value = newValues.color;
+        opacity.value = newValues.opacity;
+
+        color.style.opacity = opacity.value / 100;
+        this.emit('change', pairToColor(newValues));
+      };
+      this.addListener(text, 'keyup', onTextChanged);
+      this.addListener(text, 'change', onTextChanged);
+
+      // Setup opacity when color is pasted
+      this.addListener(text, 'paste', () => setTimeout(() => {
+        text.value = text.value.trim();
+        opacity.value = 100;
+      }));
+    }
   }
 
-  watch() {
-    const color = this.el.querySelector('input[type=color]');
-    const opacity = this.el.querySelector('input[type=range]');
-    const text = this.el.querySelector('input[type=text]');
-
-    const collectColor = debounce(() => {
-      const value = pairToColor({
-        color: color.value,
-        opacity: opacity.value
-      });
-
-      color.style.opacity = opacity.value / 100;
-      text.value = value;
-      this.emit('change', value);
-    }, 30);
-
-    this.addListener(color, 'change', collectColor);
-    this.addListener(opacity, 'change', collectColor);
-
-    const onTextChanged = () => {
-      const newValues = colorToPair(text.value);
-
-      color.value = newValues.color;
-      opacity.value = newValues.opacity;
-
-      color.style.opacity = opacity.value / 100;
-      this.emit('change', pairToColor(newValues));
-    };
-    this.addListener(text, 'keyup', onTextChanged);
-    this.addListener(text, 'change', onTextChanged);
-
-    // Setup opacity when color is pasted
-    this.addListener(text, 'paste', () => setTimeout(() => {
-      text.value = text.value.trim();
-      opacity.value = 100;
-    }));
-  }
+  Editro.defineHelper('type', 'ColorComponent', ColorComponent);
 };
