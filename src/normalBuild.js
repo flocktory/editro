@@ -55,6 +55,7 @@ require('./addon/controllers/size')(Editro);
 require('./addon/controllers/position')(Editro);
 require('./addon/controllers/fontFamily')(Editro);
 require('./addon/controllers/font')(Editro);
+require('./addon/controllers/box-shadow')(Editro);
 
 Editro.defineOption('notificationTimeout', 3000);
 Editro.defineExtension('showNotification', function({ type, title, text, timeout }) {

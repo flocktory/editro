@@ -71,7 +71,7 @@ Allow you create new instruments on panel in easy way. Example:
   editro.addInstrument(new Editro.type.Instrument(editro, {
     icon: require('../../images/arrows-alt.svg'),
     title: 'Fullscreen',
-    onClick: () => e.setOption('fullScreen', !e.getOption('fullScreen')), 
+    onClick: () => e.setOption('fullScreen', !e.getOption('fullScreen')),
     group: 'panels'
   }));
 ```
@@ -160,5 +160,7 @@ CodeMirror instegration
 TBD
 
 # Dev
-TBD
 
+```
+/node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 3003 --config webpack.dev.config.js
+```
