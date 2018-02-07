@@ -28,8 +28,16 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
 
+    let editing = false;
+    cm.on('focus', () => {
+      editing = true;
+    });
+    cm.on('blur', () => {
+      editing = false;
+    });
+
     editro.on('change', e => {
-      if (e.sourceType !== 'code' && cm.getValue() !== e.html) {
+      if (!editing && e.sourceType !== 'code' && cm.getValue() !== e.html) {
         cm.setValue(e.html);
       }
     });
