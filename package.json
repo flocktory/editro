@@ -9,7 +9,6 @@
   "bugs": {
     "url": "https://github.com/flocktory/editro/issues"
   },
-  "license": "MIT",
   "main": "./index.js",
   "repository": {
     "url": "flocktory/editro"
