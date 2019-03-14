@@ -967,6 +967,9 @@
     font-size: 12px;
     user-select: none; }
 
+.EditroPanel[data-position="top"][data-fixed="yes"] {
+  min-height: 30px; }
+
 .EditroController {
   display: none; }
   .EditroController[data-enabled="yes"] {
