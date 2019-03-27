@@ -810,7 +810,8 @@
   .Editro-center {
     flex: 1;
     display: flex;
-    flex-direction: row; }
+    flex-direction: row;
+    overflow-y: auto; }
   .Editro--fullScreen {
     position: fixed;
     top: 0;
@@ -966,9 +967,6 @@
     display: inline;
     font-size: 12px;
     user-select: none; }
-
-.EditroPanel[data-position="top"][data-fixed="yes"] {
-  min-height: 30px; }
 
 .EditroController {
   display: none; }
