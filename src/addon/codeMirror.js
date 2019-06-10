@@ -43,9 +43,10 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
     });
 
     cm.on('changes', debounce(() => {
-      const v = cm.getValue();
-      if (v !== editro.getHtml()) {
-        editro.setHtml(v, {
+      const codeMirrorSource = cm.getValue();
+
+      if (editro.frame && editro.frame.isDocumentReady() && codeMirrorSource !== editro.getHtml()) {
+        editro.setHtml(codeMirrorSource, {
           sourceType: 'code'
         });
       }

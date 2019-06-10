@@ -1,6 +1,7 @@
 const Element = require('./Element');
 const EventEmmiter = require('events');
 const { debounce } = require('./utils');
+const DOCUMENT_READYSTATE_LOADING = 'loading';
 
 class Frame extends EventEmmiter {
   constructor(options) {
@@ -86,6 +87,12 @@ class Frame extends EventEmmiter {
     this.emit('load', {
       html: this.getHtml()
     });
+  }
+
+  isDocumentReady() {
+    const doc = this.node.contentDocument;
+
+    return doc && doc.readyState && doc.readyState !== DOCUMENT_READYSTATE_LOADING;
   }
 
   _select(node, silenced) {
