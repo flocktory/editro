@@ -28,24 +28,30 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
     });
 
-    let editing = false;
+    let isEditing = false;
+
     cm.on('focus', () => {
-      editing = true;
-    });
-    cm.on('blur', () => {
-      editing = false;
+      isEditing = true;
     });
 
+    cm.on('blur', () => {
+      isEditing = false;
+    });
+
+    /* Applies changes to CodeMirror if change something with editro staff */
     editro.on('change', e => {
-      if (!editing && e.sourceType !== 'code' && cm.getValue() !== e.html) {
+      if (!isEditing && e.sourceType !== 'code' && cm.getValue() !== e.html) {
         cm.setValue(e.html);
       }
     });
 
+
+    /* Applies changes to edtiro if changing code with CodeMirror */
     cm.on('changes', debounce(() => {
       const codeMirrorSource = cm.getValue();
+      const iframeSource = editro.frame;
 
-      if (editro.frame && editro.frame.isDocumentReady() && codeMirrorSource !== editro.getHtml()) {
+      if (isEditing && iframeSource && iframeSource.isDocumentReady() && codeMirrorSource !== editro.getHtml()) {
         editro.setHtml(codeMirrorSource, {
           sourceType: 'code'
         });
