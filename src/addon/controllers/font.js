@@ -1,5 +1,16 @@
 const { px } = require('../../utils');
 
+/* Text properties with modifiers available to edit in Editro */
+const FONT_EDITABLE_PROPERTIES_WITH_MODIFIERS = [
+  ['color'],
+  ['textAlign'],
+  ['fontWeight'],
+  ['fontStyle'],
+  ['fontSize', px],
+  ['lineHeight', px],
+  ['textTransform']
+];
+
 module.exports = function(Editro) {
   const { tags } = Editro;
   const { Controller, FontComponent } = Editro.type;
@@ -33,13 +44,13 @@ module.exports = function(Editro) {
 
       this.node.innerHTML = '<h3 class="EditroController-title">Font</h3>';
 
-      const value = {
-        color: this.el.getStyle('color'),
-        textAlign: this.el.getStyle('textAlign'),
-        fontWeight: this.el.getStyle('fontWeight'),
-        fontStyle: this.el.getStyle('fontStyle'),
-        lineHeight: this.el.getStyle('lineHeight')
-      };
+      const value = FONT_EDITABLE_PROPERTIES_WITH_MODIFIERS.reduce((styles, cssPropertyArr) => {
+        const [cssProperty] = cssPropertyArr;
+        styles[cssProperty] = this.el.getStyle(cssProperty);
+
+        return styles;
+      }, {});
+
 
       this.select = new FontComponent(value, {
         i18n: this.editro.i18n
@@ -57,13 +68,17 @@ module.exports = function(Editro) {
       return 'style';
     }
 
-    _onChange({ textAlign, fontWeight, fontStyle, fontSize, lineHeight, color }) {
-      this.el.setStyle('color', color);
-      this.el.setStyle('textAlign', textAlign);
-      this.el.setStyle('fontWeight', fontWeight);
-      this.el.setStyle('fontStyle', fontStyle);
-      this.el.setStyle('lineHeight', px(lineHeight));
-      this.el.setStyle('fontSize', px(fontSize));
+    _onChange(cssValuesObject = {}) {
+      FONT_EDITABLE_PROPERTIES_WITH_MODIFIERS.forEach(cssPropsMap => {
+        const [cssProp, modifier] = cssPropsMap;
+        const value = cssValuesObject[cssProp];
+
+        if (value) {
+          const shouldModified = modifier && typeof modifier === 'function';
+
+          this.el.setStyle(cssProp, shouldModified ? modifier(value) : value);
+        }
+      });
     }
   }
 
