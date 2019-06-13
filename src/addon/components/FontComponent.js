@@ -1,5 +1,12 @@
 module.exports = function(Editro) {
   const { BaseCompositeComponent } = Editro.type;
+  const TEXT_TRANSFORM_VALUES = [
+    'none',
+    'inherit',
+    'capitalize',
+    'uppercase',
+    'lowercase',
+  ];
 
   class FontComponent extends BaseCompositeComponent {
     getSubComponentsFactories() {
@@ -57,6 +64,15 @@ module.exports = function(Editro) {
           }),
           onChange: fontStyle => {
             this.value.fontStyle = fontStyle;
+          }
+        },
+        {
+          component: () => Editro.createComponent('SelectComponent', this.value.textTransform, {
+            choices: TEXT_TRANSFORM_VALUES.map(tt => [tt, this.config.i18n(tt)]),
+            label: this.config.i18n('Text transform')
+          }),
+          onChange: textTransform => {
+            this.value.textTransform = textTransform;
           }
         }
       ];
