@@ -33,7 +33,7 @@ const config = {
   entry,
   output: output,
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         loaders: [],
@@ -41,7 +41,11 @@ const config = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
+          {loader: 'sass-loader'}
+        ],
         include: [ path.join(__dirname, 'scss') ]
       },
       {
