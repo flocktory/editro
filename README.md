@@ -162,5 +162,5 @@ TBD
 # Dev
 
 ```
-/node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 3003 --config webpack.dev.config.js
+./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 3003 --config webpack.dev.config.js
 ```

@@ -1,17 +1,18 @@
 const { debounce } = require('../utils');
 
 module.exports = function(Editro, CodeMirror=window.CodeMirror) {
-  Editro.defineInitHook((editro, _, { code }) => {
+  Editro.defineInitHook((editro, _, options) => {
     const wrapper = document.createElement('div');
     wrapper.style.height = '100%';
     wrapper.style.position = 'relative';
+
+    const { code, readOnly = false} = options;
 
     const bottomPanel = new Editro.type.Panel(editro, {
       position: 'bottom',
       tag: 'codemirror',
       child: wrapper
     });
-
     editro.getNode().appendChild(bottomPanel.getNode());
 
     const cm = CodeMirror(wrapper, {
@@ -25,7 +26,8 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
       autoCloseTags: true,
       fullScreen: false,
       foldGutter: true,
-      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']
+      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+      readOnly
     });
 
     let isEditing = false;
