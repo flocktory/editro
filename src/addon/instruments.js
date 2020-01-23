@@ -2,16 +2,16 @@ const key = Symbol('instruments');
 
 module.exports = function(Editro) {
   class Instrument {
-    constructor(editro, { icon, title, onClick, group }) {
+    constructor(editro, { className, icon, title, onClick, group }) {
       this.group = group || 'none';
-      const i = document.createElement('div');
-      i.className = 'EditroInstruments-item';
-      i.innerHTML = `
-        <img class="EditroInstruments-icon" src="${icon}" alt="${title}">
-        <div class="EditroInstruments-title">${title}</div>
-      `;
-      i.addEventListener('click', onClick);
-      this.node = i;
+      const containerNode = document.createElement('div');
+      const iconNode = icon ? `<img class="EditroInstruments-icon" src="${icon}" alt="${title}">` : '';
+      const titleNode = title ? `<div class="EditroInstruments-title">${title}</div>` : '';
+
+      containerNode.className = `EditroInstruments-item ${className ? className : ''}`;
+      containerNode.innerHTML = `${iconNode}${titleNode}`;
+      containerNode.addEventListener('click', onClick);
+      this.node = containerNode;
     }
     getNode() {
       return this.node;
