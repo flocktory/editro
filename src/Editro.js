@@ -99,7 +99,7 @@ class Editro extends EventEmmiter {
   }
 
   setHtml(code, o={}) {
-    if (code === this.getHtml()) {
+    if (!o.forceUpdate && code === this.getHtml()) {
       return;
     }
 
