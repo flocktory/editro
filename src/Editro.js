@@ -99,17 +99,21 @@ class Editro extends EventEmmiter {
   }
 
   setHtml(code, o={}) {
-    if (!o.forceUpdate && code === this.getHtml()) {
+    const isMarkupChanged = code !== this.getHtml();
+
+    if (!o.forceUpdate && !isMarkupChanged) {
       return;
     }
 
-    // pass code through preprocessors
-    const cp = Object.values(Editro.codePreprocessor);
-    const prepared = cp.length ?
-      cp.reduce((c, p) => p(c), code) :
-      code;
+    if (isMarkupChanged) {
+      // pass code through preprocessors
+      const cp = Object.values(Editro.codePreprocessor);
+      const prepared = cp.length ?
+        cp.reduce((c, p) => p(c), code) :
+        code;
 
-    this.frame.setHtml(prepared);
+      this.frame.setHtml(prepared);
+    }
 
     // Previously, an event was emitted after the frame was loaded, but this sometimes takes a long time
     this.emit('change', {
