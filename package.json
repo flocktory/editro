@@ -34,7 +34,7 @@
     "webpack-dev-server": "3.9.0",
     "mime": "2.4.4",
     "js-yaml": "3.13.1",
-    "serialize-javascript": "3.0.0",
+    "serialize-javascript": "2.1.1",
     "acorn": "7.1.1",
     "minimist": "1.2.5"
   },
