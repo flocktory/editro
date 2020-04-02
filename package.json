@@ -36,7 +36,8 @@
     "js-yaml": "3.13.1",
     "serialize-javascript": "3.0.0",
     "acorn": "7.1.1",
-    "minimist": "1.2.5"
+    "minimist": "1.2.5",
+    "kind-of": "6.0.3"
   },
   "dependencies": {
     "cssbeautify": "0.3.1"
