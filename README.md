@@ -154,13 +154,19 @@ Specify address via **uploadUrl** option.
 Max size via **uploadMaxSize** option.
 
 ## addon/codeMirror
-CodeMirror instegration
+CodeMirror integration
 
-# Examples
-TBD
 
 # Dev
 
 ```
 ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 3003 --config webpack.dev.config.js
 ```
+
+## Using different versions
+
+You can use different versions of Editro depending on the instance.
+
+1. Make changes to the code.
+2. Publish it as a new version
+3. Use new version in your application. Publish on a test instance and then test integration integrity.
