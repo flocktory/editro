@@ -30,17 +30,7 @@ module.exports.html = function(html) {
 };
 
 module.exports.createDocumentFragment = function (html) {
-  try {
-    return document.createRange().createContextualFragment(html);
-  } catch (e) {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-
-    const fragment = document.createDocumentFragment();
-    toArray(div.children).forEach(child => fragment.appendChild(child));
-
-    return fragment;
-  }
+  return document.createRange().createContextualFragment(html);
 };
 
 module.exports.toKebabCase = function (str) {
