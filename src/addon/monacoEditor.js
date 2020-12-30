@@ -1,6 +1,7 @@
 const { debounce } = require('../utils');
+const monaco = require('monaco-editor');
 
-module.exports = function(Editro, CodeMirror=window.CodeMirror) {
+module.exports = function(Editro) {
   Editro.defineInitHook((editro, _, options) => {
     const wrapper = document.createElement('div');
     wrapper.style.height = '100%';
@@ -8,58 +9,58 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
 
     const { code, readOnly = false} = options;
 
+    // Remove leading and trailing linebreaks and slashes.
+    const normalizedCode = code.replace(/^\s+|\s+$/g, '').trim();
+
     const bottomPanel = new Editro.type.Panel(editro, {
       position: 'bottom',
-      tag: 'codemirror',
+      tag: 'monacoeditor',
       child: wrapper
     });
     editro.getNode().appendChild(bottomPanel.getNode());
 
-    const cm = CodeMirror(wrapper, {
-      value: code,
-      mode: 'htmlmixed',
-      lineNumbers: true,
-      autoCloseBrackets: true,
-      matchBrackets: true,
-      matchTags: true,
-      continueComments: true,
-      autoCloseTags: true,
-      fullScreen: false,
-      foldGutter: true,
-      gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-      readOnly
+    const monacoEditor = monaco.editor.create(wrapper, {
+      language: 'html',
+      value: normalizedCode,
+      readOnly,
+      automaticLayout: true,
+      scrollBeyondLastLine: false,
+      smoothScrolling: true
     });
 
     let isEditing = false;
 
-    cm.on('focus', () => {
+    monacoEditor.onDidFocusEditorWidget(() => {
       isEditing = true;
     });
 
-    cm.on('blur', () => {
+    monacoEditor.onDidBlurEditorWidget(() => {
       isEditing = false;
     });
 
-    /* Applies changes to CodeMirror if change something with editro staff */
+    /* Applies changes to Monaco editor if change something with editro staff */
     editro.on('change', e => {
-      if (!isEditing && e.sourceType !== 'code' && cm.getValue() !== e.html) {
-        cm.setValue(e.html);
+      if (!isEditing && e.sourceType !== 'code' && monacoEditor.getModel().getValue() !== e.html) {
+        monacoEditor.getModel().setValue(e.html);
+        const matches = monacoEditor.getModel().findMatches('data-editro-selection');
+        const selectedItemLineNumber = matches.length && matches[0].range && matches[0].range.startLineNumber ? matches[0].range.startLineNumber : null;
+        if (selectedItemLineNumber) {
+          monacoEditor.revealLine(selectedItemLineNumber);
+        }
       }
     });
 
-
-    /* Applies changes to edtiro if changing code with CodeMirror */
-    cm.on('changes', debounce(() => {
-      const codeMirrorSource = cm.getValue();
+    /* Applies changes to edtiro if changing code with Monaco editor */
+    monacoEditor.getModel().onDidChangeContent(debounce(() => {
+      const monacoEditorSource = monacoEditor.getModel().getValue();
       const iframeSource = editro.frame;
 
-      if (isEditing && iframeSource && iframeSource.isDocumentReady() && codeMirrorSource !== editro.getHtml()) {
-        editro.setHtml(codeMirrorSource, {
+      if (isEditing && iframeSource && iframeSource.isDocumentReady() && monacoEditorSource !== editro.getHtml()) {
+        editro.setHtml(monacoEditorSource, {
           sourceType: 'code'
         });
       }
     }, 200));
-
 
     const I = Editro.type.Instrument;
     editro.addInstrument(new I(editro, {
@@ -69,8 +70,6 @@ module.exports = function(Editro, CodeMirror=window.CodeMirror) {
       group: 'panels'
     }));
   });
-
-  //Editro.defineHelper('codePreprocessor', 'codeMirror', pre);
 };
 
 

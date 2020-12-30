@@ -154,13 +154,13 @@ Specify address via **uploadUrl** option.
 Max size via **uploadMaxSize** option.
 
 ## addon/codeMirror
-CodeMirror integration
+Monaco editor integration
 
 
 # Dev
 
 ```
-./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 3003 --config webpack.dev.config.js
+./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 3003
 ```
 
 ## Using different versions

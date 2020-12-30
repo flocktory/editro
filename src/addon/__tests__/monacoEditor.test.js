@@ -1,9 +1,9 @@
 const { equal } = require('assert');
-const { pre } = require('../codeMirror');
+const { pre } = require('../monacoEditor');
 
 const noN = s => s.replace(/\n/gmi, '').replace(/>\s*</gmi, '><');
 
-describe('[addon] CodeMirror', () => {
+describe('[addon] monacoEditor', () => {
   let html, want;
 
   it('should remove symbols between', () => {

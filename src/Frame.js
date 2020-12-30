@@ -69,9 +69,9 @@ class Frame extends EventEmmiter {
     this._addServiceNodes();
 
     // remove if few selected, select first
-    const current = body.querySelectorAll('[editro-current]');
+    const current = body.querySelectorAll('[data-editro-selection]');
     if (current.length) {
-      [].slice.call(current, 1).forEach(n => n.removeAttribute('editro-current'));
+      [].slice.call(current, 1).forEach(n => n.removeAttribute('data-editro-selection'));
       this._select(current[0], true);
     } else {
       this.emit('deselected');
@@ -101,13 +101,13 @@ class Frame extends EventEmmiter {
         return;
       }
 
-      this.current.node.removeAttribute('editro-current');
+      this.current.node.removeAttribute('data-editro-selection');
       this.current.el.emit('deattached');
       this.current.el.removeAllListeners('change');
     }
 
     this.current.node = node;
-    node.setAttribute('editro-current', '');
+    node.setAttribute('data-editro-selection', true);
     const el = new Element(node);
     this.current.el = el;
 
@@ -147,7 +147,7 @@ class Frame extends EventEmmiter {
             outline-color: #0022df;
           }
         }
-        [editro-current] {
+        [data-editro-selection] {
           outline-color: #0022df;
           outline-offset: 0px;
           outline-style: dotted;

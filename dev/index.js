@@ -37,7 +37,7 @@ function init() {
 
   //require('../src/addon/uploadToServer')(Editro);
   require('./addons/cutomFont')(Editro);
-  require('../src/addon/codeMirror')(Editro);
+  require('../src/addon/monacoEditor')(Editro);
   require('./addons/widgetSettings')(Editro);
 
   const html = `
